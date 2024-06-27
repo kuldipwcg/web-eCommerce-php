@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $table = "products";
+    protected $primaryKey = "id";
+
+    protected $fillable = ['productColorSize_id', 'product_name', 'description', 'product_price', 'discounted_price', 'information', 'category_id'];
+
+    public function product_image(){
+       return $this->hasMany(Product::class);
+    }
+
+    public function discounts(){
+        return $this->belongsTo(Discount::class);
+    }
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function product_color_sizes(){
+        return $this->hasMany(ProductColorSize::class);
+    }
+
+
 }
