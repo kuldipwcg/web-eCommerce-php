@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('product_id');
             $table->string('category_type',15);
-            $table->boolean('status',array('active','inactive'))->default();
+            $table->enum('status',array('active','inactive'))->default('active');
             $table->timestamps();
             $table->softDeletes();
         });

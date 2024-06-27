@@ -10,15 +10,15 @@ return new class extends Migration
      * Run the migrations.
      */
 
- 
+
 
     public function up(): void
     {
         Schema::create('product_images', function (Blueprint $table) {
-            
+
             $table->uuid('id')->primary();
             $table->uuid('product_id');
-            $table->uuid('product_image');
+            $table->string('product_image');
             $table->uuid('color_id');
             $table->timestamps();
             $table->softDeletes();
