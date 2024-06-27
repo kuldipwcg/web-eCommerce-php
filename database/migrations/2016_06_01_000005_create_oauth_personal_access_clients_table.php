@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('discounts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('product_id');
-            $table->string('category_type',15);
-            $table->enum('status',array('active','inactive'))->default('active');
+        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('client_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('discounts');
+        Schema::dropIfExists('oauth_personal_access_clients');
     }
 };
