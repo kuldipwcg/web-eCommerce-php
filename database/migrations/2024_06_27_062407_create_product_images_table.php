@@ -10,12 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
 
- 
+
 
     public function up(): void
     {
         Schema::create('product_images', function (Blueprint $table) {
-            
+
             $table->uuid('id')->primary();
             $table->uuid('product_id');
             $table->string('product_image');
