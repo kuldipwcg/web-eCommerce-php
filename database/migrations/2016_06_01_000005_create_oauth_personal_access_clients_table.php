@@ -9,19 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
- 
-
     public function up(): void
     {
-        Schema::create('product_images', function (Blueprint $table) {
-            
-            $table->uuid('id')->primary();
-            $table->uuid('product_id');
-            $table->string('product_image');
-            $table->uuid('color_id');
+        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->uuid('client_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_images');
+        Schema::dropIfExists('oauth_personal_access_clients');
     }
 };
