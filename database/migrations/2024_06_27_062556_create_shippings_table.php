@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
+        Schema::create('shippings', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('order_id');
             $table->string('first_name',20);
             $table->string('last_name',20);
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('dob');
-            $table->string('phone_no',10);
+            $table->string('email');
             $table->text('address');
-            $table->enum('role',array('user,admin'));
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->integer('zip_code')->length(6)->unsigned();
+            $table->integer('mobile_numer')->length(10)->unsigned();
+            $table->string('country',10);
+            $table->string('state',10);
+            $table->string('city',10);
+            $table->double('shipping_cost',6,2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('shippings');
     }
 };
