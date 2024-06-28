@@ -28,10 +28,7 @@ class UserController extends Controller
         ]);
 
         if($request->password == $request->confirm_password){
-
-            
             $data = [   
-                
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -58,18 +55,7 @@ class UserController extends Controller
 
             ]);
 
-        }
-
-            // $user = User::create([   
-            //     'id'=>Str::uuid(),
-            //     'first_name' => $request->first_name,
-            //     'last_name' => $request->last_name,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password), 
-            //     'confirm_password' => Hash::make($request->confirm_password),        
-            // ]);
-     
-            
+        }         
 
     }
 
