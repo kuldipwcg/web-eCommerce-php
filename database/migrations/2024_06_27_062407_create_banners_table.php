@@ -10,11 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
 
+
+
     public function up(): void
     {
-        Schema::create('product_colors', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
+
             $table->uuid('id')->primary();
-            $table->string('color',15);
+            $table->string('banner_image');
+            $table->string('banner_title',25);
+            $table->string('banner_desc',100);
+            $table->string('banner_link');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_colors');
+        Schema::dropIfExists('product_images');
     }
 };

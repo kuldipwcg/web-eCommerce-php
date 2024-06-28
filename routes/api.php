@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
+use App\Models\Banner;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ProductColorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +26,18 @@ Route::middleware('auth:api')->group(function () {
 Route::post('signup',[UserController::class,'signup'])->name('signup');
 Route::post('login', [UserController::class,'login'])->name('login');
 
+Route::apiResource('productColors',ProductColorController::class);
 
-Route::prefix('admin')->group(function () {
-    
-    Route::apiResource('product',ProductController::class);
+Route::apiResource('banners', BannerController::class);
 
-});
+// Route::prefix('admin')->group(function () {
 
-Route::prefix('web')->group(function () {
+//     Route::apiResource('product',ProductController::class);
 
-    Route::apiResource('product',ProductController::class);
+// });
 
-});
+// Route::prefix('web')->group(function () {
+
+//     Route::apiResource('product',ProductController::class);
+
+// });

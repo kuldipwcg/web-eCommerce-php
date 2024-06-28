@@ -8,24 +8,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
 
-class ProductColor extends Model
+class Banner extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $table = "product_colors";
-    protected $guarded = [];
-    protected $fillable = ['color'];
-
+    protected $table = "banners";
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
 
 
-
-    public function product_image()
-    {
-        return $this->hasOne(ProductColor::class);
-    }
+    protected $fillable = [
+        "banner_image",
+        "banner_title",
+        "banner_desc",
+        "banner_link",
+    ];
 
     protected static function boot()
     {
