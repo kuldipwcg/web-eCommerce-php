@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Order extends Model
 {
     use HasFactory;
@@ -17,8 +18,10 @@ class Order extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     protected $guarded = [];
+
     protected $dates=['deleted_at'];
     protected $fillable=['user_id','cart_id','order_date','order_status','total','image'];   
+
     public function billings()
     {
         return $this->hasOne(Billing::class,'order_id','id');
@@ -38,7 +41,6 @@ class Order extends Model
         parent::boot();
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-           
         });
     }
     

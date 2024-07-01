@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('category_id');
-            $table->uuid('product_id');
-            $table->string('category_type',15);
+            $table->uuid('categoryId');
+            $table->uuid('productId');
+            $table->string('categoryType',15);
+            $table->string('image');
             $table->timestamps();
             $table->softDeletes();
         });
