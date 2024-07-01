@@ -12,8 +12,6 @@ class ProductColorSize extends Model
     
     protected $table = ['product_color_sizes'];
 
-    protected $primaryKey = ['id'];
-
     protected $fillable = ['product_color_id','product_size_id'];
 
     // public function product_colors(){

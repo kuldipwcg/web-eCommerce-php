@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(Request $request)
+    public function signup(SignupCheck $request)
     {
         // dd($request->all());
         if($request->password == $request->confirmPassword){
@@ -60,11 +60,13 @@ class UserController extends Controller
 
     }
 
-    public function login(Request $request){
+
+
+    public function login(LoginCheck $request){
 
         $person = User::where('email',$request->email)->first();
 
-        if(Hash::check($request->password,$person->password))
+        if($person && Hash::check($request->password,$person->password))
         {
             $token = $person->createToken('user-auth')->accessToken;
             $name = $person->firstName;
@@ -84,20 +86,20 @@ class UserController extends Controller
     } 
     //logout 
 
-    public function logout(Request $request) {
-            
-        // dd(Auth::user());
-        // dd($request->all());
-        // $user = Auth::user()->token();
+    public function logout(Request $request)
+    {
+        if (Auth::user()) {
+            $request->user()->token()->revoke();
 
-
-        // $user->revoke();
-    
-        return response()->json([
-            'message' => 'Logged out successfully!',
-            'status_code' => 200
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Logged out successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Logged out failed',
+            ], 401);
+        }
     }
-
-  
 }

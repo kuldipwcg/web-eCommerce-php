@@ -9,18 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSize extends Model
 {
-    use HasFactory,Notifiable;
-    protected $guarded = [];
-    protected $fillable = ['size'];
-
-    protected $primaryKey = 'id';
-   
-    
-
-    public function products(){
-        return $this->belongsToMany(Product::class, 'pivot_size','product_id','size_id');
-    }
-
-
+    use HasFactory;
+    protected $table = ['product_sizes'];
+    protected $fillable = ['size','additional_price'];
 
 }

@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 use App\Http\Requests\ContactValidation;
-use Illuminate\Support\Facades\DB;
-
-
+use Illuminate\Support\Str;
+use DB;
 class ContactController extends Controller
 {
-    public function store(ContactValidation $request)
+    public function store(Request $request)
     {
             // dd($request->all());
 
-            $data = [
+            $data = [   
+                'id' => Str::uuid(),
                 'name' => $request->name,
                 'subject' => $request->subject,
                 'email' => $request->email,

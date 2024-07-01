@@ -10,8 +10,6 @@ class Wishlist extends Model
     use HasFactory;
     protected $table = "wishlists";
 
-    protected $primaryKey = "id";
-
     protected $fillable = [
         "user_id",
         "product_id",

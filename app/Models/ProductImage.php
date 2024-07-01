@@ -15,7 +15,6 @@ class ProductImage extends Model
    
     
 
-    protected $primaryKey = "id";
 
     protected $fillable = [
         "product_id",

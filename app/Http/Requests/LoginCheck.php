@@ -24,9 +24,8 @@ class LoginCheck extends FormRequest
     public function rules(): array
     {
         return [
-            
-            'email' => 'required|unique:email|max:50',
-            'password' => 'required|min:6',
+            'email' => 'required',
+            'password' => 'required',
         ];
     }
 
@@ -43,10 +42,7 @@ class LoginCheck extends FormRequest
     {
         return [
             'email.required' => 'Email is required',
-            'email.unique' => 'Email should be unique',
-            'email.max' => 'Email should be maximum of 50 characters',
             'password.required' => 'Password is required',
-            'password.min' => 'Password should contain minimum 6 character',
         ];
     }
 }

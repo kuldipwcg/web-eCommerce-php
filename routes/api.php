@@ -21,8 +21,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ResetPasswordController;
 
-// use App\Http\Controllers\ProductColorController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,13 +37,16 @@ use Laravel\Passport\Http\Controllers\TransientTokenController;
 |
 */
 
+//forgot & reset password 
+Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
+
 
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
 
+Route::post('logout', [UserController::class, 'logout'])->name('logout')->middleware('auth:api');
 Route::middleware(['auth:api'])->group(function () {
 
-Route::post('logout', [UserController::class, 'logout'])->name('logout');
 
 });
 // for token
@@ -58,17 +63,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('login', [AdminController::class, 'login']);
 
     Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::post('logout', [AdminController::class, 'logout']);
     });
-
-});
-
-Route::group(['prefix' => 'mobile', 'namespace' => 'Mobile'], function () {
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::post('login', [AdminController::class, 'login']);
+    
     Route::post('logout', [AdminController::class, 'logout']);
+    // Route::get('login',function(){
+
+    //     return response()->json([
+    //         "status"=>true,
+    //         "msg"=>'Please Login first'    
+    //     ]);
+    // })->name('login');
 
 });
+
+// Route::group(['prefix' => 'mobile', 'namespace' => 'Mobile'], function () {
+//     Route::post('set', [AdminController::class, 'setAdmin']);
+//     Route::post('login', [AdminController::class, 'login']);
+//     Route::post('logout', [AdminController::class, 'logout']);
+
+// });
 
 
     // Route::middleware('auth:admin')->group(function () {
