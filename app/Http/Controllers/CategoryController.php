@@ -1,11 +1,17 @@
 <?php
 
+
+
+
+
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\CategoryRequest;
+
 use App\Models\Category;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     public function index()
@@ -34,6 +40,7 @@ class CategoryController extends Controller
             'status' => $request->status,
         ]);
         return response()->json(['data' => $record, 'status' => 200]);
+
     }
     public function show($id)
     {

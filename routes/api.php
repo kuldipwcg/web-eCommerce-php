@@ -5,7 +5,7 @@ use App\Models\Banner;
 
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ContactController;
+// use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +15,10 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BannerController;
+
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 
 // use App\Http\Controllers\ProductColorController;
@@ -91,24 +93,9 @@ Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])-
 // Route::prefix('admin')->group(function () {
 Route::apiResource('product',ProductController::class);
 Route::apiResource('subcategory',SubCategoryController::class);
+Route::apiResource('order',OrderController::class);
 Route::apiResource('category',CategoryController::class);
 Route::apiResource('carts', CartController::class);
-// Route::prefix('admin')->group(function () {
-    
-//     Route::apiResource('product',ProductController::class);
-//     Route::apiResource('product',ProductController::class);
-
-// });
-// });
-
-// Route::prefix('web')->group(function () {
-// Route::prefix('web')->group(function () {
-
-//     Route::apiResource('product',ProductController::class);
-//     Route::apiResource('product',ProductController::class);
-
-// });
-// });
 
 
 Route::apiResource('banners',BannerController::class);

@@ -13,7 +13,8 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-            return response()->json(Subcategory::all());
+            // return response()->json(Subcategory::all());
+            return response()->json(Subcategory::latest()->paginate(10));
         }
 
     public function store(SubCategoryRequest $request){
@@ -22,6 +23,7 @@ class SubCategoryController extends Controller
         
             return response()->json($sub_category, 201);
     }
+    
     public function show($id)    
     {
         $sub_category = Subcategory::find($id);
