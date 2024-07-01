@@ -1,24 +1,30 @@
 <?php
 
+
+
+
+
 namespace App\Http\Controllers;
 
+// use App\Http\Requests\SubCategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json($this->model::all());
+        return response()->json(Category::all());
     }
 
     public function store(Request $request)
     {
-        $category = $this->model::create($request->all());
+        $category = Category::create($request->all());
         return response()->json($category, 201);
     }
     public function show($id)
     {
-        $category = $this->model::find($id);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
@@ -28,7 +34,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         dd($request->all());
-        $category = $this->model::find($id);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
@@ -38,7 +44,7 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        $category = $this->model::find($id);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
