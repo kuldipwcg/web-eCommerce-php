@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('order_id');
-            $table->string('first_name',20);
-            $table->string('last_name',20);
+            $table->uuid('orderId');
+            $table->string('firstName',20);
+            $table->string('lastName',20);
             $table->string('email');
             $table->text('address');
-            $table->integer('zip_code')->length(6)->unsigned();
-            $table->integer('mobile_numer')->length(10)->unsigned();
+            $table->integer('zipCode')->length(6)->unsigned();
+            $table->integer('mobileNumber')->length(10)->unsigned();
             $table->string('country',10);
             $table->string('state',10);
             $table->string('city',10);
-            $table->double('shipping_cost',6,2);
+            $table->double('shippingCost',6,2);
             $table->timestamps();
             $table->softDeletes();
         });
