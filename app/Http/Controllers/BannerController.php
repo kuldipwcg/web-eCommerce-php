@@ -11,7 +11,7 @@ class BannerController extends Controller
 {
     public function index()
     {
-        return response()->json(Banner::orderBy('color','DESC')->paginate(10));
+        return response()->json(Banner::orderBy('created_at')->get());
     }
 
     /**
@@ -20,17 +20,22 @@ class BannerController extends Controller
     public function store(BannerRequest $request)
     {
         $bannerImage = $request->file('banner_image');
-        $imageName = "/upload/images/" . $bannerImage->getClientOriginalName();
+        $imageName = time() . $bannerImage->getClientOriginalName();
 
-        $bannerImage->move(public_path('/upload/images/'), $imageName);
+        $bannerImage->move(public_path('/upload/banners/'), $imageName);
 
+        $bannerUrl = url('/upload/banners/' . $imageName);
         $record = Banner::create([
-            'banner_image' => $imageName,
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,
         ]);
-        return response()->json(['data' => $record, 'status' => 200]);
+        return response()->json([
+            'data' => $record,
+            'massage' => "Banner inserted successfully",
+            'status' => 200
+        ]);
     }
 
     /**
@@ -54,16 +59,20 @@ class BannerController extends Controller
         // $oldImageName = public_path() .$banner->banner_image;
         // unlink($oldImageName);
 
-        $imageName = "/upload/images/" . $bannerImage->getClientOriginalName();
-        $bannerImage->move(public_path('/upload/images/'), $imageName);
-
-        $banner ->update([
-            'banner_image' => $imageName,
+        $imageName = time() . $bannerImage->getClientOriginalName();
+        $bannerImage->move(public_path('/upload/banners/'), $imageName);
+        $bannerUrl = url('/upload/banners/' . $imageName);
+        $banner->update([
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,
         ]);
-        return response()->json($banner, 200);
+        return response()->json([
+            "data" => $banner,
+            'massage' => "Banner updated successfully",
+            "status" => 200
+        ]);
     }
 
     /**
@@ -73,6 +82,9 @@ class BannerController extends Controller
     {
         $color = Banner::findOrFail($id);
         $color->delete();
-        return response()->json(null, 200);
+        return response()->json([
+            'massage' => "Banner deleted successfully",
+            "status" => 200
+        ]);
     }
 }

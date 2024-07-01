@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('product_id');
-            $table->string('category_type',15);
+            $table->integer('percentage');
+            // $table->uuid('product_id');
+            // $table->string('category_type',15);
             $table->enum('status',array('active','inactive'))->default('active');
             $table->timestamps();
             $table->softDeletes();

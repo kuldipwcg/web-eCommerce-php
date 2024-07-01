@@ -10,7 +10,7 @@ class ProductSizeController extends Controller
 {
     public function index()
     {
-        return response()->json(ProductSize::orderBy('color','DESC')->paginate(10));
+        return response()->json(ProductSize::orderBy('created_at')->get());
     }
 
 
@@ -18,7 +18,7 @@ class ProductSizeController extends Controller
     {
         $record = ProductSize::create($request->all());
         return response()->json([
-            'Message'=>"Data inserted successfully",
+            'Message'=>"Size inserted successfully",
             'data' => $record, 
             'status' => 200
         ]);
@@ -40,7 +40,7 @@ class ProductSizeController extends Controller
         $record = ProductSize::findOrFail($id);
         $record->update($request->all());
         return response()->json([
-            'Message'=>"Data Updated successfully",
+            'Message'=>"Size Updated successfully",
             'data' => $record, 
             'status' => 200
         ]);
@@ -52,7 +52,7 @@ class ProductSizeController extends Controller
         $record = ProductSize::findOrFail($id);
         $record->delete();
         return response()->json([
-            'Message'=>"Data Updated successfully",
+            'Message'=>"Size Deleted successfully",
             'status' => 200
         ]);
     }

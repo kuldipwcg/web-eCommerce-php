@@ -9,19 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
-
-
     public function up(): void
     {
-        Schema::create('product_images', function (Blueprint $table) {
-
-            $table->uuid('id')->primary();
+        Schema::create('pivot_color', function (Blueprint $table) {
             $table->uuid('product_id');
-            $table->string('product_image');
-            // $table->uuid('color_id');
+            $table->uuid('color_id');
             $table->timestamps();
             $table->softDeletes();
+            // $table->foreign('product_id')->references('id')
+            //      ->on('products')->onDelete('cascade');
+            // $table->foreign('color_id')->references('id')
+            //      ->on('product_colors')->onDelete('cascade');
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_images');
+        //
     }
 };

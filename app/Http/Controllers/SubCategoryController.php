@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\DB;
 class SubCategoryController extends Controller
 {
     
-        public function index()
-        {
-            return response()->json(Subcategory::all());
-        }
+    public function index()
+    {
+        return response()->json(Subcategory::all());
+    }
 
     public function store(SubCategoryRequest $request){
         
         $sub_category = Subcategory::create($request->all());
         
-            return response()->json($sub_category, 201);
+        return response()->json($sub_category, 201);
     }
     public function show($id)    
     {
@@ -51,5 +51,4 @@ class SubCategoryController extends Controller
         return response()->json(['message' => 'Sub_Category deleted successfully']);
     }
 
-   
 }
