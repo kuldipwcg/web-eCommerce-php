@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Models\Banner;
 
 use App\Http\Controllers\ProductColorController;
@@ -9,10 +10,12 @@ use App\Http\Controllers\SubCategoryController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController; 
+// use App\Http\Controllers\UserController; 
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryController;
+
 // use App\Http\Controllers\ProductColorController;
 
 /*
@@ -35,9 +38,9 @@ Route::post('signup',[UserController::class,'signup'])->name('signup');
 Route::post('login', [UserController::class,'login'])->name('login');
 
 //routes for contact details .
-Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+// Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+// Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+// Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 
 //newsletter 
@@ -49,6 +52,8 @@ Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])-
 // Route::prefix('admin')->group(function () {
 Route::apiResource('product',ProductController::class);
 Route::apiResource('subcategory',SubCategoryController::class);
+Route::apiResource('category',CategoryController::class);
+Route::apiResource('carts', CartController::class);
 // Route::prefix('admin')->group(function () {
     
 //     Route::apiResource('product',ProductController::class);
