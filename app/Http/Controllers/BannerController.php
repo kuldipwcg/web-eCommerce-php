@@ -17,13 +17,6 @@ class BannerController extends Controller
             'massage' => "success",
             'status' => 200
         ]);
-
-        return response()->json([
-            'Data'=>Banner::latest()->paginate(10),
-            'massage' => "success",
-            'status' => 200
-        ]);
-
     }
 
     /**
@@ -36,9 +29,8 @@ class BannerController extends Controller
 
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
 
-        $bannerUrl = url('/upload/banners/' . $imageName);
         $record = Banner::create([
-            'banner_image' => $bannerUrl,
+            'banner_image' => $imageName,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,
