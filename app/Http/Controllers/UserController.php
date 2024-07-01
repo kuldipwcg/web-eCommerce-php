@@ -29,19 +29,19 @@ class UserController extends Controller
 
         if($request->password == $request->confirm_password){
 
-            
-            $data = [   
-                
+
+            $data = [
+
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password), 
-                'confirm_password' => Hash::make($request->confirm_password),        
+                'password' => Hash::make($request->password),
+                'confirm_password' => Hash::make($request->confirm_password),
             ];
-            
+
             DB::table('users')->insert($data);
-            
-            
+
+
             return response()->json([
 
                 'Message' => 'User created successfully',
@@ -60,16 +60,16 @@ class UserController extends Controller
 
         }
 
-            // $user = User::create([   
+            // $user = User::create([
             //     'id'=>Str::uuid(),
             //     'first_name' => $request->first_name,
             //     'last_name' => $request->last_name,
             //     'email' => $request->email,
-            //     'password' => Hash::make($request->password), 
-            //     'confirm_password' => Hash::make($request->confirm_password),        
+            //     'password' => Hash::make($request->password),
+            //     'confirm_password' => Hash::make($request->confirm_password),
             // ]);
-     
-            
+
+
 
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
             $name = $person->name;
 
             return response()->json([
-                
+
                 'message' => 'Successfully logged-in',
                 'name'=>$name,
                 'token' => $token,
@@ -97,7 +97,7 @@ class UserController extends Controller
         else{
 
             return response()->json([
-                
+
                 'message' => 'Credential are wrong',
             ],200);
 
@@ -106,5 +106,5 @@ class UserController extends Controller
          }
 
     }
-  
+
 }
