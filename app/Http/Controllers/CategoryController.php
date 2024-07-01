@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -22,6 +21,7 @@ class CategoryController extends Controller
     // }
     public function store(CategoryRequest $request)
     {
+
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
 
@@ -37,24 +37,17 @@ class CategoryController extends Controller
     }
     public function show($id)
     {
-        $category = $this->model::find($id);
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
         return response()->json($category);
     }
 
-    // public function update(CategoryRequest $request, $id)
-    // {
-    //     $category = Category::find($id);
-    //     if (!$category) {
-    //         return response()->json(['error' => 'Category not found'], 404);
-    //     }
-    //     $category->update($request->all());
-    //     return response()->json($category);
-    // }
+
     public function update(CategoryRequest $request, $id)
     {
+
         $category = Category::findOrFail($id);
 
         $image = $request->file('image');

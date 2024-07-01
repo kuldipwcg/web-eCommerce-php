@@ -7,10 +7,13 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\UserController; 
+
+use App\Http\Controllers\NewsLetterController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BannerController;
@@ -79,7 +82,7 @@ Route::group(['prefix' => 'mobile', 'namespace' => 'Mobile'], function () {
 // Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 
-//newsletter 
+//newsletter
 Route::post('addnewsletter', [NewsLetterController::class,'store'])->name('addnewsletter');
 Route::put('updatenewsletter/{id}', [NewsLetterController::class,'update'])->name('updatenewsletter');
 Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])->name('destroynewsletter');
@@ -107,4 +110,10 @@ Route::apiResource('carts', CartController::class);
 // });
 // });
 
+
+Route::apiResource('banners',BannerController::class);
+Route::apiResource('colors',ProductColorController::class);
+Route::apiResource('products',ProductController::class);
+Route::apiResource('billingAddress',BillingController::class);
+Route::apiResource('shippingAddress',ShippingController::class);
 
