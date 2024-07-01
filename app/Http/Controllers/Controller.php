@@ -11,7 +11,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     // protected $model;
-    // use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests, ValidatesRequests;
+
+    
 
     // public function __construct($model)
     // {
@@ -59,8 +61,6 @@ class Controller extends BaseController
     //     $record->delete();
     //     return response()->json(null, 204);
     // }
-<<<<<<< HEAD
+
+
 }
-=======
-}
->>>>>>> om_admin

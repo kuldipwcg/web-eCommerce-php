@@ -13,11 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_sizes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->increments('id');
             $table->string('size',4);
             // $table->double('additional_price',6,2);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

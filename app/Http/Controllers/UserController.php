@@ -13,91 +13,84 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class UserController extends Controller
 {
 
-    public function signup(Request $request)
+    public function signup(SignupCheck $request)
     {
         // dd($request->all());
-        if($request->password == $request->confirmPassword){
-            $data = [   
-                'id' =>Str::uuid(),
+        if ($request->password == $request->confirmPassword) {
+            $data = [
+                'id' => Str::uuid(),
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
                 'email' => $request->email,
-                'password' => Hash::make($request->password), 
-                'confirmPassword' => Hash::make($request->confirmPassword),        
+                'password' => Hash::make($request->password),
+                'confirmPassword' => Hash::make($request->confirmPassword),
             ];
-        
+
             DB::table('users')->insert($data);
-            
+
             return response()->json([
                 'Message' => 'User created successfully',
             ]);
-
-        }
-        else{
+        } else {
             return response()->json([
                 'Message' => 'Password and Confirm Password should be same',
             ]);
+        }
 
-        }         
-
-            // $user = User::create([
-            //     'id'=>Str::uuid(),
-            //     'first_name' => $request->first_name,
-            //     'last_name' => $request->last_name,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password),
-            //     'confirm_password' => Hash::make($request->confirm_password),
-            // ]);
+        // $user = User::create([
+        //     'id'=>Str::uuid(),
+        //     'first_name' => $request->first_name,
+        //     'last_name' => $request->last_name,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        //     'confirm_password' => Hash::make($request->confirm_password),
+        // ]);
 
 
 
     }
 
-    public function login(Request $request){
+    public function login(LoginCheck $request)
+    {
 
-        $person = User::where('email',$request->email)->first();
+        $person = User::where('email', $request->email)->first();
 
-        if(Hash::check($request->password,$person->password))
-        {
+        if ($person && Hash::check($request->password, $person->password)) {
+            auth('api')->setUser($person);
             $token = $person->createToken('user-auth')->accessToken;
             $name = $person->firstName;
             return response()->json([
                 'message' => 'Successfully logged-in',
-                'name'=> $name,
+                'name' => $name,
                 'token' => $token,
-            ],200);
-
-        }
-        else{
+            ], 200);
+        } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-            ],200);
+            ], 200);
             // return 'error';
-         }
-    } 
+        }
+    }
     //logout 
 
-    public function logout(Request $request) {
-            
-        // dd(Auth::user());
-        // dd($request->all());
-        // $user = Auth::user()->token();
 
 
-        // $user->revoke();
-    
+
+    public function logout(Request $request)
+    {
+
+
+        $user = Auth::user()->token();
+        $user->revoke();
+
         return response()->json([
             'message' => 'Logged out successfully!',
             'status_code' => 200
         ], 200);
     }
-
-  
 }

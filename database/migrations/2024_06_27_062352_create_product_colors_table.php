@@ -13,10 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_colors', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->increments('id');
             $table->string('color',15);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

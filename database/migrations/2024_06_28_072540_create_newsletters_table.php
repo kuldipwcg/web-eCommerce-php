@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('newsletters', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->increments('id');
             $table->string('email');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

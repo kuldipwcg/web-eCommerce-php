@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discounts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('product_id');
+            $table->increments('id');
+            $table->unsignedInteger('product_id');
             $table->string('category_type',15);
             $table->enum('status',array('active','inactive'))->default('active');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

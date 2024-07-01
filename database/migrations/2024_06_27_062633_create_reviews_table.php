@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
         {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('productId');
-            $table->uuid('userId');
+            $table->increments('id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('user_id');
             $table->enum('rating',array(0,1,2,3,4,5,6,7,8,9,10))->change();
             $table->string('review');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

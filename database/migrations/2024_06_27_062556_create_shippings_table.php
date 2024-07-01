@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shippings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('orderId');
+            $table->increments('id');
+            $table->unsignedInteger('order_id');
             $table->string('firstName',20);
             $table->string('lastName',20);
             $table->string('email');
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('city',10);
             $table->double('shippingCost',6,2);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

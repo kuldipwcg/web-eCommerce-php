@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
 class AdminController extends Controller
 {
-    public function setAdmin(LoginCheck $request)
+    public function setAdmin(Request $request)
     {
 
     // Check if admin already exists
@@ -34,7 +36,7 @@ class AdminController extends Controller
 }
 
 
-public function login(LoginCheck $request)
+public function login(Request $request)
 {
     // get the admin
     $admin = Admin::where('email', $request->email)->first();   
@@ -53,4 +55,15 @@ public function login(LoginCheck $request)
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 }
+    public function logout(Request $request) {
+
+        $user = Auth::user()->token();
+                $user->revoke();
+        
+            return response()->json([
+                'message' => 'Logged out successfully!',
+                'status_code' => 200
+            ], 200);
+
+    }
 }
