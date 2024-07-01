@@ -16,7 +16,6 @@ return new class extends Migration
             $table->uuid('category_id');
             $table->uuid('product_id');
             $table->string('category_type',15);
-            $table->string('image');
             $table->timestamps();
             $table->softDeletes();
         });
