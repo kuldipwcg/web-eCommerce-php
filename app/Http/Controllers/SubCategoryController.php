@@ -13,7 +13,6 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-            // return response()->json(Subcategory::all());
             return response()->json(Subcategory::latest()->paginate(10));
         }
 
@@ -21,7 +20,7 @@ class SubCategoryController extends Controller
         
         $sub_category = Subcategory::create($request->all());
         
-            return response()->json($sub_category, 201);
+        return response()->json($sub_category, 201);
     }
     
     public function show($id)    
@@ -53,5 +52,4 @@ class SubCategoryController extends Controller
         return response()->json(['message' => 'Sub_Category deleted successfully']);
     }
 
-   
 }

@@ -17,6 +17,9 @@ class ProductSize extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+    public function products(){
+        return $this->belongsToMany(Product::class, 'pivot_size','product_id','size_id');
+    }
     protected static function boot()
     {
         parent::boot();

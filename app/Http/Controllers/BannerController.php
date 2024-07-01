@@ -17,6 +17,7 @@ class BannerController extends Controller
             'massage' => "success",
             'status' => 200
         ]);
+
     }
 
     /**
@@ -29,15 +30,16 @@ class BannerController extends Controller
 
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
 
+        $bannerUrl = url('/upload/banners/' . $imageName);
         $record = Banner::create([
-            'banner_image' => $imageName,
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,
         ]);
         return response()->json([
             'data' => $record,
-            'massage' => "Banner updated successfully",
+            'massage' => "Banner inserted successfully",
             'status' => 200
         ]);
     }
@@ -66,8 +68,9 @@ class BannerController extends Controller
         $imageName = time() . $bannerImage->getClientOriginalName();
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
 
+        $bannerUrl = url('/upload/banners/' . $imageName);
         $banner->update([
-            'banner_image' => $imageName,
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,

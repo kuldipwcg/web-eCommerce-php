@@ -29,7 +29,7 @@ class Product extends Model
     ];
 
     public function product_image(){
-       return $this->hasMany(Product::class);
+       return $this->hasMany(ProductImage::class);
     }
 
     public function discounts(){
@@ -39,9 +39,17 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function product_color_sizes(){
-        return $this->hasMany(ProductColorSize::class);
+    public function product_colors(){
+        return $this->belongsToMany(ProductColor::class, 'pivot_color','product_id','color_id');
     }
+
+    public function product_sizes(){
+        return $this->belongsToMany(ProductSize::class, 'pivot_size','product_id','size_id');
+    }
+
+    // public function product_color_sizes(){
+    //     return $this->hasMany(ProductColorSize::class);
+    // }
 
     protected static function boot()
     {

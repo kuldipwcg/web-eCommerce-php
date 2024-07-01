@@ -7,23 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
-
-class ProductColor extends Model
+class PivotColor extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $table = "product_colors";
+    protected $table = "pivot_color";
     protected $guarded = [];
-    protected $fillable = ['color'];
-
-    protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $fillable = ['product_id','color_id'];
 
-    public function products(){
-        return $this->belongsToMany(Product::class, 'pivot_color','product_id','color_id');
-    }
 
     protected static function boot()
     {
