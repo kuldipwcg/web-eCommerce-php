@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -181,7 +182,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
         /*
          * Package Service Providers...
          */
