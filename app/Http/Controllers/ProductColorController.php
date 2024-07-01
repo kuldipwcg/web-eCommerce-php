@@ -10,7 +10,7 @@ class ProductColorController extends Controller
 {
     public function index()
     {
-        return response()->json(ProductColor::orderBy('created_at')->get());
+        return response()->json(ProductColor::latest()->paginate(10));
     }
 
 

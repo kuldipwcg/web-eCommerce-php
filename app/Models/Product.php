@@ -12,12 +12,21 @@ class Product extends Model
     use HasFactory,SoftDeletes;
 
     protected $table = "products";
-    protected $guarded = [];
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['product_name', 'description', 'product_price', 'information', 'category_id','discount_id','is_featured'];
+
+    protected $fillable = [
+        'product_name',
+        'description',
+        'product_price',
+        'discounted_price',
+        'information',
+        'category_id',
+        'discount_id',
+        'is_featured',
+    ];
 
     public function product_image(){
        return $this->hasMany(ProductImage::class);
@@ -49,5 +58,4 @@ class Product extends Model
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
     }
-
 }

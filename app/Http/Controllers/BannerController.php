@@ -11,7 +11,13 @@ class BannerController extends Controller
 {
     public function index()
     {
-        return response()->json(Banner::orderBy('created_at')->get());
+
+        return response()->json([
+            'Data'=>Banner::latest()->paginate(10),
+            'massage' => "success",
+            'status' => 200
+        ]);
+
     }
 
     /**
@@ -61,6 +67,7 @@ class BannerController extends Controller
 
         $imageName = time() . $bannerImage->getClientOriginalName();
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
+
         $bannerUrl = url('/upload/banners/' . $imageName);
         $banner->update([
             'banner_image' => $bannerUrl,

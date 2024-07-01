@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\PivotColor;
 use App\Models\PivotSize;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
     public function index(){
         $product = Product::with(['product_colors', 'product_sizes', 'reviews', 'product_image'])->get();
         return response()->json([

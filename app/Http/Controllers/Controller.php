@@ -59,4 +59,8 @@ class Controller extends BaseController
     //     $record->delete();
     //     return response()->json(null, 204);
     // }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> om_admin

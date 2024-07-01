@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\newsletter;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\NewsletterValidation;
-use DB;
+use Illuminate\Support\Facades\DB;
+
 
 class NewsLetterController extends Controller
 {
