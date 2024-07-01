@@ -58,7 +58,7 @@ class UserController extends Controller
 
             ]);
 
-        }
+        }         
 
             // $user = User::create([
             //     'id'=>Str::uuid(),
