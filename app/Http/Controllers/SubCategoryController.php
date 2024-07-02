@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SubCategoryRequest;
 use App\Models\SubCategory;
-use App\Http\Requests\SubCategoryRequest;
-use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\DB;
-
 
 class SubCategoryController extends Controller
 {
@@ -21,10 +16,6 @@ class SubCategoryController extends Controller
             //dd($sub_category);
             return response()->json($sub_category);
             // return response()->json(Subcategory::all());
-<<<<<<< HEAD
->>>>>>> 7363e18 (category,sub-category and cart api)
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
             return response()->json(Subcategory::all());
         }
 
@@ -62,13 +53,4 @@ class SubCategoryController extends Controller
         $sub_category->delete();
         return response()->json(['message' => 'Sub_Category deleted successfully']);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
-
-   
 }
