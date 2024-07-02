@@ -11,6 +11,8 @@ use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\InformationSlugController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ShippingController;
 
 // use App\Http\Controllers\ProductColorController;
@@ -55,4 +57,5 @@ Route::apiResource('colors',ProductColorController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
-
+Route::apiResource('informationSlug',InformationSlugController::class);
+Route::apiResource('language',LanguageController::class);
