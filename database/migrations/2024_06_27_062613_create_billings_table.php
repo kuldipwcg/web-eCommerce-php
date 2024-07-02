@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('billings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+           $table->id();
             $table->uuid('orderId');
             $table->string('firstName',20);
             $table->string('lastName',20);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('city',10);
             $table->double('shippingCost',6,2);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

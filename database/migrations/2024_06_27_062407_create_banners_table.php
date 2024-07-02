@@ -16,13 +16,13 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
 
-            $table->uuid('id')->primary();
+           $table->id();
             $table->string('banner_image');
             $table->string('banner_title',25);
             $table->string('banner_desc',100);
             $table->string('banner_link');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

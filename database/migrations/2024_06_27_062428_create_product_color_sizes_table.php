@@ -14,11 +14,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_color_sizes', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+           $table->id();
             $table->uuid('product_color_id');
             $table->uuid('product_size_id');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

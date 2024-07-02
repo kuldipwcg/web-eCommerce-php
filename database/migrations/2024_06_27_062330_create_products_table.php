@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+           $table->id();
             $table->string('product_name',32);
             $table->text('description');
             $table->double('product_price',6,2);
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->uuid('discount_id');
             $table->boolean('is_featured')->default(0);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 
