@@ -29,6 +29,7 @@ class SubCategoryController extends Controller
         
         return response()->json($sub_category, 201);
     }
+    
     public function show($id)    
     {
         $sub_category = Subcategory::find($id);

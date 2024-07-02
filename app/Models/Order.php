@@ -11,15 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table='orders';
     protected $primaryKey = 'id';
-   
-    
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $guarded = [];
-
     protected $dates=['deleted_at'];
     protected $fillable=['user_id','cart_id','order_date','order_status','total','image'];   
-
     public function billings()
     {
         return $this->hasOne(Billing::class,'order_id','id');
@@ -34,6 +33,5 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class,'order_id','id');
     }
-
     
 }
