@@ -23,7 +23,6 @@ class UserController extends Controller
         // dd($request->all());
         if ($request->password == $request->confirmPassword) {
             $data = [
-                'id' => Str::uuid(),
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
                 'email' => $request->email,
@@ -72,13 +71,49 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-            ], 200);
+            ], 402);
             // return 'error';
         }
     }
-    //logout 
 
 
+
+
+    public function change(Request $request)
+    {
+
+
+        $id = auth()->user()->id;
+
+        if (Hash::check($request->currentPassword, auth()->user()->password)) {
+
+            User::where('id', $id)
+                ->update([
+                    'password' => Hash::make($request->password),
+                ]);
+
+            return response()->json(
+
+                [
+                    'message' => ' Password Changed',
+
+                ],
+                200
+
+            );
+        } else {
+
+            return response()->json(
+
+                [
+                    'message' => ' Error  Changed',
+
+                ],
+                200
+
+            );
+        }
+    }
 
 
     public function logout(Request $request)

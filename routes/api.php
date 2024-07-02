@@ -27,17 +27,19 @@ use Laravel\Passport\Http\Controllers\TransientTokenController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
 Route::middleware('guest:api')->group(function () {
     Route::post('signup', [UserController::class, 'signup'])->name('signup');
     Route::post('login', [UserController::class, 'login'])->name('login');
     
-
 });
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::get('profile', function (Request $r) {
         return auth()->user();
     });
+    Route::post('change-password',[UserController::class,'change']);
 });
 
 // for admin
@@ -45,8 +47,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('set', [AdminController::class, 'setAdmin']);
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 
+
     Route::middleware('auth:admin')->group(function () {
         Route::post('logout', [AdminController::class, 'logout']);
+        Route::post('change-password',[AdminController::class,'change']);
+        
     });
 });
 
