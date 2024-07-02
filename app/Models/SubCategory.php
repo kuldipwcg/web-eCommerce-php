@@ -15,7 +15,7 @@ class SubCategory extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     protected $guarded = [];
-    protected $fillable = ['category_id','product_id','category_type'];
+    protected $fillable = ['category_id','category_name'];
     protected $dates=['deleted_at'];
     public function category()
     {

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('discounted_price',6,2);
             $table->text('information');
             $table->uuid('category_id');
+            $table->uuid('subCategory_id');
             $table->boolean('is_featured')->default(0)->change();
             $table->timestamps();
             $table->softDeletes();
