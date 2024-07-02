@@ -11,23 +11,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-           $table->id();
-            $table->string('category_name',20);
-            $table->uuid('sub_categories_id');
-=======
             $table->id();
             $table->string('category_name', 20);
->>>>>>> 7363e18 (category,sub-category and cart api)
-=======
-            $table->id();
-            $table->string('category_name', 20);
->>>>>>> 7363e18 (category,sub-category and cart api)
             $table->string('image');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-            
         });
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\CartController;
@@ -17,6 +17,10 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Laravel\Passport\Http\Controllers\TransientTokenController;
 
 // use App\Http\Controllers\ProductColorController;
 
@@ -101,11 +105,8 @@ Route::apiResource('subcategory',SubCategoryController::class);
 Route::apiResource('order',OrderController::class);
 Route::apiResource('category',CategoryController::class);
 Route::apiResource('carts', CartController::class);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
+
+
 
 // Route::prefix('admin')->group(function () {
     
@@ -123,7 +124,7 @@ Route::apiResource('carts', CartController::class);
 
 // });
 // });
->>>>>>> 7363e18 (category,sub-category and cart api)
+
 
 
 Route::apiResource('banners',BannerController::class);

@@ -27,7 +27,7 @@ class SubCategoryRequest extends FormRequest
             //
             'category_id'=>'required',
             // 'product_id'=>'required',
-            'category_name'=>'required|min:3|max:25'
+            'subcategory_name'=>'required|min:3|max:25'
         ];
     }
     public function messages()
@@ -35,9 +35,9 @@ class SubCategoryRequest extends FormRequest
         return [
             'category_id.required' => 'category_id is required.',
             // 'product_id.required' => 'product_id is required.',
-            'category_name.required' => 'category_name is required.',
-            'category_name.min' => 'please enter atleast 3 characters.',
-            'category_name.max' => 'category_name must not exceed 25 characters.',
+            'subcategory_name.required' => 'category_name is required.',
+            'subcategory_name.min' => 'please enter atleast 3 characters.',
+            'subcategory_name.max' => 'category_name must not exceed 25 characters.',
         ];
     }
 
