@@ -50,8 +50,12 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> 7363e18 (category,sub-category and cart api)
 =======
     
 >>>>>>> 7363e18 (category,sub-category and cart api)

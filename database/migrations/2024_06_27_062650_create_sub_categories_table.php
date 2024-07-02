@@ -13,16 +13,22 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
 <<<<<<< HEAD
+<<<<<<< HEAD
            $table->id();
             $table->uuid('categoryId');
             $table->uuid('productId');
             $table->string('categoryType',15);
             $table->string('image');
 =======
+=======
+>>>>>>> 7363e18 (category,sub-category and cart api)
             $table->id();
             $table->unsignedBigInteger('category_id');
             // $table->uuid('product_id');
             $table->string('category_name',15);
+<<<<<<< HEAD
+>>>>>>> 7363e18 (category,sub-category and cart api)
+=======
 >>>>>>> 7363e18 (category,sub-category and cart api)
             $table->timestamps();
             

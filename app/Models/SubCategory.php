@@ -13,8 +13,11 @@ class SubCategory extends Model
    
     protected $guarded = [];
 <<<<<<< HEAD
+<<<<<<< HEAD
     protected $fillable = ['category_id','product_id','category_type'];
 =======
+=======
+>>>>>>> 7363e18 (category,sub-category and cart api)
     protected $fillable = ['category_id','category_name'];
     protected $dates=['deleted_at'];
 >>>>>>> 7363e18 (category,sub-category and cart api)

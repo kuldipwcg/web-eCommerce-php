@@ -102,7 +102,10 @@ Route::apiResource('order',OrderController::class);
 Route::apiResource('category',CategoryController::class);
 Route::apiResource('carts', CartController::class);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7363e18 (category,sub-category and cart api)
 
 // Route::prefix('admin')->group(function () {
     
