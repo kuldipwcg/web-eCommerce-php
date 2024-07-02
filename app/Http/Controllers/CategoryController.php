@@ -16,15 +16,14 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json(Category::all());
+        // $category=Category::with('subcategories')->get();
+        // // dd($category);
+        // return response()->json(Category::all());
+        $category=Category::with('subcategories')->latest()->paginate(10);
+        //dd($sub_category);
+        return response()->json($category);
     }
 
-    // public function store(CategoryRequest $request)
-    // {
-    //     $category = Category::create($request->all());
-
-    //     return response()->json($category, 201);
-    // }
     public function store(CategoryRequest $request)
     {
 
@@ -42,7 +41,7 @@ class CategoryController extends Controller
         return response()->json(['data' => $record, 'status' => 200]);
 
     }
-    public function show($id)
+    public function show($id)    
     {
         $category = Category::find($id);
         if (!$category) {
@@ -50,8 +49,12 @@ class CategoryController extends Controller
         }
         return response()->json($category);
     }
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> 7363e18 (category,sub-category and cart api)
     public function update(CategoryRequest $request, $id)
     {
 

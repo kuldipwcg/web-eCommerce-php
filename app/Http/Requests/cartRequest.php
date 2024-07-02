@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class cartRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class cartRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,31 @@ class cartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required',
+            'product_id' => 'required',
+            'quantity' => 'required|integer',
+            'total' => 'required|numeric',
+            'order_placed' => 'boolean',
         ];
+    }
+    public function messages()
+    {
+        return [
+            'user_id.required' => 'user_id is required.',
+            'product_id.required' => 'product_id is required.',
+            'quantity.required' => 'quantity is required.',
+            'total.required' => 'total is required.',
+            'order_placed.required'=>'order_placed is required.'
+        ];
+    }
+    public function failedValidation(Validator $validate)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'validation error',
+                'data' => $validate->errors(),
+            ]),
+        );
     }
 }

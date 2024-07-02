@@ -101,6 +101,26 @@ Route::apiResource('subcategory',SubCategoryController::class);
 Route::apiResource('order',OrderController::class);
 Route::apiResource('category',CategoryController::class);
 Route::apiResource('carts', CartController::class);
+<<<<<<< HEAD
+=======
+
+// Route::prefix('admin')->group(function () {
+    
+//     Route::apiResource('product',ProductController::class);
+//     Route::apiResource('product',ProductController::class);
+
+// });
+// });
+
+// Route::prefix('web')->group(function () {
+// Route::prefix('web')->group(function () {
+
+//     Route::apiResource('product',ProductController::class);
+//     Route::apiResource('product',ProductController::class);
+
+// });
+// });
+>>>>>>> 7363e18 (category,sub-category and cart api)
 
 
 Route::apiResource('banners',BannerController::class);

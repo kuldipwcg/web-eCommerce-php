@@ -20,8 +20,13 @@ return new class extends Migration
             // $table->double('discounted_price',6,2);
             $table->text('information');
             $table->uuid('category_id');
+<<<<<<< HEAD
             $table->uuid('discount_id');
             $table->boolean('is_featured')->default(0);
+=======
+            $table->uuid('subCategory_id');
+            $table->boolean('is_featured')->default(0)->change();
+>>>>>>> 7363e18 (category,sub-category and cart api)
             $table->timestamps();
             
         });
