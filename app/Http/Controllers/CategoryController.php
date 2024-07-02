@@ -11,9 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        // $category=Category::with('subcategories')->get();
-        // // dd($category);
-        // return response()->json(Category::all());
+        
         $category=Category ::with('subcategories')->latest()->paginate(10);
      
         return response()->json([

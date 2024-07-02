@@ -25,7 +25,7 @@ class UserController extends Controller
         // dd($request->all());
         if($request->password == $request->confirmPassword){
             $data = [   
-                'id' =>Str::uuid(),
+                // 'id' =>  $request->id(),
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
                 'email' => $request->email,
