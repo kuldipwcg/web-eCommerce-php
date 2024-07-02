@@ -11,12 +11,9 @@ class PivotSize extends Model
     use HasFactory;
 
     protected $table = "pivot_size";
-    protected $guarded = [];
-   
-    
+    protected $primaryKey = "id";
+
 
     protected $fillable = ['product_id','size_id'];
-
-
 
 }

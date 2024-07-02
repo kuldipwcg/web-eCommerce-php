@@ -12,7 +12,6 @@ class Order extends Model
 {
     use HasFactory;
     protected $table='orders';
-    protected $primaryKey = 'id';
    
     
     protected $guarded = [];

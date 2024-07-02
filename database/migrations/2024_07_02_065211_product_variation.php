@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pivot_size', function (Blueprint $table) {
+        Schema::create('productvariation', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('color_id');
             $table->unsignedBigInteger('size_id');
+            $table->unsignedBigInteger('quantity');
             $table->timestamps();
-            
-    //         $table->foreign('product_id')->references('id')
-    //         ->on('products')->onDelete('cascade');
-    //    $table->foreign('size_id')->references('id')
-    //         ->on('product_sizes')->onDelete('cascade');
         });
     }
 

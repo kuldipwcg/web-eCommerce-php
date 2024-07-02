@@ -12,7 +12,6 @@ class Cart extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = 'carts' ;
-    protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
     protected $guarded = [];

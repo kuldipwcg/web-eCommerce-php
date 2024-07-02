@@ -12,16 +12,13 @@ class ProductColor extends Model
     use HasFactory;
 
     protected $table = "product_colors";
-    protected $guarded = [];
-    protected $fillable = ['color'];
+    protected $primaryKey = "id";
 
-    protected $primaryKey = 'id';
-   
-    
+    protected $fillable = ['color'];
 
 
     public function products(){
-        return $this->belongsToMany(Product::class, 'pivot_color','product_id','color_id');
+        return $this->belongsToMany(Product::class, 'pivot_color','product_id','color_id','id','id');
     }
 
 

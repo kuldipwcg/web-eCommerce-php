@@ -4,20 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Ramsey\Uuid\Uuid;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class SubCategory extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     public $table = 'sub_categories';
-    protected $primaryKey = 'id';
-   
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $guarded = [];
-<<<<<<< HEAD
-    protected $fillable = ['category_id','product_id','category_type'];
-=======
-    protected $fillable = ['category_id','category_name'];
+    protected $fillable = ['categoryId','category_name'];
     protected $dates=['deleted_at'];
->>>>>>> 7363e18 (category,sub-category and cart api)
     public function category()
     {
         return $this->belongsTo(Category::class);

@@ -11,19 +11,17 @@ class Product extends Model
     use HasFactory;
 
     protected $table = "products";
+
     protected $primaryKey = "id";
-   
-    
-
-
     protected $fillable = [
         'product_name',
+        'short_desc',
         'description',
-        'product_price',
-        'discounted_price',
         'information',
+        'price',
         'category_id',
-        'discount_id',
+        'discount_type',
+        'discount_value',
         'is_featured',
     ];
 
@@ -31,24 +29,28 @@ class Product extends Model
        return $this->hasMany(ProductImage::class);
     }
 
-    public function discounts(){
-        return $this->belongsTo(Discount::class);
-    }
+    // public function discounts(){
+    //     return $this->belongsTo(Discount::class);
+    // }
     public function reviews(){
         return $this->hasMany(Review::class);
     }
 
     public function product_colors(){
-        return $this->belongsToMany(ProductColor::class, 'pivot_color','product_id','color_id');
+        return $this->belongsToMany(ProductColor::class, 'pivot_color','product_id','color_id','id','id');
     }
 
     public function product_sizes(){
-        return $this->belongsToMany(ProductSize::class, 'pivot_size','product_id','size_id');
+        return $this->belongsToMany(ProductSize::class, 'pivot_size','product_id','size_id','id','id');
     }
 
     // public function product_color_sizes(){
     //     return $this->hasMany(ProductColorSize::class);
     // }
+
+    public function product_variants(){
+        return $this->hasMany(ProductVariants::class);
+    }
 
 
 }

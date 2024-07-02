@@ -10,12 +10,9 @@ class PivotColor extends Model
     use HasFactory;
 
     protected $table = "pivot_color";
-    protected $guarded = [];
+    protected $primaryKey = "id";
+
    
-    
-
     protected $fillable = ['product_id','color_id'];
-
-
 
 }

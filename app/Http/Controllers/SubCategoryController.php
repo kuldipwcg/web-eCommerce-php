@@ -13,21 +13,35 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-<<<<<<< HEAD
-            return response()->json(Subcategory::latest()->paginate(10));
-=======
-            $sub_category=subCategory::with('Category')->latest()->paginate(10);
-            //dd($sub_category);
-            return response()->json($sub_category);
             // return response()->json(Subcategory::all());
->>>>>>> 7363e18 (category,sub-category and cart api)
+            // return response()->json(Subcategory::latest()->paginate(10));
+
+            $sub_category=subCategory::with('Category')->latest()->paginate(10);
+            // return response()->json($sub_category);
+            if($sub_category){
+            return response()->json([
+                'type'=>'success',
+                'message'=>'subcategory showed successfully',
+                'code'=>200,
+                'data'=>$sub_category
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'type'=>'failure',
+                'message'=>'something went wrong',
+                'code'=>400,
+               
+            ]);
+        }
         }
 
     public function store(SubCategoryRequest $request){
         
         $sub_category = Subcategory::create($request->all());
         
-        return response()->json($sub_category, 201);
+            return response()->json($sub_category, 201);
     }
     
     public function show($id)    
@@ -58,8 +72,6 @@ class SubCategoryController extends Controller
         $sub_category->delete();
         return response()->json(['message' => 'Sub_Category deleted successfully']);
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
+   
 }

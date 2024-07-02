@@ -1,11 +1,6 @@
 <?php
 
-
-
-
-
 namespace App\Http\Controllers;
-
 
 use App\Http\Requests\CategoryRequest;
 
@@ -14,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
-    public function index()
-    {
+    public function index(){    
         // $category=Category::with('subcategories')->get();
         // // dd($category);
         // return response()->json(Category::all());
@@ -49,12 +43,8 @@ class CategoryController extends Controller
         }
         return response()->json($category);
     }
-<<<<<<< HEAD
 
 
-=======
-    
->>>>>>> 7363e18 (category,sub-category and cart api)
     public function update(CategoryRequest $request, $id)
     {
 

@@ -13,20 +13,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-           $table->id();
+            $table->id();
             $table->string('product_name',32);
+            $table->text('short_desc');
             $table->text('description');
-            $table->double('product_price',6,2);
-            // $table->double('discounted_price',6,2);
             $table->text('information');
-            $table->uuid('category_id');
-<<<<<<< HEAD
-            $table->uuid('discount_id');
+            $table->double('price',6,2);
+            $table->unsignedBigInteger('category_id');
+            $table->enum('discount_type', ['fixed', 'percentage']);
+            $table->integer('discount_value');
             $table->boolean('is_featured')->default(0);
-=======
-            $table->uuid('subCategory_id');
-            $table->boolean('is_featured')->default(0)->change();
->>>>>>> 7363e18 (category,sub-category and cart api)
             $table->timestamps();
             
         });
