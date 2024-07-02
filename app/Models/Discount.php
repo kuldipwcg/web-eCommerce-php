@@ -9,7 +9,7 @@ class Discount extends Model
 {
     use HasFactory;
     protected $table = ' discounts' ;
-    protected $fillable = ['product_id','category_type','status'];
+    protected $fillable = ['percentage','status'];
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product');

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('product_id');
             $table->uuid('size_id');
             $table->timestamps();
-            $table->softDeletes();
+            
     //         $table->foreign('product_id')->references('id')
     //         ->on('products')->onDelete('cascade');
     //    $table->foreign('size_id')->references('id')

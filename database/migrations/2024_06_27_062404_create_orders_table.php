@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+           $table->id();
             $table->uuid('user_id');
             $table->uuid('cart_id');
             $table->datetime('order_date');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->double('total',6,2);
             $table->string('image');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

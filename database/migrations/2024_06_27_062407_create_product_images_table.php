@@ -16,12 +16,12 @@ return new class extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
 
-            $table->uuid('id')->primary();
+           $table->id();
             $table->uuid('product_id');
             $table->string('product_image');
             // $table->uuid('color_id');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 
