@@ -24,9 +24,10 @@ class ContactValidation extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
+            'data'      => $validator->errors(),
+            'Status'   => 'Invalid',
+            'code' => 403,
+            'message'   => 'Invalid Input, Please enter valid input',
         ]));
     } 
 

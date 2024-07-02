@@ -40,18 +40,17 @@ class AdminController extends Controller
         // get the admin
         $admin = Admin::where('email', $request->email)->first();   
 
-        // dd($admin);
-
-
         // password checking
-        if ($admin && Hash::check($request->password, $admin->password)) {
-            $token = $admin->createToken('AdminToken')->accessToken;
+        if (Auth::user()) {
+            if ($admin && Hash::check($request->password, $admin->password)) {
+                $token = $admin->createToken('AdminToken')->accessToken;
 
-            // dd($token);
+                // dd($token);
 
-            return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['token' => $token], 200);
+            } else {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
         }
     }
 }

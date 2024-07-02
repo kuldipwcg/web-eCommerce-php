@@ -17,12 +17,23 @@ class NewsLetterController extends Controller
             'email' => $request->email,    
         ];
         
-        DB::table('newsletters')->insert($data);
+        $newsletter = DB::table('newsletters')->insert($data);
+        if($newsletter){
+            return response()->json([
+                'data' => $data,
+                'Message' => 'News letter added successfully',
+                'status' => 'Success',
+                'code' => 200
+            ],200);
+        }
+        else{
+            return response()->json([ 
+                'Message' => 'Data not added',
+                'Status' => 'Failed',
+                'code' => 401                    
+            ], 401);
+        }
         
-        return response()->json([
-            'Message' => 'News letter added successfully',
-            'data' => $data,
-        ],200);
     } 
 
     public function update(NewsletterValidation $request, $id)

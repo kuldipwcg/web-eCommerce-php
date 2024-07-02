@@ -11,25 +11,35 @@ use Illuminate\Support\Str;
 use DB;
 class ContactController extends Controller
 {
-    public function store(Request $request)
+    public function store(ContactValidation $request)
     {
             // dd($request->all());
 
             $data = [   
-                'id' => Str::uuid(),
                 'name' => $request->name,
                 'subject' => $request->subject,
                 'email' => $request->email,
                 'message' => $request->message,
             ];
-
-            DB::table('contacts')->insert($data);
-
-            return response()->json([
-                'Message' => 'Contact data added successfully',
-                'data' => $data,
-            ],200);
-    }
+            
+           $contact = DB::table('contacts')->insert($data);
+            if($contact){
+                return response()->json([
+                    'data' => $data,
+                    'Message' => 'Contact data added successfully',
+                    'status' => 'success',
+                    'code' => 200
+                ],200);
+            }
+            else{
+                return response()->json([ 
+                    'Message' => 'Data not added',
+                    'Status' => 'Failed',
+                    'code' => 401                    
+                ], 401);
+            }
+            
+    } 
 
 
     public function update(ContactValidation $request, $id)

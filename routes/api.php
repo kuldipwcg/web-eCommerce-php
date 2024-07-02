@@ -106,8 +106,8 @@ Route::apiResource('sizes', ProductSizeController::class);
 //product color
 Route::apiResource('colors',ProductColorController::class);
 
-//newsletter
-Route::post('addnewsletter', [NewsLetterController::class,'store'])->name('addnewsletter');
+//newsletter 
+Route::post('newsletter', [NewsLetterController::class,'store'])->name('newsletter');
 Route::put('updatenewsletter/{id}', [NewsLetterController::class,'update'])->name('updatenewsletter');
 Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])->name('destroynewsletter');
 
