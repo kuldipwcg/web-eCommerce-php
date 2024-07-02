@@ -1,17 +1,12 @@
 <?php
 
-
-
-
-
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\CategoryRequest;
-
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
+
 class CategoryController extends Controller
 {
     public function index()
@@ -19,27 +14,30 @@ class CategoryController extends Controller
         // $category=Category::with('subcategories')->get();
         // // dd($category);
         // return response()->json(Category::all());
-        $category=Category::with('subcategories')->latest()->paginate(10);
-        //dd($sub_category);
-        return response()->json($category);
+        $category=Category ::with('subcategories')->latest()->paginate(10);
+     
+        return response()->json([
+            'type'=>'success',
+            'message'=>'Category showed successfully',
+            'code'=>200,
+            'data'=>$category
+        ]);
     }
 
     public function store(CategoryRequest $request)
     {
-
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
 
-        $image->move(public_path('/upload/images/'), $imageName);
-
+        $image->move(public_path('/upload/category/'), $imageName);
+        $categoryUrl = url('/upload/category/' . $imageName);
         $record = Category::create([
             'category_name' => $request->category_name,
             'sub_categories_id' => $request->sub_categories_id,
-            'image' => $imageName,
+            'image' => $categoryUrl,
             'status' => $request->status,
         ]);
         return response()->json(['data' => $record, 'status' => 200]);
-
     }
     public function show($id)    
     {
@@ -49,19 +47,9 @@ class CategoryController extends Controller
         }
         return response()->json($category);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
     
->>>>>>> 7363e18 (category,sub-category and cart api)
-=======
-    
->>>>>>> 7363e18 (category,sub-category and cart api)
     public function update(CategoryRequest $request, $id)
     {
-
         $category = Category::findOrFail($id);
 
         $image = $request->file('image');
