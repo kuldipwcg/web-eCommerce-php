@@ -27,8 +27,8 @@ class SignupCheck extends FormRequest
         return [
             'firstName' => 'required',
             'lastName' => 'required',
-            'email' => 'required|unique:contacts,email|max:50',
-            'password' => 'required|min:6',
+            'email' => 'required|unique:contacts,email',
+            'password' => 'required|confirmed',
         ];
     }
 
@@ -44,13 +44,10 @@ class SignupCheck extends FormRequest
     public function messages()
     {
         return [
-            
             'firstName.required' => 'First Name is required',
             'lastName.required' => 'Last Name is required',
             'email.required' => 'Email is required',
             'password.required' => 'Password is required',
-            'password.min' => 'Password should contain minimum 6 character',
-
         ];
     }
 

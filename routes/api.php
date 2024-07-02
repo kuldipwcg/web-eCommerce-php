@@ -37,9 +37,7 @@ use App\Http\Controllers\ResetPasswordController;
 |
 */
 
-//forgot & reset password 
-Route::post('password/email', [ForgotPasswordController::class, 'forgot']);
-
+Route::apiResource('userProfile',UserController::class);
 
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
@@ -50,7 +48,6 @@ Route::middleware(['auth:api'])->group(function () {
 
 });
 // for token
-
 Route::post('oauth/token', [AccessTokenController::class, 'issueToken']);
 Route::post('oauth/token/refresh', [AccessTokenController::class, 'refresh']);
 Route::post('oauth/token/revoke', [AccessTokenController::class, 'revoke']);
@@ -61,6 +58,9 @@ Route::delete('oauth/authorize', [TransientTokenController::class, 'destroy']);
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('set', [AdminController::class, 'setAdmin']);
     Route::post('login', [AdminController::class, 'login']);
+
+    Route::get('subscriber', [NewsLetterController::class, 'show']);
+    Route::get('contactlist', [ContactController::class, 'show']);
 
     Route::group(['middleware' => ['auth', 'admin']], function () {
     });
@@ -90,12 +90,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     // });
 
 
-
-
 //routes for contact details .
-// Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-// Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-// Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 //Banner
 Route::apiResource('banners',BannerController::class);

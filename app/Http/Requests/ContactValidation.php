@@ -16,7 +16,7 @@ class ContactValidation extends FormRequest
         return [
             'name' => 'required',
             'subject' => 'required',
-            'email' => 'required|unique:contacts,email|max:50',
+            'email' => 'required|unique:contacts,email|email:rfc,dns',
             'message' => 'required',
         ];
     }
@@ -37,6 +37,7 @@ class ContactValidation extends FormRequest
             'name.required' => 'Email is required',
             'subject.required' => 'description is required',
             'email.required' => 'Email is required',
+            'email.email' => 'Format is not valid',
             'message.required' => 'phone is required',
         ];
     }

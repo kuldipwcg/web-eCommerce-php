@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class contact extends Model
 {
     use HasFactory; 
-    use SoftDeletes; 
 
     protected $fillable = [
         'name',

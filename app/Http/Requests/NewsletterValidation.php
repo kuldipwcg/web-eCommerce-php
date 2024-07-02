@@ -24,7 +24,7 @@ class NewsletterValidation extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|exists:users,email',
+            'email'=>'required|email|unique:newsletters,email',
         ];
     }
 
@@ -41,7 +41,7 @@ class NewsletterValidation extends FormRequest
     {
         return [
             'email.required' => 'Email is required',
-            'email.exists' => 'Email has already been taken',
+            'email.email' => 'Invalid email format',
         ];
     }
 }

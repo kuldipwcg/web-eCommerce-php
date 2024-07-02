@@ -10,7 +10,26 @@ use Illuminate\Support\Facades\DB;
 
 
 class NewsLetterController extends Controller
-{
+{   
+
+    public function show(Request $request){
+        //get all subscriber 
+        $newsletter = newsletter::get();
+        if($newsletter){
+            return response()->json([
+                'data' => $newsletter,
+                'status' => 'Success',
+                'code' => 200
+            ],200);
+        }
+        else{
+            return response()->json([
+                'Message' => 'No Data Found',
+                'status' => 'failed',
+                'code' => 404
+            ],200);
+        }
+    }
     public function store(NewsletterValidation $request)
     {
         $data = [   

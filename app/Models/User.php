@@ -11,68 +11,67 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable;
+use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table="users";
+protected $table="users";
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
+/**
+ * The attributes that are mass assignable.
+ *
+ * @var array<int, string>
+ */
+protected $fillable = [
+    'email',
+    'firstName',
+    'lastName',
+    'image',
+    'password',
+    'confirmPassword',
+    'dob',
+    'phoneNo',
+    'address',
+    'role',
+];
 
-        'email',
-        'confirm_password',
-        'first_name',
-        'last_name',
-        'password',
-        'confirm_password',
-        'dob',
-        'phone_no',
-        'address',
-        'role',
-    ];
+public function review(){
+    return $this->hasMany(Review::class,'user_id','id');
+}
 
-    public function review(){
-        return $this->hasMany(Review::class,'user_id','id');
-    }
+public function wishlist()
+{
+    return $this->hasMany(Wishlist::class,'user_id','id');
+}
 
-    public function wishlist()
-    {
-        return $this->hasMany(Wishlist::class,'user_id','id');
-    }
+public function order()
+{
+    return $this->hasMany(Order::class,'user_id','id');
+}
 
-    public function order()
-    {
-        return $this->hasMany(Order::class,'user_id','id');
-    }
+public function cart()
+{
+    return $this->hasMany(Cart::class,'user_id','id');
+}
+/**
+ * The attributes that should be hidden for serialization.
+ *
+ * @var array<int, string>
+ */
+protected $hidden = [
 
-    public function cart()
-    {
-        return $this->hasMany(Cart::class,'user_id','id');
-    }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
+    'dob',
+    'phone_no',
+    'address',
+    'role',
+    'password',
+    'remember_token',
+];
 
-        'dob',
-        'phone_no',
-        'address',
-        'role',
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+/**
+ * The attributes that should be cast.
+ *
+ * @var array<string, string>
+ */
+protected $casts = [
+    'email_verified_at' => 'datetime',
+];
 }

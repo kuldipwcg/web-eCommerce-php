@@ -11,6 +11,24 @@ use Illuminate\Support\Str;
 use DB;
 class ContactController extends Controller
 {
+    
+    public function show(Request $request){
+        $contact = contact::get();
+        if($contact){
+            return response()->json([
+                'data' => $contact,
+                'status' => 'Success',
+                'code' => 200
+            ],200);
+        }
+        else{
+            return response()->json([
+                'Message' => 'No Data Found',
+                'status' => 'failed',
+                'code' => 200
+            ],200);
+        }
+    }
     public function store(ContactValidation $request)
     {
             // dd($request->all());
