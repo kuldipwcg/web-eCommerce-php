@@ -17,12 +17,6 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return response()->json(Subcategory::latest()->paginate(10));
-=======
-=======
->>>>>>> 7363e18 (category,sub-category and cart api)
             $sub_category=subCategory::with('Category')->latest()->paginate(10);
             //dd($sub_category);
             return response()->json($sub_category);
