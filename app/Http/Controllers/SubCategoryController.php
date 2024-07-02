@@ -13,9 +13,7 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-            // return response()->json(Subcategory::all());
-            // return response()->json(Subcategory::latest()->paginate(10));
-
+            
             $sub_category=subCategory::with('Category')->latest()->paginate(10);
             // return response()->json($sub_category);
             if($sub_category){

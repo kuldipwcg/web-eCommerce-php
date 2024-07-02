@@ -9,9 +9,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\BannerController;
+
+
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\NewsLetterController;
@@ -20,7 +19,7 @@ use App\Http\Controllers\BannerController;
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrderController;
+
 
 // use App\Http\Controllers\ProductColorController;
 
@@ -69,6 +68,7 @@ Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
 Route::apiResource('order',OrderController::class);
+Route::apiResource('userProfile',UserController::class);
 
 // Route::prefix('admin')->group(function () {
     

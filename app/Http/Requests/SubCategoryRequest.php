@@ -25,14 +25,14 @@ class SubCategoryRequest extends FormRequest
     {
         return [
             //
-            'category_id'=>'required',
+            'categoryId'=>'required',
             'category_name'=>'required|min:3|max:25'
         ];
     }
     public function messages()
     {
         return [
-            'category_id.required' => 'category_id is required.',
+            'categoryId.required' => 'category_id is required.',
             'category_name.required' => 'category_name is required.',
             'category_name.min' => 'please enter atleast 3 characters.',
             'category_name.max' => 'category_type must not exceed 25 characters.',

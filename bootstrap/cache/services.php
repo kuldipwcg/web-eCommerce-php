@@ -23,7 +23,6 @@
     19 => 'Illuminate\\Translation\\TranslationServiceProvider',
     20 => 'Illuminate\\Validation\\ValidationServiceProvider',
     21 => 'Illuminate\\View\\ViewServiceProvider',
-
     22 => 'Laravel\\Passport\\PassportServiceProvider',
     23 => 'Laravel\\Sail\\SailServiceProvider',
     24 => 'Laravel\\Sanctum\\SanctumServiceProvider',
@@ -33,7 +32,6 @@
     28 => 'Termwind\\Laravel\\TermwindServiceProvider',
     29 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     30 => 'Laravel\\Passport\\PassportServiceProvider',
-
     31 => 'App\\Providers\\AppServiceProvider',
     32 => 'App\\Providers\\AuthServiceProvider',
     33 => 'App\\Providers\\EventServiceProvider',
@@ -51,15 +49,13 @@
     7 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
-
-    10 => 'Crazybooot\\Base64Validation\\Providers\\ServiceProvider',
-    11 => 'Laravel\\Passport\\PassportServiceProvider',
-    12 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    13 => 'Carbon\\Laravel\\ServiceProvider',
-    14 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    15 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    16 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-
+    10 => 'Laravel\\Passport\\PassportServiceProvider',
+    11 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+    12 => 'Carbon\\Laravel\\ServiceProvider',
+    13 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    14 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    15 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    16 => 'Laravel\\Passport\\PassportServiceProvider',
     17 => 'App\\Providers\\AppServiceProvider',
     18 => 'App\\Providers\\AuthServiceProvider',
     19 => 'App\\Providers\\EventServiceProvider',
