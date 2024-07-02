@@ -10,6 +10,7 @@ use App\Http\Requests\ContactValidation;
 use Illuminate\Support\Facades\DB;
 
 
+
 class ContactController extends Controller
 {
     public function store(ContactValidation $request)
