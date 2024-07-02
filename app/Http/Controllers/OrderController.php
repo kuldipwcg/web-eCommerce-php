@@ -23,11 +23,6 @@ public function store(OrderRequest $request){
     $orderUrl = url('/upload/orders/' . $imagename);
    
 
-    //    
-//     $bannerImage = $request->file('banner_image');
-//     $imageName = time() . $bannerImage->getClientOriginalName();
-// $bannerImage->move(public_path('/upload/banners/'), $imageName);
-// $bannerUrl = url('/upload/banners/' . $imageName);
 
     $ORDER = Order::create([
         'user_id' => $request->user_id,
@@ -59,14 +54,10 @@ public function update(OrderRequest $request, $id)
 {
 
     $ORDER = Order::find($id);
-   
-
     $image = $request->file('image');
     $imagename = $image->getClientOriginalName();
     $image->move(public_path('/upload/orders/'), $imagename);
     $orderUrl = url('/upload/orders/' . $imagename);
-   
-
 
     $ORDER->update([
         'user_id' => $request->user_id,

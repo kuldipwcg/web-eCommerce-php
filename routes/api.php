@@ -8,19 +8,23 @@ use App\Models\Banner;
 
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
-// use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\BannerController;
+
+
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NewsLetterController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BannerController;
+
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
+
 
 // use App\Http\Controllers\ProductColorController;
 
@@ -35,49 +39,13 @@ use Laravel\Passport\Http\Controllers\TransientTokenController;
 |
 */
 
-
-Route::post('signup', [UserController::class, 'signup'])->name('signup');
-Route::post('login', [UserController::class, 'login'])->name('login');
-
-Route::middleware(['auth:api'])->group(function () {
-
-Route::post('logout', [UserController::class, 'logout'])->name('logout');
-
-});
-// for token
-
-Route::post('oauth/token', [AccessTokenController::class, 'issueToken']);
-Route::post('oauth/token/refresh', [AccessTokenController::class, 'refresh']);
-Route::post('oauth/token/revoke', [AccessTokenController::class, 'revoke']);
-Route::post('oauth/authorize', [TransientTokenController::class, 'store']);
-Route::delete('oauth/authorize', [TransientTokenController::class, 'destroy']); 
-
-// for admin
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::post('login', [AdminController::class, 'login']);
-
-    Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::post('logout', [AdminController::class, 'logout']);
-    });
-
+Route::middleware('auth:api')->group(function () {
+    // Route::post('/signup','UserController@signup')->name('signup');
 });
 
-Route::group(['prefix' => 'mobile', 'namespace' => 'Mobile'], function () {
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::post('login', [AdminController::class, 'login']);
-    Route::post('logout', [AdminController::class, 'logout']);
-
-});
-
-
-    // Route::middleware('auth:admin')->group(function () {
-
-    //     Route::get('dashboard', [AdminController::class, 'dashboard']);
-    // });
-
-
-
+//signup for user
+Route::post('signup',[UserController::class,'signup'])->name('signup');
+Route::post('login', [UserController::class,'login'])->name('login');
 
 //routes for contact details .
 // Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
@@ -132,4 +100,24 @@ Route::apiResource('colors',ProductColorController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
+Route::apiResource('order',OrderController::class);
+Route::apiResource('userProfile',UserController::class);
+
+// Route::prefix('admin')->group(function () {
+    
+//     Route::apiResource('product',ProductController::class);
+//     Route::apiResource('product',ProductController::class);
+
+// });
+// });
+
+// Route::prefix('web')->group(function () {
+// Route::prefix('web')->group(function () {
+
+//     Route::apiResource('product',ProductController::class);
+//     Route::apiResource('product',ProductController::class);
+
+// });
+// });
+
 

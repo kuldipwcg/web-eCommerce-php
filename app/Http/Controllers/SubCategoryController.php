@@ -13,14 +13,26 @@ class SubCategoryController extends Controller
     
         public function index()
         {
+            
             $sub_category=subCategory::with('Category')->latest()->paginate(10);
-            //dd($sub_category);
+            // return response()->json($sub_category);
+            if($sub_category){
             return response()->json([
                 'type'=>'success',
-                'message'=>'Category showed successfully',
+                'message'=>'subcategory showed successfully',
                 'code'=>200,
                 'data'=>$sub_category
             ]);
+        }
+        else
+        {
+            return response()->json([
+                'type'=>'failure',
+                'message'=>'something went wrong',
+                'code'=>400,
+               
+            ]);
+        }
         }
 
     public function store(SubCategoryRequest $request){

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-           $table->id();
-            $table->uuid('user_id');
-            $table->uuid('cart_id');
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('cart_id');
             $table->datetime('order_date');
             $table->enum('order_status',array('pending','processing','shipped','delivered'));
             $table->double('total',6,2);
