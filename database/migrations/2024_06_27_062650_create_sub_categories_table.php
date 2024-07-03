@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('categoryId');
             $table->uuid('productId');
-            $table->string('categoryType', 15);
+            $table->string('categoryType',15);
             $table->string('image');
             $table->timestamps();
             $table->softDeletes();

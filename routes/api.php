@@ -1,28 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductSizeController;
-use App\Http\Controllers\CartController;
-use App\Models\Banner;
-
-use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
-// use App\Http\Controllers\ContactController;
-use App\Http\Controllers\SubCategoryController;
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\BillingController;
-use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\UserController;
-use Laravel\Passport\Http\Controllers\AccessTokenController;
-use Laravel\Passport\Http\Controllers\TransientTokenController;
-
-// use App\Http\Controllers\ProductColorController;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController; 
+use App\Http\Controllers\NewsLetterController;
 
 /*
 |--------------------------------------------------------------------------

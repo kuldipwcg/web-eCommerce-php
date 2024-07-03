@@ -25,9 +25,8 @@ class UserController extends Controller
         // dd($request->all());
         if($request->password == $request->confirmPassword){
             $data = [   
-                // 'id' =>  $request->id(),
-                'firstName' => $request->firstName,
-                'lastName' => $request->lastName,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password), 
                 'confirmPassword' => Hash::make($request->confirmPassword),        
@@ -47,18 +46,9 @@ class UserController extends Controller
 
         }         
 
-            // $user = User::create([
-            //     'id'=>Str::uuid(),
-            //     'first_name' => $request->first_name,
-            //     'last_name' => $request->last_name,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password),
-            //     'confirm_password' => Hash::make($request->confirm_password),
-            // ]);
-
-
-
     }
+
+
 
     public function login(Request $request){
 
@@ -81,22 +71,7 @@ class UserController extends Controller
             ],200);
             // return 'error';
          }
-    } 
-    //logout 
 
-    public function logout(Request $request) {
-            
-        // dd(Auth::user());
-        // dd($request->all());
-        // $user = Auth::user()->token();
-
-
-        // $user->revoke();
-    
-        return response()->json([
-            'message' => 'Logged out successfully!',
-            'status_code' => 200
-        ], 200);
     }
 
   
