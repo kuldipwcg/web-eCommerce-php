@@ -63,7 +63,7 @@ class LanguageController extends Controller
     }
 
 
-    public function update(UpdateLanguageRequest $request, $id)
+    public function update(StoreLanguageRequest $request, $id)
     {
         $data = Language::findOrFail($id);
         if ($data) {

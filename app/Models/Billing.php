@@ -12,8 +12,7 @@ class Billing extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table='billings';
-   
-    
+
     protected $fillable=['order_id','first_name','last_name','email','address','zip_code','mobile_numer','country','state','city','shipping_cost'];
 
     protected static function boot()

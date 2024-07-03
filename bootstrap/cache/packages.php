@@ -1,4 +1,11 @@
 <?php return array (
+  'crazybooot/base64-validation' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Crazybooot\\Base64Validation\\Providers\\ServiceProvider',
+    ),
+  ),
   'laravel/passport' => 
   array (
     'providers' => 

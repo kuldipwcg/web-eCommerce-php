@@ -2,86 +2,55 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\PivotColor;
-use App\Models\PivotSize;
 use App\Models\Product;
 use App\Models\ProductColor;
-use App\Models\ProductImage;
 use App\Models\ProductSize;
-use App\Models\ProductVariants;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function show($id)
+    {
 
-    public function index(){
-        
-        $product = Product::with(['product_colors','product_sizes','product_image','product_variants'])->get();
-        return response()->json([
-            'Product'=>$product
-        ]);
-    }
-    
-    public function store(Request $request){
-        $p = Product::create([
-            'product_name' => $request->product_name,
-            'short_desc'=>$request->short_desc,
-            'description' => $request->description,
-            'information' => $request->information,
-            'price' => $request->price,
-            'category_id' => $request->category_id,
-            'discount_type'=>$request->discount_type,
-            'discount_value' => $request->discount_value,
-            
-        ]);
+        $products = Product::with(['product_image', 'product_variants'])->where('id', $id)->get();
+        if (!Product::where('id', $id)->first()) {
+            $formattedProducts = $products->map(function ($product) {
+            $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
+            $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
 
-        // if($request->has('colors')){
-        //     foreach($request->colors as $color){
-        //         $p->product_colors()->attach($color);
-        //     }              
-        // }
-        
-        // if ($request->has('sizes')) {
-        //     foreach ($request->sizes as $size) {
-        //         $p->product_sizes()->attach($size);
-        //     }
-        // }
+            $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
+                $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+                // dd($colors);
 
-        foreach($request->variants as $v){
-            // dd($v['color_id']);
-            // $p->product_colors()->attach($v['color_id']);
-            PivotColor::create([
-                'product_id'=>$p->id,
-                'color_id'=>$v['color_id'],
-            ]);
-            PivotSize::create([
-                'product_id'=>$p->id,
-                'size_id'=>$v['size_id'],
-            ]);
-            // $p->product_sizes()->attach($v['size_id']);
-            ProductVariants::create([
-                'product_id' => $p->id,
-                'color_id' => $v['color_id'],
-                'size_id' => $v['size_id'],
-                'quantity' => $v['quantity'],
-            ]);
+                return [
+                    'product_id' => $product->id,
+                    'product_name' => $product->product_name,
+                    'short_desc' => $product->short_desc,
+                    'description' => $product->description,
+                    'information' => $product->information,
+                    'price' => $product->price,
+                    'discount_type' => $product->discount_type,
+                    'discount_value' => $product->discount_value,
+                    'is_featured' => $product->is_featured,
+                    'colors' => $colors,
+                    'sizes' => $sizes,
+                    'product_images' => $product->product_image->pluck('product_image'),
+                    'product_variants' => $product->product_variants->map(function ($variant) {
+                        return [
+                            'color' => $variant->color_id,
+                            'size' => $variant->size_id,
+                            'quantity' => $variant->quantity,
+                        ];
+                    }),
+                ];
+            });
+
+            return response()->json(['Mesaage' => 'Show Method', 'products' => $formattedProducts], 200);
+        } else {
+            return response()->json([
+                'message'=> 'Data not found',
+                'status'=>'error',
+                'code'=>404,
+            ],404);
         }
-        
-        
-        if($request->has('image')){
-            foreach($request->file('image') as $image){
-                $imagename =$image->getClientOriginalName();  
-                $image->move(public_path('/upload/productimg/'), $imagename); 
-
-                $productimg = url('/upload/productimg/' . $imagename);
-                ProductImage::create([
-                    'product_id' => $p->id,
-                    'product_image' => $productimg,
-                ]);
-            }
-        }
-        return response()->json([$p->load(['product_colors','product_sizes','product_variants','product_image'])],200);
     }
-
 }
