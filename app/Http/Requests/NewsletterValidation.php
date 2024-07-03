@@ -24,8 +24,7 @@ class NewsletterValidation extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email|max:50',
-
+            'email'=>'required|email|unique:newsletters,email',
         ];
     }
 
@@ -33,7 +32,7 @@ class NewsletterValidation extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'success'   => false,
-            'message'   => 'Validation errors',
+            'message'   => 'Invalid value',
             'data'      => $validator->errors()
         ]));
     } 
@@ -42,8 +41,7 @@ class NewsletterValidation extends FormRequest
     {
         return [
             'email.required' => 'Email is required',
-            'email.email' => 'Email is not correct',
-            'email.email' => 'Email should not be more than 50 characters'
+            'email.email' => 'Invalid email format',
         ];
     }
 }

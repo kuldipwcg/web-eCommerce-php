@@ -85,7 +85,7 @@ class UserController extends Controller
 
         // dd(Auth::user());
         // dd($request->all());
-        // $user = Auth::user()->token();
+        $user = Auth::user()->token();
 
 
         // $user->revoke();

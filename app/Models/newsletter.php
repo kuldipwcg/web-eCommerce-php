@@ -10,6 +10,8 @@ class newsletter extends Model
 {
     use HasFactory; 
 
+
+
     protected $fillable = [
         'address',
         'description',
