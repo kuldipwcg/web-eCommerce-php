@@ -57,7 +57,7 @@ public function order()
      * @var array<int, string>
      */
     protected $hidden = [
-
+        
         'dob',
         'phone_no',
         'address',

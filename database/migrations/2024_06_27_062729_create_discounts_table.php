@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('discounts', function (Blueprint $table) {
-           $table->id();
-            $table->integer('percentage');
-            // $table->uuid('product_id');
-            // $table->string('category_type',15);
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->string('category_type',15);
             $table->enum('status',array('active','inactive'))->default('active');
             $table->timestamps();
             

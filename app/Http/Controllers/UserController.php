@@ -80,6 +80,43 @@ class UserController extends Controller
     }
     //logout 
 
+    public function change(Request $request)
+    {
+
+
+        $id = auth()->user()->id;
+
+        if (Hash::check($request->currentPassword, auth()->user()->password)) {
+
+            User::where('id', $id)
+                ->update([
+                    'password' => Hash::make($request->password),
+                ]);
+
+            return response()->json(
+
+                [
+                    'message' => ' Password Changed',
+
+                ],
+                200
+
+            );
+        } else {
+
+            return response()->json(
+
+                [
+                    'message' => ' Error  Changed',
+
+                ],
+                200
+
+            );
+        }
+    }
+
+
     public function logout(Request $request)
     {
 
