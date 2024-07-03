@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Product extends Model
 {
     use HasFactory;
@@ -25,8 +24,9 @@ class Product extends Model
         'is_featured',
     ];
 
-    public function product_image(){
-       return $this->hasMany(ProductImage::class);
+    public function product_image()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
     public function reviews(){
@@ -37,3 +37,4 @@ class Product extends Model
         return $this->hasMany(ProductVariants::class);
     }
 }
+

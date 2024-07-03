@@ -6,10 +6,6 @@ use App\Models\Category;
 use App\Models\PivotColor;
 use App\Models\PivotSize;
 use App\Models\Product;
-use App\Models\ProductColor;
-use App\Models\ProductImage;
-use App\Models\ProductSize;
-use App\Models\ProductVariants;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -259,4 +255,10 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
 
     }
+    
+    public function __construct()
+    {
+        parent::__construct(Product::class);
+    }
+
 }

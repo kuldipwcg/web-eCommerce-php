@@ -8,10 +8,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsLetterController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
@@ -30,6 +35,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 
+use App\Http\Controllers\InformationSlugController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,9 +157,8 @@ Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
 
-
 // Route::prefix('admin')->group(function () {
-    
+
 //     Route::apiResource('product',ProductController::class);
 
 // });
@@ -167,6 +176,5 @@ Route::apiResource('colors',ProductColorController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
-
-
-
+Route::apiResource('language',LanguageController::class);
+Route::apiResource('informationslug',InformationSlugController::class);
