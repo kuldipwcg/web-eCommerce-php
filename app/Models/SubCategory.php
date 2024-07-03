@@ -9,9 +9,7 @@ class SubCategory extends Model
 {
     use HasFactory;
     public $table = 'sub_categories';
-    protected $primaryKey = 'id';
-   
-    protected $guarded = [];
+ 
     protected $fillable = ['category_id','product_id','category_type'];
     public function category()
     {
@@ -23,14 +21,7 @@ class SubCategory extends Model
         return $this->hasMany(Product::class);
     }
     
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-           
-        });
-    }
+   
    
 }
 

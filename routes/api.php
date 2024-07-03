@@ -8,12 +8,10 @@ use App\Http\Controllers\ProductController;
 // use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\ContactController;
+
 
 
 /*

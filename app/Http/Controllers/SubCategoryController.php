@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubCategoryRequest;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
@@ -46,7 +48,7 @@ class SubCategoryController extends Controller
     }
 
     public function destroy($id){
-        $sub_category = Subcategory::find($id);
+        $sub_category = SubCategory::find($id);
         if (!$sub_category) {
             return response()->json(['error' => 'Sub_Category not found'], 404);
         }
