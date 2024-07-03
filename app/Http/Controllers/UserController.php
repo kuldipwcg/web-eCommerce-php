@@ -81,8 +81,6 @@ class UserController extends Controller
 
     public function change(Request $request)
     {
-
-
         $id = auth()->user()->id;
 
         if (Hash::check($request->currentPassword, auth()->user()->password)) {
