@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('categoryType',15);
             $table->string('image');
             $table->timestamps();
-            
+            $table->softDeletes();
         });
     }
 

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedInteger('category_id');
             $table->boolean('is_featured')->default(0)->change();
             $table->timestamps();
-            
+            $table->softDeletes();
         });
     }
 
