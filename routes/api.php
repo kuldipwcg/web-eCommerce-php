@@ -20,6 +20,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\FooterController;
 
 // use App\Http\Controllers\ForgotPasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -46,6 +47,7 @@ Route::middleware('auth:api')->group(function () {
 Route::post('signup',[UserController::class,'signup'])->name('signup');
 Route::post('login', [UserController::class,'login'])->name('login');
 
+//footer route user side 
 
 
 Route::middleware('guest:api')->group(function () {
@@ -58,8 +60,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::post('change-password', [UserController::class, 'change']);
     Route::get('profile', function (Request $r) {
-        return auth()->user();
-    });
+        return response()->json([
+            'detail'=>auth()->user(),
+            'dob'=>auth()->user()->dob,
+        ]);
+    }); 
+    Route::put('update-profile', [UserController::class, 'update']);
 });
 
 
@@ -73,6 +79,17 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
     Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
     Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
+    //admin footer
+    Route::post('footeradd', [FooterController::class, 'store'])->name('footeradd');
+    Route::put('updatefooter', [FooterController::class, 'update'])->name('updatefooter');
+    Route::get('footer',[FooterController::class,'index']);
+    //admin category
+    Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
+    Route::post('addcategory', [CategoryController::class,'store'])->name('addcategory');
+    
+    //admin subcategory
+    Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
+    Route::post('addsubcategory', [SubCategoryController::class,'store'])->name('addsubcategory');
 
     Route::middleware('auth:admin')->group(function () {
         Route::post('logout', [AdminController::class, 'logout']);
@@ -105,6 +122,10 @@ Route::post('addnewsletter', [NewsLetterController::class,'store'])->name('addne
 Route::put('updatenewsletter/{id}', [NewsLetterController::class,'update'])->name('updatenewsletter');
 Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])->name('destroynewsletter');
 
+//contact us
+Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
 
 Route::apiResource('product', ProductController::class);
 Route::apiResource('subcategory', SubCategoryController::class);
@@ -129,11 +150,11 @@ Route::apiResource('carts', CartController::class);
 // });
 
 
-
 Route::apiResource('banners',BannerController::class);
 Route::apiResource('colors',ProductColorController::class);
 Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
+
 
 

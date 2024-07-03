@@ -201,7 +201,6 @@ class UserController extends Controller
                 'code' => 200,
                 'data' => $user
             ]);
-
         }
 
         else {
@@ -214,31 +213,49 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        
+        // dd($request);
+
+        $id = auth()->user()->id;
+
         $user = User::find($id);
+
+        if ($user) {
+
+        $input = $request->all();
+
+        $user->fill($input)->save();
+
+
         $image = $request->file('image');
-        if($image == ""){
-            $profileUrl = "";
+        if($image == null){
+            $profileUrl = null;
         } 
         else{
             $imageName = $image->getClientOriginalName();
             $image->move(public_path('/upload/userProfile/'), $imageName);
             $profileUrl = url('/upload/userProfile/' . $imageName);
+
+            $user->fill(['image'=>$profileUrl])->save();
+
         }
         
 
-        $user->update([
-        'firstName' => $request->firstName,
-        'lastName' => $request->lastName,
-        // 'email'=>$request->email,
-        'phoneNo'=>$request->phoneNo,
-        'dob'=>$request->dob,
-        'image' => $profileUrl,
-        ]);
+        // $user->update([
+        // 'firstName' => $request->firstName,
+        // 'lastName' => $request->lastName,
+        // // 'email'=>$request->email,
+        // 'phoneNo'=>$request->phoneNo,
+        // 'dob'=>$request->dob,
+        // 'image' => $profileUrl,
+        // ]);
+
+        
 
 
-        if ($user) {
+        
             return response()->json([
                 'type' => 'success',
                 'message' => 'User profile Updated successfully',

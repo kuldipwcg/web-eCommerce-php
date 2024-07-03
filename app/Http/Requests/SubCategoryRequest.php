@@ -27,17 +27,14 @@ class SubCategoryRequest extends FormRequest
             //
             'category_id'=>'required',
             // 'product_id'=>'required',
-            'subcategory_name'=>'required|min:3|max:25'
+            'categoryName'=>'required'
         ];
     }
     public function messages()
     {
         return [
             'category_id.required' => 'category_id is required.',
-            // 'product_id.required' => 'product_id is required.',
-            'subcategory_name.required' => 'category_name is required.',
-            'subcategory_name.min' => 'please enter atleast 3 characters.',
-            'subcategory_name.max' => 'category_name must not exceed 25 characters.',
+            'categoryName.required' => 'category_name is required.',
         ];
     }
 

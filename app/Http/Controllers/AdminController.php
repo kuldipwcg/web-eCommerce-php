@@ -10,7 +10,6 @@ use App\Http\Requests\LoginCheck;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\SignupCheck;
-use App\Models\User;
 use Exception;
 
 

@@ -37,9 +37,9 @@ class CategoryController extends Controller
         return response()->json(['message'=>'category added successfully',
          'data' => $record, 'status' => 200]);
     }
-    public function show($id)    
+    public function show()    
     {
-        $category = Category::find($id);
+        $category = Category::get();
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
