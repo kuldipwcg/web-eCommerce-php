@@ -30,15 +30,16 @@ class SubCategoryController extends Controller
 
     public function store(Request $request){
         
-        $sub_category = Subcategory::create($request->all());
-        
-        return response()->json($sub_category, 201);
+            $sub_category = Subcategory::create($request->all());
+            
+            return response()->json($sub_category, 201);
+
     }
-    public function show($id)    
+    public function show()    
     {
-        $sub_category = Subcategory::find($id);
+        $sub_category = Subcategory::get();
         if (!$sub_category) {
-            return response()->json(['error' => 'Sub_Category not found'], 404);
+            return response()->json(['error' => 'No Sub_Category not found'], 404);
         }
         return response()->json($sub_category);
     }

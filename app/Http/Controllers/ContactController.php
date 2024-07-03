@@ -25,8 +25,8 @@ class ContactController extends Controller
             return response()->json([
                 'Message' => 'No Data Found',
                 'status' => 'failed',
-                'code' => 200
-            ],200);
+                'code' => 404
+            ],404);
         }
     }
     public function store(ContactValidation $request)

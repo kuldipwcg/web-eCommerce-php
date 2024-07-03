@@ -31,15 +31,15 @@ class CategoryController extends Controller
         $categoryUrl = url('/upload/category/' . $imageName);
         $record = Category::create([
             'category_name' => $request->category_name,
-            'sub_categories_id' => $request->sub_categories_id,
             'image' => $categoryUrl,
             'status' => $request->status,
         ]);
-        return response()->json(['data' => $record, 'status' => 200]);
+        return response()->json(['message'=>'category added successfully',
+         'data' => $record, 'status' => 200]);
     }
-    public function show($id)    
+    public function show()    
     {
-        $category = Category::find($id);
+        $category = Category::get();
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
