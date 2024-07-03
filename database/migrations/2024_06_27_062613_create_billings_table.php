@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('firstName',20);
             $table->string('lastName',20);
             $table->string('email');
-            $table->text('address');
-            $table->integer('zipCode')->length(6)->unsigned();
             $table->integer('mobileNumber')->length(10)->unsigned();
+            $table->text('address1');
+            $table->text('address2');
+            $table->integer('zipCode')->length(6)->unsigned();
             $table->string('country',10);
             $table->string('state',10);
             $table->string('city',10);

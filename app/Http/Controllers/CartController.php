@@ -8,19 +8,25 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
- 
     public function index()
     {
         return response()->json(Cart::all());
     }
 
+    // public function store(cartRequest $request)
+    // {
+    //     // dd(request()->all());
+    //     $cart = Cart::create($request->all());
+
+    //     return response()->json($cart, 201);
+    // }
+
     public function store(cartRequest $request)
     {
-        // dd(request()->all());
-        $cart = Cart::create($request->all());
-
+        $cart = Cart::create($request->except('id'));
         return response()->json($cart, 201);
     }
+        
     public function show($id)
     {
         $cart = Cart::find($id);

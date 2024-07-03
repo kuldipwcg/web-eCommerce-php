@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginCheck;
-use App\Http\Requests\SignupCheck;
+// use App\Http\Requests\LoginCheck;
+// use App\Http\Requests\SignupCheck;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use function Laravel\Prompts\password;
@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
+
+// use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class UserController extends Controller
 {
@@ -115,21 +115,21 @@ class UserController extends Controller
     }
 
 
-    public function logout(Request $request)
-    {
+    // public function logout(Request $request)
+    // {
 
-        // dd(Auth::user());
-        // dd($request->all());
-        $user = Auth::user()->token();
+    //     // dd(Auth::user());
+    //     // dd($request->all());
+    //     $user = Auth::user()->token();
 
 
-        // $user->revoke();
+    //     // $user->revoke();
 
-        return response()->json([
-            'message' => 'Logged out successfully!',
-            'status_code' => 200
-        ], 200);
-    }
+    //     return response()->json([
+    //         'message' => 'Logged out successfully!',
+    //         'status_code' => 200
+    //     ], 200);
+    // }
 
     public function index()
     {
