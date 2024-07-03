@@ -26,7 +26,6 @@ class UserController extends Controller
         // dd($request->all());
         if ($request->password == $request->confirmPassword) {
             $data = [
-
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
                 'email' => $request->email,
@@ -34,15 +33,18 @@ class UserController extends Controller
                 'confirmPassword' => Hash::make($request->confirmPassword),
             ];
 
-            DB::table('users')->insert($data);
+            $user = DB::table('users')->insert($data);
 
             return response()->json([
+                'data' => $data,
                 'Message' => 'User created successfully',
-            ]);
-        } else {
+                'Status' => 200
+            ],200);
+        } else { 
             return response()->json([
-                'Message' => 'Password and Confirm Password should be same',
-            ]);
+                'Message' => 'Invalid Input',
+                'Status' => 402
+            ],402);
         }
 
         // $user = User::create([
@@ -60,10 +62,9 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
         $person = User::where('email', $request->email)->first();
 
-        if (Hash::check($request->password, $person->password)) {
+        if ($person && Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
             $name = $person->firstName;
             return response()->json([
@@ -73,8 +74,8 @@ class UserController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'message' => 'Credential are wrong',
-            ], 200);
+                'message' => 'Credential are wrong & Please check your input',
+            ], 404);
             // return 'error';
         }
     }
@@ -120,7 +121,7 @@ class UserController extends Controller
 
         // dd(Auth::user());
         // dd($request->all());
-        $user = Auth::user()->token();
+        // $user = Auth::user()->token();
 
 
         // $user->revoke();
@@ -147,46 +148,47 @@ class UserController extends Controller
                 'type' => 'failure',
                 'message' => 'something went wrong',
                 'code' => 404,
-
             ]);
         }
     }
 
     public function store(UserRequest $request)
-    {
+    {   
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/userProfile/'), $imageName);
-        $profileUrl = url('/upload/userProfile/' . $imageName);
+        if($image == ""){
+            $profileUrl = "";
+        } 
+        else{
+            $imageName = $image->getClientOriginalName();
+            $image->move(public_path('/upload/userProfile/'), $imageName);
+            $profileUrl = url('/upload/userProfile/' . $imageName);
+        }
         // $user = User::create($request->all());
 
-    $user = User::create([
-        'firstName' => $request->firstName,
-        'lastName' => $request->lastName,
-        'email'=>$request->email,
-        'phoneNo'=>$request->phoneNo,
-        'dob'=>$request->dob,
-        'image' => $profileUrl,
-        
-    ]);
-    if ($user) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'User profile added successfully',
-            'code' => 200,
-            'data' => $user
+        $user = User::create([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email'=>$request->email,
+            'phoneNo'=>$request->phoneNo,
+            'dob'=>$request->dob,
+            'image' => $profileUrl,
         ]);
+            if ($user) {
+                return response()->json([
+                    'type' => 'success',
+                    'message' => 'User profile added successfully',
+                    'code' => 200,
+                    'data' => $user
+                ]);
 
-    }
-
-    else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-
-        ]);
-    }
+            }
+            else {
+                return response()->json([
+                    'type' => 'failure',
+                    'message' => 'Data not added',
+                    'code' => 204,
+                ]);
+            }
     }
 
     public function show($id)
@@ -199,55 +201,60 @@ class UserController extends Controller
                 'code' => 200,
                 'data' => $user
             ]);
-    
+
         }
-    
+
         else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
                 'code' => 404,
-    
+
             ]);
         }
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
+
+        
 
         $user = User::find($id);
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/userProfile/'), $imageName);
-        $profileUrl = url('/upload/userProfile/' . $imageName);
+        if($image == ""){
+            $profileUrl = "";
+        } 
+        else{
+            $imageName = $image->getClientOriginalName();
+            $image->move(public_path('/upload/userProfile/'), $imageName);
+            $profileUrl = url('/upload/userProfile/' . $imageName);
+        }
+        
 
         $user->update([
         'firstName' => $request->firstName,
         'lastName' => $request->lastName,
-        'email'=>$request->email,
+        // 'email'=>$request->email,
         'phoneNo'=>$request->phoneNo,
         'dob'=>$request->dob,
         'image' => $profileUrl,
         ]);
-    
 
-    if ($user) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'User profile Updated successfully',
-            'code' => 200,
-            'data' => $user
-        ]);
 
+        if ($user) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'User profile Updated successfully',
+                'code' => getStatus,
+                'data' => $user
+            ]);
+        }
+        else { 
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'code' => 404,
+            ]);
+        }
     }
-
-    else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-
-        ]);
-    }
-}
 }

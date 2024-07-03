@@ -12,14 +12,15 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ProductController;
-// use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SubCategoryController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
 
-use App\Http\Controllers\ProductColorController;
 // use App\Http\Controllers\ForgotPasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
@@ -70,7 +71,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
     Route::post('set', [AdminController::class, 'setAdmin']);
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-
+    Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
+    Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
 
     Route::middleware('auth:admin')->group(function () {
         Route::post('logout', [AdminController::class, 'logout']);
@@ -107,11 +109,9 @@ Route::delete('deletenewsletter/{id}', [NewsLetterController::class,'destroy'])-
 Route::apiResource('product', ProductController::class);
 Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('category', CategoryController::class);
-// Route::prefix('admin')->group(function () {
-Route::apiResource('products',ProductController::class);
-Route::apiResource('subcategory',SubCategoryController::class);
-Route::apiResource('order',OrderController::class);
-Route::apiResource('category',CategoryController::class);
+Route::apiResource('products', ProductController::class);
+Route::apiResource('subcategory', SubCategoryController::class);
+Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
 
 
@@ -136,5 +136,4 @@ Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
 
-=======
->>>>>>> kanad_admin
+

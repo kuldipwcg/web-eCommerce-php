@@ -16,24 +16,24 @@ class UserRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-            'firstName'=>'required|max:15',
-            'lastName'=>'required|max:15',
-            'email'=>'required|email|unique:users,email',
-            'phoneNo'=>'required|digits:10',
-            'dob'=>'required',
-            'image'=> 'required|mimes:jpeg,jpg,png|max:5000',
-        ];
-        
-    }
+/**
+ * Get the validation rules that apply to the request.
+ *
+ * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+ */
+public function rules(): array
+{
+    return [
+        //
+        'firstName'=>'required|max:15',
+        'lastName'=>'required|max:15',
+        'email'=>'required|email|unique:users,email',
+        'phoneNo'=>'required|digits:10',
+        'dob'=>'required',
+        // 'image'=> 'required|mimes:jpeg,jpg,png|max:5000',
+    ];
+    
+}
 
     public function failedValidation(Validator $validate){
         throw new HttpResponseException(response()->json([
@@ -43,15 +43,15 @@ class UserRequest extends FormRequest
         ]));
     }
 
-    public function messages()
-    {
-        return [
-            'firstName.required' => 'firstName is required.',
-            'lastName.required' => 'It is mandatory to fill lastName.',
-            'email.required' => 'It is mandatory to fill email field.',
-            'phoneNo.required' => 'It is mandatory to fill phoneNo field.',
-            'dob.required'=>'It is mandatory to fill Dob field.',
-            'image.required'=>'please fill image field.'
-        ];
-    }
+public function messages()
+{
+    return [
+        'firstName.required' => 'firstName is required.',
+        'lastName.required' => 'It is mandatory to fill lastName.',
+        'email.required' => 'It is mandatory to fill email field.',
+        'phoneNo.required' => 'It is mandatory to fill phoneNo field.',
+        'dob.required'=>'It is mandatory to fill Dob field.',
+        // 'image.required'=>'please fill image field.'
+    ];
+}
 }

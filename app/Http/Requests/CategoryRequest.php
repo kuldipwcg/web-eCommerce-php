@@ -24,7 +24,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'category_name' => 'required|min:3|max:25',
-           
             'image' => 'required|mimes:jpeg,jpg,png',
             'status' => 'required',
         ];
@@ -33,7 +32,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'category_name.required' => 'category_name is required.',
-           
             'image.required' => 'image should be in jpeg,jpg or png',
             'status' => 'status is required.',
         ];
