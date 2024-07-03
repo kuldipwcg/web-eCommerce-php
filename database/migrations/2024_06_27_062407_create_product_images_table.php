@@ -15,11 +15,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_images', function (Blueprint $table) {
-
             $table->id();
             $table->unsignedInteger('product_id');
             $table->string('product_image');
-            $table->unsignedInteger('color_id');
             $table->timestamps();
             
         });
