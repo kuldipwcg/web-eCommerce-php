@@ -216,9 +216,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-
-        
-
         $user = User::find($id);
         $image = $request->file('image');
         if($image == ""){
