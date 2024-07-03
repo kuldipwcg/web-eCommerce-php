@@ -29,8 +29,9 @@ class BannerController extends Controller
 
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
 
+        $bannerUrl = url('/upload/banners/' . $bannerImage);
         $record = Banner::create([
-            'banner_image' => $imageName,
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,
@@ -65,9 +66,9 @@ class BannerController extends Controller
 
         $imageName = time() . $bannerImage->getClientOriginalName();
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
-
+        $bannerUrl = url('/upload/banners/' . $imageName);
         $banner->update([
-            'banner_image' => $imageName,
+            'banner_image' => $bannerUrl,
             'banner_title' => $request->banner_title,
             'banner_desc' => $request->banner_desc,
             'banner_link' => $request->banner_link,

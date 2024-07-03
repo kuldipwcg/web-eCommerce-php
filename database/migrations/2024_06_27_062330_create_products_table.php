@@ -8,21 +8,22 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */ 
+     */
 
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('product_name',32);
+            $table->text('short_desc');
             $table->text('description');
-            $table->double('product_price',6,2);
-            $table->double('discounted_price',6,2);
             $table->text('information');
-            $table->unsignedInteger('category_id');
-            $table->boolean('is_featured')->default(0)->change();
+            $table->double('price',6,2);
+            $table->unsignedBigInteger('category_id');
+            $table->enum('discount_type', ['fixed', 'percentage']);
+            $table->integer('discount_value');
+            $table->enum('is_featured', ['true', 'false'])->default('false');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
