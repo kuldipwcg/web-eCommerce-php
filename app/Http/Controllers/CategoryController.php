@@ -1,9 +1,5 @@
 <?php
 
-
-
-
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
@@ -13,8 +9,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
+    public function index(){    
         // $category=Category::with('subcategories')->get();
         // // dd($category);
         // return response()->json(Category::all());

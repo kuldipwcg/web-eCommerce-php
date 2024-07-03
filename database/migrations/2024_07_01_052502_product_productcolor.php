@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pivot_color', function (Blueprint $table) {
-            $table->uuid('product_id');
-            $table->uuid('color_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('color_id');
             $table->timestamps();
             
             // $table->foreign('product_id')->references('id')

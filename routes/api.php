@@ -94,7 +94,6 @@ Route::apiResource('carts', CartController::class);
 // });
 
 
-
 Route::apiResource('banners',BannerController::class);
 Route::apiResource('colors',ProductColorController::class);
 Route::apiResource('products',ProductController::class);
