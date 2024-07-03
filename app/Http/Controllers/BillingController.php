@@ -15,8 +15,7 @@ class BillingController extends Controller
             'status' => 200
         ]);
     }
-
-
+    
     public function store(Request $request)
     {
         $data = Billing::create($request->all());
