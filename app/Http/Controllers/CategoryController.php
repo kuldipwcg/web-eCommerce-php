@@ -49,11 +49,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
-
         $image = $request->file('image');
-
-     
-
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/images/'), $imageName);
 

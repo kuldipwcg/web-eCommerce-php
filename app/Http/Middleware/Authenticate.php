@@ -24,7 +24,7 @@ class Authenticate extends Middleware
 // $table->softDeletes();
 // $table->timestamps(); 
 
-$table->id()->primary();
-$table->string('email');
-$table->timestamps();
-$table->softDeletes();
+// $table->id()->primary();
+// $table->string('email');
+// $table->timestamps();
+// $table->softDeletes();

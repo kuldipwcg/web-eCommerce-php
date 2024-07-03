@@ -21,7 +21,14 @@ class SubCategoryController extends Controller
             ]);
         }
 
-    public function store(SubCategoryRequest $request){
+    // public function store(SubCategoryRequest $request){
+        
+    //     $sub_category = Subcategory::create($request->all());
+        
+    //     return response()->json($sub_category, 201);
+    // }
+
+    public function store(Request $request){
         
         $sub_category = Subcategory::create($request->all());
         
