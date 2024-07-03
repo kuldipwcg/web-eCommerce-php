@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Http\Requests\LoginCheck;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +39,7 @@ class AdminController extends Controller
     }
 
 
-    public function login(Request $request)
+    public function login(LoginCheck $request)
     {
         // get the admin
         $admin = Admin::where('email', $request->email)->first();   
@@ -72,7 +73,6 @@ class AdminController extends Controller
 
     public function change(Request $request)
     {
-
 
         $id = auth()->user()->id;
 
