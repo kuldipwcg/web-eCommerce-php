@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-// use Illuminate\Http\Exceptions\HttpResponseException;
-// use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class CategoryRequest extends FormRequest
 {
@@ -23,16 +23,25 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_name' => 'required|min:3|max:25',
-            'image' => 'required|mimes:jpeg,jpg,png',
+            'category_name' => 'required|unique:categories,category_name',
+            'image' => 'required',
             'status' => 'required',
         ];
     }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'data'      => $validator->errors(),
+            'Status'   => 'Invalid',
+            'message'   => 'Invalid Input, Please enter valid input',
+        ]));
+    } 
     public function messages()
     {
         return [
             'category_name.required' => 'category_name is required.',
-            'image.required' => 'image should be in jpeg,jpg or png',
+            'image.required' => 'image is required',
             'status' => 'status is required.',
         ];
     }
