@@ -19,7 +19,10 @@ use App\Http\Controllers\BannerController;
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\WishlistController;
+use App\Models\Wishlist;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Auth;
 
 // use App\Http\Controllers\ProductColorController;
 
@@ -47,6 +50,22 @@ Route::post('login', [UserController::class,'login'])->name('login');
 // Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
 // Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [UserController::class, 'logout'])->name('logout');
+    Route::post('change-password', [UserController::class, 'change']);
+    Route::put('update-profile', [UserController::class, 'update']);
+    Route::get('profile', function (Request $r) {
+        return auth()->user();
+    });
+
+    Route::get('wishlist', function (Request $r) {
+        return auth()->user();
+    });
+  
+    Route::delete('Delete_wishlist', [WishlistController::class, 'destroy']);
+});
+
+Route::post('AddWishList',[WishlistController::class,'store']);
 
 //newsletter
 Route::post('addnewsletter', [NewsLetterController::class,'store'])->name('addnewsletter');
@@ -68,7 +87,9 @@ Route::apiResource('products',ProductController::class);
 Route::apiResource('billingAddress',BillingController::class);
 Route::apiResource('shippingAddress',ShippingController::class);
 Route::apiResource('order',OrderController::class);
-Route::apiResource('userProfile',UserController::class);
+// Route::apiResource('userProfile',UserController::class)->middleware('auth:api');
+
+
 
 // Route::prefix('admin')->group(function () {
     
@@ -86,5 +107,3 @@ Route::apiResource('userProfile',UserController::class);
 
 // });
 // });
-
-

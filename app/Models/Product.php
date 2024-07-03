@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
+// use Illuminate\Database\Eloquent\SoftDeletes;
+// use Ramsey\Uuid\Uuid;
 
 class Product extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $table = "products";
-    protected $primaryKey = "id";
-    protected $keyType = 'string';
-    public $incrementing = false;
+    // protected $primaryKey = "id";
+    // protected $keyType = 'string';
+    // public $incrementing = false;
 
 
     protected $fillable = [
@@ -42,12 +42,16 @@ class Product extends Model
     public function product_color_sizes(){
         return $this->hasMany(ProductColorSize::class);
     }
-
-    protected static function boot()
+    public function wishlist()
     {
-        parent::boot();
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-        });
+        return $this->hasMany(Wishlist::class,'product_id','id');
     }
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::creating(function (Model $model) {
+    //         $model->setAttribute($model->getKeyName(), Uuid::uuid4());
+    //     });
+    // }
 }

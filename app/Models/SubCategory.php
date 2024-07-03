@@ -15,9 +15,9 @@ class SubCategory extends Model
     // protected $keyType = 'string';
     // public $incrementing = false;
     // protected $guarded = [];
-    protected $fillable = ['categoryId','category_name'];
+    protected $fillable = ['category_id','category_name'];
     // protected $dates=['deleted_at'];
-    public function category()
+    public function Category()
     {
         return $this->belongsTo(Category::class);
     }

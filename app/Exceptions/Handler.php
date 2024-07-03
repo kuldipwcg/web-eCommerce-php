@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use GuzzleHttp\Psr7\Response;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -58,4 +60,13 @@ class Handler extends ExceptionHandler
 
     return parent::render($request, $exception);
 }
+
+// public function render($request, Throwable $exception)
+// {
+//     if ($exception instanceof AuthenticationException) {
+//         return response()->json(['error' => 'Unauthenticated. Please login first.'], Response::HTTP_UNAUTHORIZED);
+//     }
+
+// return parent::render($request, $exception);
+// }
 }
