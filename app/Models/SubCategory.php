@@ -12,12 +12,7 @@ class SubCategory extends Model
     protected $primaryKey = 'id';
    
     protected $guarded = [];
-<<<<<<< HEAD
     protected $fillable = ['category_id','product_id','category_type'];
-=======
-    protected $fillable = ['category_id','category_name'];
-    protected $dates=['deleted_at'];
->>>>>>> 7363e18 (category,sub-category and cart api)
     public function category()
     {
         return $this->belongsTo(Category::class);
