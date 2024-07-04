@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
-use App\Models\PivotColor;
-use App\Models\PivotSize;
 use App\Models\Product;
+use App\Models\ProductColor;
+use App\Models\ProductImage;
+use App\Models\ProductSize;
+use App\Models\ProductVariants;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,15 +17,18 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['product_image', 'product_variants'])->get();
+        $products = Product::with(['reviews','product_image', 'product_variants'])->get();
 
         $formattedProducts = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
             $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
-            
+
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
             // dd($colors);
+
+            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+
 
             return [
                 'product_id' => $product->id,
@@ -35,21 +42,24 @@ class ProductController extends Controller
                 'is_featured' => $product->is_featured,
                 'colors' => $colors,
                 'sizes' => $sizes,
+                "Reviews"=>$product->reviews,
+                "Total Reviews"=> count($product->reviews),
+                "Rating_Count"=>$avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
-                'product_variants' => $product->product_variants->map(function ($variant) {
-                    return [
-                        'color' => $variant->color_id,
-                        'size' => $variant->size_id,
-                        'quantity' => $variant->quantity,
-                    ];
-                }),
+                // 'product_variants' => $product->product_variants->map(function ($variant) {
+                //     return [
+                //         'color' => $variant->color_id,
+                //         'size' => $variant->size_id,
+                //         'quantity' => $variant->quantity,
+                //     ];
+                // }),
             ];
         });
 
         return response()->json(['products' => $formattedProducts], 200);
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $category = Category::where('category_name', $request->category_name)->first();
         // dd($catid);
@@ -118,7 +128,59 @@ class ProductController extends Controller
         return response()->json([$p->load(['product_variants', 'product_image'])], 200);
     }
 
+    public function show($id)
+    {
 
+
+        $products = Product::with(['reviews','product_image', 'product_variants'])->where('id', $id)->get();
+        if (Product::where('id', $id)->first()) {
+            $formattedProducts = $products->map(function ($product) {
+                $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
+                $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
+
+                $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
+                $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+                // dd($colors);
+
+                $avgRating = Review::where('product_id', $product->id)->avg('rating');
+
+                return [
+                    'product_id' => $product->id,
+                    'product_name' => $product->product_name,
+                    'short_desc' => $product->short_desc,
+                    'description' => $product->description,
+                    'information' => $product->information,
+                    'price' => $product->price,
+                    'discount_type' => $product->discount_type,
+                    'discount_value' => $product->discount_value,
+                    'is_featured' => $product->is_featured,
+                    'colors' => $colors,
+                    'sizes' => $sizes,
+                    "Reviews"=>$product->reviews,
+                    "Total Reviews"=> count($product->reviews),
+                    "Rating_Count"=>$avgRating ? $avgRating : 0,
+
+                    'product_images' => $product->product_image->pluck('product_image'),
+                    // 'product_variants' => $product->product_variants->map(function ($variant) {
+                    //     return [
+                    //         'color' => $variant->color_id,
+                    //         'size' => $variant->size_id,
+                    //         'quantity' => $variant->quantity,
+                    //     ];
+                    // }),
+                    
+                ];
+            });
+
+            return response()->json(['Message' => 'Show Method', 'products' => $formattedProducts], 200);
+        } else {
+            return response()->json([
+                'message' => 'Data not found',
+                'status' => 'error',
+                'code' => 404,
+            ], 404);
+        }
+    }
     public function destroy($id)
     {
         $product = Product::find($id);
@@ -137,7 +199,7 @@ class ProductController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         $product = Product::find($id);
         // dd($product);
@@ -168,77 +230,40 @@ class ProductController extends Controller
             'discount_value' => $request->discount_value,
             'is_featured' => $request->has('is_featured') ? $request->is_featured : 'false',
         ]);
-        
+
+        $updatedVariants = [];
         foreach ($request->variants as $key => $value) {
 
-            
             // dd($value['color']);
-            $color = ProductColor::where('color',$value['color'])->first();
-            $size = ProductSize::where('size',$value['size'])->first();
+            $color = ProductColor::where('color', $value['color'])->first();
+            $size = ProductSize::where('size', $value['size'])->first();
 
             // dd($color->id);
-            $variation = ProductVariants::where('color_id', $color->id)->where('size_id', $size->id)->where('product_id',$product->id)->first();
+            $variation = ProductVariants::where('color_id', $color->id)->where('size_id', $size->id)->where('product_id', $product->id)->first();
 
-            // $novariation = ProductVariants::whereNot('color_id', $color->id)->whereNot('size_id', $size->id)->where('product_id',$product->id)->first();
 
-            // dd($variation);
-
-            $v = ProductVariants::all('id');
-            dd($v);
-
-            if ($variation){
-                $p = ProductVariants::find($variation->id);
+            if ($variation) {
+                $v = ProductVariants::find($variation->id);
                 $variation->update([
                     'color_id' => $color->id,
                     'size_id' => $size->id,
                     'quantity' => $value['quantity'],
                 ]);
-                dd($p->id);
-            }
-            else{
-                ProductVariants::create([
+                $updatedVariants[] = $v->id;
+                // dd($p->id);
+            } else {
+                $v = ProductVariants::create([
                     'product_id' => $product->id,
                     'color_id' => $color->id,
                     'size_id' => $size->id,
                     'quantity' => $value['quantity'],
                 ]);
-                dd('no');
-            }
-            // $p = ProductVariants::where('product_id', $product->id)
-            //     ->whereNotIn('id', $variation->id)->get();
-            // // ->delete();
-            // dd($p);
-            
-        }
-
-        
-
-        // $variantIdsToKeep = collect($request->variants)->pluck('id');
-        // dd($variantIdsToKeep);
-        // ProductVariants::where('product_id', $product->id)
-        //     ->whereNotIn('id', $variantIdsToKeep)
-        //     ->delete();
-
-        foreach ($request->variants as $v) {
-            $color = ProductColor::where('color', $v['color'])->first();
-            $size = ProductSize::where('size', $v['size'])->first();
-            // dd($color->id);
-            if (isset($v['id'])) {
-                $variant = ProductVariants::findOrFail($v['id']);
-                $variant->update([
-                    'color_id' => $color->id,
-                    'size_id' => $size->id,
-                    'quantity' => $v['quantity'],
-                ]);
-            } else {
-                ProductVariants::create([
-                    'product_id' => $product->id,
-                    'color_id' => $color->id,
-                    'size_id' => $size->id,
-                    'quantity' => $v['quantity'],
-                ]);
+                $updatedVariants[] = $v->id;
+                // dd('no');
             }
         }
+        ProductVariants::where('product_id', $product->id)->whereNotIn('id', $updatedVariants)->delete();
+
         if ($request->has('image')) {
             foreach ($request->file('image') as $image) {
                 $imageName = $image->getClientOriginalName();
@@ -254,11 +279,6 @@ class ProductController extends Controller
         }
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
 
-    }
-    
-    public function __construct()
-    {
-        parent::__construct(Product::class);
     }
 
 }

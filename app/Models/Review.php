@@ -10,6 +10,7 @@ class Review extends Model
     use HasFactory;
 
     protected $table = "reviews";
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         "product_id",
