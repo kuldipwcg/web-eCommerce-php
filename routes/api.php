@@ -1,6 +1,4 @@
-
 <?php
-
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +27,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,13 +45,12 @@ Route::middleware('auth:api')->group(function () {
 });
 
 //signup for user
-Route::post('signup',[UserController::class,'signup'])->name('signup');
-Route::post('login', [UserController::class,'login'])->name('login');
-
-Route::middleware('guest:api')->group(function () {
-
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
+
+Route::middleware('guest:api')->group(function () {
+    Route::post('signup', [UserController::class, 'signup'])->name('signup');
+    Route::post('login', [UserController::class, 'login'])->name('login');
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -60,12 +58,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('change-password', [UserController::class, 'change']);
     Route::put('update-profile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
-        
         return response()->json([
-
-            'detail'=>auth()->user(),
-            'dob'=>auth()->user()->dob,
-
+            'detail' => auth()->user(),
+            'dob' => auth()->user()->dob,
         ]);
     });
 });
@@ -75,35 +70,34 @@ Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'
 
 // for admin
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+    Route::post('set', [AdminController::class, 'setAdmin']);
+    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
+    Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
 
-Route::post('set', [AdminController::class, 'setAdmin']);
-Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
-Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
+    //admin category
+    Route::get('categorylist', [CategoryController::class, 'show'])->name('categorylist');
+    Route::post('addcategory', [CategoryController::class, 'store'])->name('addcategory');
 
- //admin category
- Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
- Route::post('addcategory', [CategoryController::class,'store'])->name('addcategory');
- 
- //admin subcategory
- Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
- Route::post('addsubcategory', [SubCategoryController::class,'store'])->name('addsubcategory');
+    //admin subcategory
+    Route::get('subcategorylist', [SubCategoryController::class, 'show'])->name('subcategorylist');
+    Route::post('addsubcategory', [SubCategoryController::class, 'store'])->name('addsubcategory');
 
- //footer 
- Route::post('add-footer', [FooterController::class, 'store']);
- Route::put('update-footer', [FooterController::class, 'update']);
+    //footer
+    Route::post('add-footer', [FooterController::class, 'store']);
+    Route::put('update-footer', [FooterController::class, 'update']);
 
-Route::middleware('auth:admin')->group(function () {
-    Route::post('logout', [AdminController::class, 'logout']);
-    Route::post('change-password', [AdminController::class, 'change']);
+    Route::middleware('auth:admin')->group(function () {
+        Route::post('logout', [AdminController::class, 'logout']);
+        Route::post('change-password', [AdminController::class, 'change']);
+    });
 });
-});
 
-//when come at login without authorization 
+//when come at login without authorization
 Route::get('login', function () {
     return response()->json([
-        "status" => true,
-        "msg" => 'Please Login In First'
+        'status' => true,
+        'msg' => 'Please Login In First',
     ]);
 })->name('error');
 
@@ -118,13 +112,14 @@ Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
 Route::apiResource('billingAddress', BillingController::class);
+Route::apiResource('payment', PaymentController::class);
 Route::apiResource('shippingAddress', ShippingController::class);
-Route::apiResource('language',LanguageController::class);
-Route::apiResource('informationslug',InformationSlugController::class);
-Route::apiResource('sizes',ProductSizeController::class);
+Route::apiResource('language', LanguageController::class);
+Route::apiResource('informationslug', InformationSlugController::class);
+Route::apiResource('sizes', ProductSizeController::class);
 
 //footer route(to get footer data)
-Route::get('footer',[FooterController::class,'index']);
+Route::get('footer', [FooterController::class, 'index']);
 
 // Newsletter routes
 Route::post('addnewsletter', [NewsLetterController::class, 'store'])->name('addnewsletter');
@@ -132,7 +127,6 @@ Route::put('updatenewsletter/{id}', [NewsLetterController::class, 'update'])->na
 Route::delete('deletenewsletter/{id}', [NewsLetterController::class, 'destroy'])->name('destroynewsletter');
 
 //routes for contact details .
-Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
-
+Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
