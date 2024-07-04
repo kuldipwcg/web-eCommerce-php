@@ -27,6 +27,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
+use App\Http\Controllers\orderItemConteroller;
 use App\Http\Controllers\PaymentController;
 
 /*
@@ -111,6 +112,8 @@ Route::apiResource('products', ProductController::class);
 Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
+Route::apiResource('orderItem', orderItemConteroller::class);
+Route::apiResource('payment', PaymentController::class);
 Route::apiResource('billingAddress', BillingController::class);
 Route::apiResource('payment', PaymentController::class);
 Route::apiResource('shippingAddress', ShippingController::class);

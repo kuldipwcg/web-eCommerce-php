@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
-            $table->double('amount',6,2);
+            $table->enum('payment_method', ["paypal", "credit_card", "bank_transfer"]);
+            $table->double('amount', 6, 2);
             $table->uuid('transaction_id');
-            $table->enum('transaction_type',array('gpay','cash-on-delivery'));
-            $table->enum('transaction_status',array('completed','failed'));
+            $table->enum('transaction_status', ['completed', 'failed']);
+            $table->date('payment_Date');
             $table->timestamps();
-            
         });
+            
+    
     }
 
     /**

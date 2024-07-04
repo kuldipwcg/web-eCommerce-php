@@ -32,4 +32,5 @@ class PaymentController extends Controller
         $payment->delete();
         return response()->json(null, 204);
     }
+
 }

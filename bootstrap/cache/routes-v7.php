@@ -176,7 +176,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0XfuYmi8uohwWpGr',
+            '_route' => 'generated::ovXvkrjAo7chF2mJ',
           ),
           1 => NULL,
           2 => 
@@ -195,7 +195,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::hbQRWlsgu1abY6Aq',
+            '_route' => 'generated::UBOHzmSQYeT5glkC',
           ),
           1 => NULL,
           2 => 
@@ -214,7 +214,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::eExOsh4tcA0Dn8h1',
+            '_route' => 'generated::mGQ3re7ZWhywWPLT',
           ),
           1 => NULL,
           2 => 
@@ -234,7 +234,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::HAUvk5FKbkCkeTA5',
+            '_route' => 'generated::KILb6zqG20Gtj9jy',
           ),
           1 => NULL,
           2 => 
@@ -272,7 +272,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::iADkwKKKIb8Idagp',
+            '_route' => 'generated::KdxlQOrlWVuBTBT2',
           ),
           1 => NULL,
           2 => 
@@ -428,7 +428,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::M7vC8XeWUTP735Y2',
+            '_route' => 'generated::r81slEsLeVgKFSfS',
           ),
           1 => NULL,
           2 => 
@@ -447,7 +447,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::XCeiKIArJn3ZBgLK',
+            '_route' => 'generated::pP7CyjR2En1YfTfk',
           ),
           1 => NULL,
           2 => 
@@ -466,7 +466,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::u1OltoSTWn4dNdMo',
+            '_route' => 'generated::bc5BwIeMDv8Mlih2',
           ),
           1 => NULL,
           2 => 
@@ -485,7 +485,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::XPOsdrRYrARQVcN6',
+            '_route' => 'generated::BHb3VbOXkw2OaNNa',
           ),
           1 => NULL,
           2 => 
@@ -822,13 +822,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/billingAddress' => 
+      '/api/orderItem' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'billingAddress.index',
+            '_route' => 'orderItem.index',
           ),
           1 => NULL,
           2 => 
@@ -845,7 +845,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'billingAddress.store',
+            '_route' => 'orderItem.store',
           ),
           1 => NULL,
           2 => 
@@ -882,6 +882,42 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'payment.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/billingAddress' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'billingAddress.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'billingAddress.store',
           ),
           1 => NULL,
           2 => 
@@ -1008,7 +1044,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::FJ7N72loWEZAv1Ga',
+            '_route' => 'generated::M32uCn8qrFlexEdy',
           ),
           1 => NULL,
           2 => 
@@ -1063,7 +1099,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/api/(?|u(?|ser/([^/]++)(?|(*:34))|pdate(?|newsletter/([^/]++)(*:69)|contact/([^/]++)(*:92)))|b(?|anners/([^/]++)(?|(*:123))|illingAddress/([^/]++)(?|(*:157)))|s(?|izes/([^/]++)(?|(*:187))|ubcategory/([^/]++)(?|(*:218))|hippingAddress/([^/]++)(?|(*:253)))|c(?|olors/([^/]++)(?|(*:284))|a(?|tegory/([^/]++)(?|(*:315))|rts/([^/]++)(?|(*:339))))|p(?|roducts/([^/]++)(?|(*:373))|ayment/([^/]++)(?|(*:400)))|order/([^/]++)(?|(*:427))|language/([^/]++)(?|(*:456))|informationslug/([^/]++)(?|(*:492))|delete(?|newsletter/([^/]++)(*:529)|contact/([^/]++)(*:553))))/?$}sDu',
+      0 => '{^(?|/api/(?|u(?|ser/([^/]++)(?|(*:34))|pdate(?|newsletter/([^/]++)(*:69)|contact/([^/]++)(*:92)))|b(?|anners/([^/]++)(?|(*:123))|illingAddress/([^/]++)(?|(*:157)))|s(?|izes/([^/]++)(?|(*:187))|ubcategory/([^/]++)(?|(*:218))|hippingAddress/([^/]++)(?|(*:253)))|c(?|olors/([^/]++)(?|(*:284))|a(?|tegory/([^/]++)(?|(*:315))|rts/([^/]++)(?|(*:339))))|p(?|roducts/([^/]++)(?|(*:373))|ayment/([^/]++)(?|(*:400)))|order(?|/([^/]++)(?|(*:430))|Item/([^/]++)(?|(*:455)))|language/([^/]++)(?|(*:485))|informationslug/([^/]++)(?|(*:521))|delete(?|newsletter/([^/]++)(*:558)|contact/([^/]++)(*:582))))/?$}sDu',
     ),
     3 => 
     array (
@@ -1793,7 +1829,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      427 => 
+      430 => 
       array (
         0 => 
         array (
@@ -1855,7 +1891,69 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      456 => 
+      455 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'orderItem.show',
+          ),
+          1 => 
+          array (
+            0 => 'orderItem',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'orderItem.update',
+          ),
+          1 => 
+          array (
+            0 => 'orderItem',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        2 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'orderItem.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'orderItem',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      485 => 
       array (
         0 => 
         array (
@@ -1917,7 +2015,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      492 => 
+      521 => 
       array (
         0 => 
         array (
@@ -1979,7 +2077,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      529 => 
+      558 => 
       array (
         0 => 
         array (
@@ -2001,7 +2099,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      553 => 
+      582 => 
       array (
         0 => 
         array (
@@ -2295,7 +2393,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0XfuYmi8uohwWpGr' => 
+    'generated::ovXvkrjAo7chF2mJ' => 
     array (
       'methods' => 
       array (
@@ -2316,7 +2414,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::0XfuYmi8uohwWpGr',
+        'as' => 'generated::ovXvkrjAo7chF2mJ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2332,7 +2430,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::hbQRWlsgu1abY6Aq' => 
+    'generated::UBOHzmSQYeT5glkC' => 
     array (
       'methods' => 
       array (
@@ -2353,7 +2451,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::hbQRWlsgu1abY6Aq',
+        'as' => 'generated::UBOHzmSQYeT5glkC',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2369,7 +2467,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::eExOsh4tcA0Dn8h1' => 
+    'generated::mGQ3re7ZWhywWPLT' => 
     array (
       'methods' => 
       array (
@@ -2389,13 +2487,13 @@ app('router')->setCompiledRoutes(
             \'detail\' => \\auth()->user(),
             \'dob\' => \\auth()->user()->dob,
         ]);
-    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000079c0000000000000000";}}',
+    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007a10000000000000000";}}',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
         array (
         ),
-        'as' => 'generated::eExOsh4tcA0Dn8h1',
+        'as' => 'generated::mGQ3re7ZWhywWPLT',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2411,7 +2509,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::HAUvk5FKbkCkeTA5' => 
+    'generated::KILb6zqG20Gtj9jy' => 
     array (
       'methods' => 
       array (
@@ -2431,7 +2529,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::HAUvk5FKbkCkeTA5',
+        'as' => 'generated::KILb6zqG20Gtj9jy',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2483,7 +2581,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::iADkwKKKIb8Idagp' => 
+    'generated::KdxlQOrlWVuBTBT2' => 
     array (
       'methods' => 
       array (
@@ -2503,7 +2601,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::iADkwKKKIb8Idagp',
+        'as' => 'generated::KdxlQOrlWVuBTBT2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2775,7 +2873,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::M7vC8XeWUTP735Y2' => 
+    'generated::r81slEsLeVgKFSfS' => 
     array (
       'methods' => 
       array (
@@ -2795,7 +2893,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::M7vC8XeWUTP735Y2',
+        'as' => 'generated::r81slEsLeVgKFSfS',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2811,7 +2909,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::XCeiKIArJn3ZBgLK' => 
+    'generated::pP7CyjR2En1YfTfk' => 
     array (
       'methods' => 
       array (
@@ -2831,7 +2929,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::XCeiKIArJn3ZBgLK',
+        'as' => 'generated::pP7CyjR2En1YfTfk',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2847,7 +2945,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::u1OltoSTWn4dNdMo' => 
+    'generated::bc5BwIeMDv8Mlih2' => 
     array (
       'methods' => 
       array (
@@ -2868,7 +2966,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::u1OltoSTWn4dNdMo',
+        'as' => 'generated::bc5BwIeMDv8Mlih2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2884,7 +2982,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::XPOsdrRYrARQVcN6' => 
+    'generated::BHb3VbOXkw2OaNNa' => 
     array (
       'methods' => 
       array (
@@ -2905,7 +3003,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::XPOsdrRYrARQVcN6',
+        'as' => 'generated::BHb3VbOXkw2OaNNa',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2940,7 +3038,7 @@ app('router')->setCompiledRoutes(
         \'status\' => true,
         \'msg\' => \'Please Login In First\',
     ]);
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000079e0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007a30000000000000000";}}',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4609,23 +4707,23 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'billingAddress.index' => 
+    'orderItem.index' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'api/billingAddress',
+      'uri' => 'api/orderItem',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
         ),
-        'as' => 'billingAddress.index',
-        'uses' => 'App\\Http\\Controllers\\BillingController@index',
-        'controller' => 'App\\Http\\Controllers\\BillingController@index',
+        'as' => 'orderItem.index',
+        'uses' => 'App\\Http\\Controllers\\orderItemConteroller@index',
+        'controller' => 'App\\Http\\Controllers\\orderItemConteroller@index',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4646,22 +4744,22 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'billingAddress.store' => 
+    'orderItem.store' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'api/billingAddress',
+      'uri' => 'api/orderItem',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
         ),
-        'as' => 'billingAddress.store',
-        'uses' => 'App\\Http\\Controllers\\BillingController@store',
-        'controller' => 'App\\Http\\Controllers\\BillingController@store',
+        'as' => 'orderItem.store',
+        'uses' => 'App\\Http\\Controllers\\orderItemConteroller@store',
+        'controller' => 'App\\Http\\Controllers\\orderItemConteroller@store',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4682,23 +4780,23 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'billingAddress.show' => 
+    'orderItem.show' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'api/billingAddress/{billingAddress}',
+      'uri' => 'api/orderItem/{orderItem}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
         ),
-        'as' => 'billingAddress.show',
-        'uses' => 'App\\Http\\Controllers\\BillingController@show',
-        'controller' => 'App\\Http\\Controllers\\BillingController@show',
+        'as' => 'orderItem.show',
+        'uses' => 'App\\Http\\Controllers\\orderItemConteroller@show',
+        'controller' => 'App\\Http\\Controllers\\orderItemConteroller@show',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4719,23 +4817,23 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'billingAddress.update' => 
+    'orderItem.update' => 
     array (
       'methods' => 
       array (
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'api/billingAddress/{billingAddress}',
+      'uri' => 'api/orderItem/{orderItem}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
         ),
-        'as' => 'billingAddress.update',
-        'uses' => 'App\\Http\\Controllers\\BillingController@update',
-        'controller' => 'App\\Http\\Controllers\\BillingController@update',
+        'as' => 'orderItem.update',
+        'uses' => 'App\\Http\\Controllers\\orderItemConteroller@update',
+        'controller' => 'App\\Http\\Controllers\\orderItemConteroller@update',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4756,22 +4854,22 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'billingAddress.destroy' => 
+    'orderItem.destroy' => 
     array (
       'methods' => 
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'api/billingAddress/{billingAddress}',
+      'uri' => 'api/orderItem/{orderItem}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
         ),
-        'as' => 'billingAddress.destroy',
-        'uses' => 'App\\Http\\Controllers\\BillingController@destroy',
-        'controller' => 'App\\Http\\Controllers\\BillingController@destroy',
+        'as' => 'orderItem.destroy',
+        'uses' => 'App\\Http\\Controllers\\orderItemConteroller@destroy',
+        'controller' => 'App\\Http\\Controllers\\orderItemConteroller@destroy',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -4955,6 +5053,189 @@ app('router')->setCompiledRoutes(
         'as' => 'payment.destroy',
         'uses' => 'App\\Http\\Controllers\\PaymentController@destroy',
         'controller' => 'App\\Http\\Controllers\\PaymentController@destroy',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'billingAddress.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/billingAddress',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'as' => 'billingAddress.index',
+        'uses' => 'App\\Http\\Controllers\\BillingController@index',
+        'controller' => 'App\\Http\\Controllers\\BillingController@index',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'billingAddress.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/billingAddress',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'as' => 'billingAddress.store',
+        'uses' => 'App\\Http\\Controllers\\BillingController@store',
+        'controller' => 'App\\Http\\Controllers\\BillingController@store',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'billingAddress.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'api/billingAddress/{billingAddress}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'as' => 'billingAddress.show',
+        'uses' => 'App\\Http\\Controllers\\BillingController@show',
+        'controller' => 'App\\Http\\Controllers\\BillingController@show',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'billingAddress.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'api/billingAddress/{billingAddress}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'as' => 'billingAddress.update',
+        'uses' => 'App\\Http\\Controllers\\BillingController@update',
+        'controller' => 'App\\Http\\Controllers\\BillingController@update',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'billingAddress.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'api/billingAddress/{billingAddress}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'as' => 'billingAddress.destroy',
+        'uses' => 'App\\Http\\Controllers\\BillingController@destroy',
+        'controller' => 'App\\Http\\Controllers\\BillingController@destroy',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
@@ -5524,7 +5805,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::FJ7N72loWEZAv1Ga' => 
+    'generated::M32uCn8qrFlexEdy' => 
     array (
       'methods' => 
       array (
@@ -5545,7 +5826,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::FJ7N72loWEZAv1Ga',
+        'as' => 'generated::M32uCn8qrFlexEdy',
       ),
       'fallback' => false,
       'defaults' => 
