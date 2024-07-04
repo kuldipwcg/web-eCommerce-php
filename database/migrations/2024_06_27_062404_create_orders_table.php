@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,17 +15,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cart_id');
             $table->datetime('order_date');
-            $table->enum('order_status',array('pending','processing','shipped','delivered'));
-            $table->double('total',6,2);
-            $table->string('image');
+            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered']);
+            $table->double('total', 6, 2);
             $table->timestamps();
-            
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('orders');
