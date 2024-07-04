@@ -28,14 +28,14 @@ class ProductRequest extends FormRequest
             'short_desc' => 'required|string',
             'description' => 'required|string',
             'information' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:1',
             'category_name' => 'required|string|exists:categories,category_name',
             'discount_type' => 'required|string',
             'discount_value' => 'required|numeric|min:0|lte:price',
             'variants' => 'required|array',
             'variants.*.color' => 'required|string|exists:product_colors,color',
             'variants.*.size' => 'required|string|exists:product_sizes,size',
-            'variants.*.quantity' => 'required|integer|min:0',
+            'variants.*.quantity' => 'required|integer|min:1',
             'image' => 'required|array',
             'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
@@ -50,7 +50,7 @@ class ProductRequest extends FormRequest
             'information.required' => 'The information is required.',
             'price.required' => 'The price is required.',
             'price.numeric' => 'The price must be a number.',
-            'price.min' => 'The price must be at least 0.',
+            'price.min' => 'The price must be at least 1.',
             'category_name.required' => 'The category name is required.',
             'category_name.exists' => 'The selected category name does not exist.',
             'discount_type.string' => 'The discount type must be a string.',
@@ -64,11 +64,11 @@ class ProductRequest extends FormRequest
             'variants.*.size.exists' => 'The selected size does not exist.',
             'variants.*.quantity.required' => 'The quantity is required for each variant.',
             'variants.*.quantity.integer' => 'The quantity must be an integer.',
-            'variants.*.quantity.min' => 'The quantity must be at least 0.',
+            'variants.*.quantity.min' => 'The quantity must be at least 1.',
             'image.required' => 'At least one image is required.',
             'image.*.image' => 'Each file must be an image.',
             'image.*.mimes' => 'Each image must be a file of type: jpeg, png, jpg, gif.',
-            'image.*.max' => 'Each image may not be greater than 2048 kilobytes.',
+            'image.*.max' => 'Each image may not be greater than 2048 kb.',
         ];
     }
 
@@ -78,6 +78,6 @@ class ProductRequest extends FormRequest
             'success' => false,
             'message' => 'Validation errors',
             'data' => $validator->errors()
-        ]),422);
+        ],403));
     }
 }
