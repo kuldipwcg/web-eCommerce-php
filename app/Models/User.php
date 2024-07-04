@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 class User extends Authenticatable
 {
 
@@ -32,6 +32,28 @@ use HasApiTokens, HasFactory, Notifiable;
         'address',
         'role',
     ];
+
+
+    // public function resetpassword($password){
+        
+    //     $this->password;
+
+    // }
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    // public function toMail($notifiable)
+    // {
+    //     if (static::$toMailCallback) {
+    //         return call_user_func(static::$toMailCallback, $notifiable, $this->token);
+    //     }
+
+    //     return $this->buildMailMessage($this->resetUrl($notifiable));
+    // }
 
 public function review(){
     return $this->hasMany(Review::class,'user_id','id');

@@ -114,6 +114,7 @@ Route::apiResource('sizes', ProductSizeController::class);
 Route::apiResource('colors', ProductColorController::class);
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('products', ProductController::class);
+Route::post('display-product', [ProductController::class,'display']);
 Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
