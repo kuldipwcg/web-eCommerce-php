@@ -16,14 +16,12 @@ class WishlistController extends Controller
     public function index()
 {
 
-    $id = auth()->user()->id;
+    // $id = auth()->user()->id;
 
-    if($id){
+    // if($id){
 
-//    $products = Wishlist::where('user_id',$id)->get();
-
-    // $Wishlist = Wishlist::latest()->paginate(10);
-    $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
+//    
+    $Wishlist=Wishlist::with('product')->latest()->paginate(10);
 
     if ($Wishlist) {
         return response()->json([
@@ -39,7 +37,7 @@ class WishlistController extends Controller
             'code' => 404,
         ]);
     }
-}
+//}
 }
 public function store(WishlistRequest $request)
 { 
@@ -109,4 +107,29 @@ public function destroy(){
     
 }
 
+public function show()
+{
+    $id = auth()->user()->id;
+
+    if($id){
+
+//    
+    $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
+
+    if ($Wishlist) {
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Wishlist items displayed successfully',
+            'code' => 200,
+            'data' => $Wishlist
+        ]);
+    } else {
+        return response()->json([
+            'type' => 'failure',
+            'message' => 'something went wrong',
+            'code' => 404,
+        ]);
+    }
+}
+}
 }

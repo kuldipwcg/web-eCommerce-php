@@ -21,6 +21,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Wishlist;
+use GuzzleHttp\Psr7\Request;
 // use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,9 +47,9 @@ Route::post('signup',[UserController::class,'signup'])->name('signup');
 Route::post('login', [UserController::class,'login'])->name('login');
 
 //routes for contact details .
-// Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-// Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-// Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -61,11 +62,12 @@ Route::middleware('auth:api')->group(function () {
     // Route::get('wishlist', function (Request $r) {
     //     return auth()->user();
     // });
-    Route::get('wishlist',[WishlistController::class,'index']);
-  
+    //wishlist
+    Route::get('wishlist',[WishlistController::class,'show']);
     Route::delete('Delete_wishlist', [WishlistController::class, 'destroy']);
 });
-
+//WISHLIST 
+Route::get('wishlistRecords',[WishlistController::class,'index']);
 Route::post('AddWishList',[WishlistController::class,'store']);
 
 //newsletter
