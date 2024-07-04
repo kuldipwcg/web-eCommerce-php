@@ -37,11 +37,14 @@ class UserController extends Controller
 
             return response()->json([
                 'Message' => 'User created successfully',
-            ]);
+                'user-data' => $data,
+                'code'=>200
+            ],200);
         } else {
             return response()->json([
                 'Message' => 'Password and Confirm Password should be same',
-            ]);
+                'code'=>404
+            ],404);
         }
     }
 
@@ -61,7 +64,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-            ], 200);
+            ], 403);
             // return 'error';
         }
     }
@@ -88,9 +91,9 @@ class UserController extends Controller
 
             return response()->json(
                 [
-                    'message' => ' Error  Changed',
+                    'message' => ' Error  Occureed',
                 ],
-                200
+                402
             );
         }
     }
@@ -118,14 +121,14 @@ class UserController extends Controller
                 'message' => 'User profile displayed successfully',
                 'code' => 200,
                 'data' => $user
-            ]);
+            ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
                 'code' => 404,
 
-            ]);
+            ],404);
         }
     }
 
@@ -213,7 +216,8 @@ class UserController extends Controller
             return response()->json([
                 'type' => 'success',
                 'message' => 'User profile Updated successfully',
-                'data' => $user
+                'data' => $user,
+                'code' => 200,
             ]);
         } else {
             return response()->json([

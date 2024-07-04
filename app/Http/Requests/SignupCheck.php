@@ -27,7 +27,7 @@ class SignupCheck extends FormRequest
         return [
             'firstName' => 'required',
             'lastName' => 'required',
-            'email' => 'required|unique:contacts,email',
+            'email' => 'required|unique:users',
             'password' => 'required',
         ];
     }
@@ -38,7 +38,7 @@ class SignupCheck extends FormRequest
             'success'   => false,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ]));
+        ],402));
     } 
 
     public function messages()

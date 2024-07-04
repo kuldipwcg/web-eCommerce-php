@@ -24,7 +24,6 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "banner_image" => "required|mimes:jpeg,jpg,png",
             "banner_title" => "required",
             "banner_desc" => "required",
             "banner_link" => "required|url",
@@ -34,8 +33,6 @@ class BannerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "banner_image.required" => "image field required",
-            "banner_image.mimes"=> "image should be in jpeg,jpg or png",
             "banner_title.required" => "Banner Title field required",
             "banner_desc.required" => "Banner Description field required",
             "banner_link.required" => "Banner Link field required",

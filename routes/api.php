@@ -23,7 +23,7 @@ use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\InformationSlugController;
-
+use App\Http\Controllers\WishlistController;
 // use App\Http\Controllers\ForgotPasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
@@ -66,9 +66,16 @@ Route::middleware('auth:api')->group(function () {
             'detail'=>auth()->user(),
             'dob'=>auth()->user()->dob,
 
-        ]);
-    });
+        ]); 
+    }); 
+    //wishlist routes
+    Route::get('show-wishlist',[WishlistController::class,'show'])->name('show-wishlist');
+    Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']); 
 });
+
+//wishlist 
+Route::get('Get-wishlist',[WishlistController::class,'index']);
+Route::post('Add-WishList',[WishlistController::class,'store']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
@@ -92,12 +99,13 @@ Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscribe
  //footer 
  Route::post('add-footer', [FooterController::class, 'store']);
  Route::put('update-footer', [FooterController::class, 'update']);
-
+ Route::get('footer',[FooterController::class,'index']);
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
 });
 });
+
 
 //when come at login without authorization 
 Route::get('login', function () {

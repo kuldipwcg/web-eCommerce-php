@@ -34,6 +34,15 @@ class WishlistRequest extends FormRequest
             'user_id.required' => 'user_id is required.',
             'product_id.required' => 'product_id is required.',
         ];
-    }
+    } 
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ]));
+    } 
 
 }

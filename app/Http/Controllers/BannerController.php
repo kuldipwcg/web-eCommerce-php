@@ -54,18 +54,25 @@ public function show($id)
 /**
  * Update the specified resource in storage.
  */
-public function update(BannerRequest $request, $id)
+public function update(Request $request, $id)
 {
     $banner = Banner::findOrFail($id);
-
+    
     $bannerImage = $request->file('banner_image');
+    $input = $request->all();
 
+    $banner->fill($input)->save();
     // $oldImageName = public_path() .$banner->banner_image;
     // unlink($oldImageName);
+    if ($bannerImage == null) {
+        $bannerUrl = null;
+    } else {
+        $imageName = $bannerImage->getClientOriginalName();
+        $bannerImage->move(public_path('/upload/userProfile/'), $imageName);
+        $bannerUrl = url('/upload/userProfile/' . $imageName);
 
-    $imageName = time() . $bannerImage->getClientOriginalName();
-    $bannerImage->move(public_path('/upload/banners/'), $imageName);
-    $bannerUrl = url('/upload/banners/' . $imageName);
+        $banner->fill(['image' => $bannerUrl])->save();
+    }
     $banner->update([
         'banner_image' => $bannerUrl,
         'banner_title' => $request->banner_title,

@@ -44,7 +44,7 @@ class InformationSlugController extends Controller
         // dd($slug,$request->all());
         $informationSlug = InformationSlug::where("slug",$slug)->first();
         $informationSlug->update([
-            "description"=> $request,
+            "description"=> $request->description,
         ]);
         return response()->json([
             "description"=> $informationSlug,

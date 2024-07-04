@@ -42,9 +42,9 @@ class ProductController extends Controller
                 'is_featured' => $product->is_featured,
                 'colors' => $colors,
                 'sizes' => $sizes,
-                "Reviews"=>$product->reviews,
-                "Total Reviews"=> count($product->reviews),
-                "Rating_Count"=>$avgRating ? $avgRating : 0,
+                "reviews"=>$product->reviews,
+                "totalReviews"=> count($product->reviews),
+                "rating_Count"=>$avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
                 // 'product_variants' => $product->product_variants->map(function ($variant) {
                 //     return [
@@ -156,10 +156,9 @@ class ProductController extends Controller
                     'is_featured' => $product->is_featured,
                     'colors' => $colors,
                     'sizes' => $sizes,
-                    "Reviews"=>$product->reviews,
-                    "Total Reviews"=> count($product->reviews),
-                    "Rating_Count"=>$avgRating ? $avgRating : 0,
-
+                    "reviews"=>$product->reviews,
+                    "totalReviews"=> count($product->reviews),
+                    "rating_Count"=>$avgRating ? $avgRating : 0,
                     'product_images' => $product->product_image->pluck('product_image'),
                     // 'product_variants' => $product->product_variants->map(function ($variant) {
                     //     return [
@@ -195,7 +194,7 @@ class ProductController extends Controller
         $product->product_variants()->delete();
         $product->product_image()->delete();
         $product->delete();
-        return response()->json(['message' => 'Product deleted successfully'], 200);
+        return response()->json(['message' => 'Product deleted successfully','DeletedProduct'=>$product], 200);
     }
 
 
