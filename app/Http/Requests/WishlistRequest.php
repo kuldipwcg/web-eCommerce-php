@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class WishlistRequest extends FormRequest
 {
@@ -31,9 +33,16 @@ class WishlistRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id.required' => 'user_id is required.',
+            'user_id.required' => 'Mandatory to fill user_id.',
             'product_id.required' => 'product_id is required.',
         ];
     }
-
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ]));
+    } 
 }

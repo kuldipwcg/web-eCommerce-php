@@ -81,11 +81,13 @@ catch (QueryException $e) {
 public function destroy(){
     
     $id = auth()->user()->id;
+    dd($id);
     // dd($id);
     // $id->delete();
-    $Wishlist=Wishlist::where('user_id',$id);
-    
-    
+    // $Wishlist=Wishlist::where('user_id',$id);
+    $Wishlist=Wishlist::get();
+    dd($Wishlist);
+    // $products = Product::latest('id')->get();
 
     if ($Wishlist->delete()) {
         return response()->json([

@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
 
+    use HasFactory;
+    protected $with = ['product_image'];
+    // protected $with = ['reviews'];
     protected $table = "products";
 
     protected $primaryKey = "id";

@@ -1,8 +1,8 @@
 
 <?php
 
-use Illuminate\Http\Request;
-
+// use Illuminate\Http\Request;
+// use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -17,20 +17,18 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FooterController;
+use App\Http\Controllers\InformationSlugController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\BannerController;
-
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Wishlist;
+
+// use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 // use App\Http\Controllers\ProductColorController;
 
@@ -53,10 +51,10 @@ Route::middleware('auth:api')->group(function () {
 Route::post('signup',[UserController::class,'signup'])->name('signup');
 Route::post('login', [UserController::class,'login'])->name('login');
 
-//routes for contact details .
-// Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-// Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-// Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+// routes for contact details .
+Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -66,13 +64,13 @@ Route::middleware('auth:api')->group(function () {
         return auth()->user();
     });
 
-    Route::get('wishlist', function (Request $r) {
-        return auth()->user();
-    });
-  
+    // Route::get('wishlist',[WishlistController::class,'show']);
+    // Route::delete('Delete_wishlist', [WishlistController::class, 'destroy']);
+    //wishlist
+    Route::get('wishlist1',[WishlistController::class,'show'])->name('wishlist');
     Route::delete('Delete_wishlist', [WishlistController::class, 'destroy']);
 });
-
+Route::get('wishlistRecords',[WishlistController::class,'index']);
 Route::post('AddWishList',[WishlistController::class,'store']);
 
 //newsletter
