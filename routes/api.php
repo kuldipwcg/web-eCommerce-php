@@ -21,7 +21,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Wishlist;
-use GuzzleHttp\Psr7\Request;
+// use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 
 // use App\Http\Controllers\ProductColorController;
@@ -58,9 +58,10 @@ Route::middleware('auth:api')->group(function () {
         return auth()->user();
     });
 
-    Route::get('wishlist', function (Request $r) {
-        return auth()->user();
-    });
+    // Route::get('wishlist', function (Request $r) {
+    //     return auth()->user();
+    // });
+    Route::get('wishlist',[WishlistController::class,'index']);
   
     Route::delete('Delete_wishlist', [WishlistController::class, 'destroy']);
 });

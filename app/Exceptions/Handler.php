@@ -48,18 +48,18 @@ class Handler extends ExceptionHandler
             //
         });
     }
-    public function render($request, Throwable $exception)
-{
-    if ($exception instanceof NotFoundHttpException) {
-        return response()->json([
-            'type' => 'error',
-            'message' => 'Resource Route not found',
-            'code' => 404,
-        ], 404);
-    }
+//     public function render($request, Throwable $exception)
+// {
+//     if ($exception instanceof NotFoundHttpException) {
+//         return response()->json([
+//             'type' => 'error',
+//             'message' => 'Resource Route not found',
+//             'code' => 404,
+//         ], 404);
+//     }
 
-    return parent::render($request, $exception);
-}
+//     return parent::render($request, $exception);
+// }
 
 // public function render($request, Throwable $exception)
 // {
@@ -69,4 +69,26 @@ class Handler extends ExceptionHandler
 
 // return parent::render($request, $exception);
 // }
+public function render($request, Throwable $exception)
+{
+    if ($exception instanceof NotFoundHttpException) {
+        return response()->json([
+            'type' => 'error',
+            'message' => 'Resource Route not found',
+            'code' => 404,
+        ], 404);
+    }
+
+    if ($exception instanceof AuthenticationException) {
+        return response()->json([
+            'error' => 'Please login first.',
+            
+        ] );
+    }
+
+    return parent::render($request, $exception);
 }
+}
+
+
+

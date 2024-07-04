@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WishlistRequest;
+use App\Models\Product;
 use App\Models\Wishlist;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use PhpParser\Node\Stmt\Else_;
@@ -14,8 +16,15 @@ class WishlistController extends Controller
     public function index()
 {
 
-    $Wishlist = Wishlist::latest()->paginate(10);
-    $wishlist=Wishlist::with('Category')->latest()->paginate(10);
+    $id = auth()->user()->id;
+
+    if($id){
+
+//    $products = Wishlist::where('user_id',$id)->get();
+
+    // $Wishlist = Wishlist::latest()->paginate(10);
+    $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
+
     if ($Wishlist) {
         return response()->json([
             'type' => 'success',
@@ -31,8 +40,10 @@ class WishlistController extends Controller
         ]);
     }
 }
+}
 public function store(WishlistRequest $request)
 { 
+    try{
     $Wishlist = Wishlist::create([
         'user_id' => $request->user_id,
         'product_id' => $request->product_id,
@@ -56,16 +67,32 @@ public function store(WishlistRequest $request)
         ]);
     }
 }
+catch (QueryException $e) {
+    if ($e->getCode() == 23000) { // Integrity constraint violation code for MySQL
+        return response()->json([
+            'error' => 'Duplicate entry: The product is already in your wishlist'
+        ], 409); // Conflict status code
+    }
+    return response()->json([
+        'error' => 'Something went wrong'
+    ], 500);
+}
+}
+
 
 public function destroy(){
-    $wishlist = auth()->user();
-    $wishlist->delete();
     
-    if ($wishlist) {
-        // return response()->json(['error' => 'wishlist not deleted'], 404);
+    $id = auth()->user()->id;
+    // dd($id);
+    // $id->delete();
+    $Wishlist=Wishlist::where('user_id',$id);
+    
+    
+
+    if ($Wishlist->delete()) {
         return response()->json([
             'type' => 'success',
-            'message' => 'Wishlist  deleted successfully',
+            'message' => 'Wishlist detail deleted successfully',
             'code' => 200,
         ]);
     }
@@ -74,7 +101,7 @@ public function destroy(){
     {
         return response()->json([
             'type' => 'failure',
-            'message' => 'Wishlist not deleted successfully',
+            'message' => 'Wishlist detail not deleted successfully',
             'code' => 404,
         ]);
     }
