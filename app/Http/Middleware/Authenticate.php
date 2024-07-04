@@ -17,15 +17,3 @@ class Authenticate extends Middleware
     }
 }
 
-// admins
-// $table->id();
-// $table->string('name')->nullable();
-// $table->string('email')->unique();
-// $table->string('password');
-// $table->softDeletes();
-// $table->timestamps(); 
-
-$table->id()->primary();
-$table->string('email');
-$table->timestamps();
-$table->softDeletes();

@@ -24,7 +24,7 @@ use HasApiTokens, HasFactory, Notifiable;
         'email',
         'firstName',
         'lastName',
-        'image',
+        // 'image',
         'password',
         'confirmPassword',
         'dob',

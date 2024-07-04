@@ -10,7 +10,7 @@ use App\Http\Requests\LoginCheck;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\SignupCheck;
-use App\Models\User;
+
 use Exception;
 
 
@@ -97,10 +97,9 @@ class AdminController extends Controller
             return response()->json(
 
                 [
-                    'message' => ' Error  Changed',
-
+                    'message' => ' Error Occurs',
                 ],
-                200
+                400
 
             );
         }
@@ -109,8 +108,11 @@ class AdminController extends Controller
     public function logout(Request $request)
     {
 
-        $user = Auth::user()->token();
-        $user->revoke();
+        $user = auth()->user()->token();
+
+        
+
+        $user->delete();
 
         return response()->json([
             'message' => 'Logged out successfully!',

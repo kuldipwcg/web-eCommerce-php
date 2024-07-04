@@ -21,7 +21,7 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(Request $request)
+    public function signup(SignupCheck $request)
     {
         // dd($request->all());
         if ($request->password == $request->confirmPassword) {
@@ -58,7 +58,7 @@ class UserController extends Controller
 
     }
 
-    public function login(Request $request)
+    public function login(LoginCheck $request)
     {
 
         $person = User::where('email', $request->email)->first();
@@ -120,11 +120,9 @@ class UserController extends Controller
 
         // dd(Auth::user());
         // dd($request->all());
-        $user = Auth::user()->token();
-
-
-        // $user->revoke();
-
+        $user = auth()->user()->token();
+        $user->delete();
+        
         return response()->json([
             'message' => 'Logged out successfully!',
             'status_code' => 200
@@ -160,33 +158,30 @@ class UserController extends Controller
         $profileUrl = url('/upload/userProfile/' . $imageName);
         // $user = User::create($request->all());
 
-    $user = User::create([
-        'firstName' => $request->firstName,
-        'lastName' => $request->lastName,
-        'email'=>$request->email,
-        'phoneNo'=>$request->phoneNo,
-        'dob'=>$request->dob,
-        'image' => $profileUrl,
-        
-    ]);
-    if ($user) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'User profile added successfully',
-            'code' => 200,
-            'data' => $user
-        ]);
-
-    }
-
-    else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
+        $user = User::create([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
+            'phoneNo' => $request->phoneNo,
+            'dob' => $request->dob,
+            'image' => $profileUrl,
 
         ]);
-    }
+        if ($user) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'User profile added successfully',
+                'code' => 200,
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'code' => 404,
+
+            ]);
+        }
     }
 
     public function show($id)
@@ -199,55 +194,68 @@ class UserController extends Controller
                 'code' => 200,
                 'data' => $user
             ]);
-    
-        }
-    
-        else {
+        } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
                 'code' => 404,
-    
+
             ]);
         }
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(Request $request)
     {
 
+        // dd($request);
+
+        $id = auth()->user()->id;
+
         $user = User::find($id);
-        $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/userProfile/'), $imageName);
-        $profileUrl = url('/upload/userProfile/' . $imageName);
 
-        $user->update([
-        'firstName' => $request->firstName,
-        'lastName' => $request->lastName,
-        'email'=>$request->email,
-        'phoneNo'=>$request->phoneNo,
-        'dob'=>$request->dob,
-        'image' => $profileUrl,
-        ]);
-    
+        if ($user) {
 
-    if ($user) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'User profile Updated successfully',
-            'code' => 200,
-            'data' => $user
-        ]);
+            $input = $request->all();
 
+            $user->fill($input)->save();
+
+
+            $image = $request->file('image');
+            if ($image == null) {
+                $profileUrl = null;
+            } else {
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('/upload/userProfile/'), $imageName);
+                $profileUrl = url('/upload/userProfile/' . $imageName);
+
+                $user->fill(['image' => $profileUrl])->save();
+            }
+
+
+            // $user->update([
+            // 'firstName' => $request->firstName,
+            // 'lastName' => $request->lastName,
+            // // 'email'=>$request->email,
+            // 'phoneNo'=>$request->phoneNo,
+            // 'dob'=>$request->dob,
+            // 'image' => $profileUrl,
+            // ]);
+
+
+
+
+
+            return response()->json([
+                'type' => 'success',
+                'message' => 'User profile Updated successfully',
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'code' => 404,
+            ]);
+        }
     }
-
-    else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-
-        ]);
-    }
-}
 }
