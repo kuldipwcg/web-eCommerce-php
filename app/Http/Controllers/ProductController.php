@@ -280,5 +280,4 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
 
     }
-
 }

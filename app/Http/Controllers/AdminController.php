@@ -105,15 +105,15 @@ class AdminController extends Controller
         }
     }
 
-    // public function logout(Request $request)
-    // {
+    public function logout(Request $request)
+    {
 
-    //     $user = Auth::user()->token();
-    //     $user->revoke();
+        $user = auth()->user()->token();
+        $user->delete();
 
-    //     return response()->json([
-    //         'message' => 'Logged out successfully!',
-    //         'status_code' => 200
-    //     ], 200);
-    // }
+        return response()->json([
+            'message' => 'Logged out successfully!',
+            'status_code' => 200
+        ], 200);
+    }
 }

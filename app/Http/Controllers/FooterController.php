@@ -10,13 +10,11 @@ class FooterController extends Controller
 
 
     public function index(){
-
-        $data = Footer::find(1);
+        $data = Footer::all();
         if($data){            
             return response()->json(
                 [
                     'footer'=> $data,
-                    
                     ]
                     ,200);
                     
@@ -28,6 +26,14 @@ class FooterController extends Controller
                     ,400);
         }
     } 
+
+    // public function show(){
+    //     $footer = Footer::all();
+    //     if (!$footer) {
+    //         return response()->json(['error' => 'Footer data not found'], 404);
+    //     }
+    //     return response()->json($footer);
+    // }
 
     public function store(Request $request){
         $data = Footer::create([
