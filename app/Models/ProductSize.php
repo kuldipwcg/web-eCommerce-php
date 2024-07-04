@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProductVariants;
 
 
 class ProductSize extends Model
@@ -14,10 +15,9 @@ class ProductSize extends Model
 
     protected $fillable = ['size'];
     
-    public function products(){
-        return $this->belongsToMany(Product::class, 'pivot_size','product_id','size_id','id','id');
+    public function product_variants()
+    {
+        return $this->hasMany(ProductVariants::class);
     }
-
-
 
 }

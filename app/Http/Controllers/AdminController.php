@@ -10,7 +10,6 @@ use App\Http\Requests\LoginCheck;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\SignupCheck;
-
 use Exception;
 
 
@@ -109,9 +108,6 @@ class AdminController extends Controller
     {
 
         $user = auth()->user()->token();
-
-        
-
         $user->delete();
 
         return response()->json([

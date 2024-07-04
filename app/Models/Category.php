@@ -10,16 +10,16 @@ class Category extends Model
     use HasFactory;
     
     protected $table = 'categories' ;
+    protected $primaryKey = 'id';
 
     protected $fillable = ['category_name','image','status','created_at','updated_at','deleted_at'];
 
     public function subcategories()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(SubCategory::class,'categoryId','id');
     }
     public function product()
     {
         return $this->hasMany(Product::class);
     }
-
 }

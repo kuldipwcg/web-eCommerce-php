@@ -28,7 +28,7 @@ class SignupCheck extends FormRequest
             'firstName' => 'required',
             'lastName' => 'required',
             'email' => 'required|unique:contacts,email',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ];
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginCheck;
@@ -44,18 +43,6 @@ class UserController extends Controller
                 'Message' => 'Password and Confirm Password should be same',
             ]);
         }
-
-        // $user = User::create([
-        //     'id'=>Str::uuid(),
-        //     'first_name' => $request->first_name,
-        //     'last_name' => $request->last_name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        //     'confirm_password' => Hash::make($request->confirm_password),
-        // ]);
-
-
-
     }
 
     public function login(LoginCheck $request)
@@ -92,24 +79,18 @@ class UserController extends Controller
                 ]);
 
             return response()->json(
-
                 [
                     'message' => ' Password Changed',
-
                 ],
                 200
-
             );
         } else {
 
             return response()->json(
-
                 [
                     'message' => ' Error  Changed',
-
                 ],
                 200
-
             );
         }
     }
@@ -118,11 +99,9 @@ class UserController extends Controller
     public function logout(Request $request)
     {
 
-        // dd(Auth::user());
-        // dd($request->all());
         $user = auth()->user()->token();
         $user->delete();
-        
+
         return response()->json([
             'message' => 'Logged out successfully!',
             'status_code' => 200
@@ -230,20 +209,6 @@ class UserController extends Controller
 
                 $user->fill(['image' => $profileUrl])->save();
             }
-
-
-            // $user->update([
-            // 'firstName' => $request->firstName,
-            // 'lastName' => $request->lastName,
-            // // 'email'=>$request->email,
-            // 'phoneNo'=>$request->phoneNo,
-            // 'dob'=>$request->dob,
-            // 'image' => $profileUrl,
-            // ]);
-
-
-
-
 
             return response()->json([
                 'type' => 'success',

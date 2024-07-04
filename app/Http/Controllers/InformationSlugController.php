@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InformationSlugRequest;
 use App\Models\InformationSlug;
+use Illuminate\Http\Request;
 
 class InformationSlugController extends Controller
 {
@@ -17,7 +18,7 @@ class InformationSlugController extends Controller
         ]);
     }
 
-    public function store(InformationSlugRequest $request)
+    public function store(Request $request)
     {
         $informationSlug = InformationSlug::create($request->all());
         return response()->json([
@@ -38,11 +39,13 @@ class InformationSlugController extends Controller
         ]);
     }
 
-    public function update(InformationSlugRequest $request)
+    public function update(Request $request, $slug)
     {
-        $slug=$request->slug;
+        // dd($slug,$request->all());
         $informationSlug = InformationSlug::where("slug",$slug)->first();
-        $informationSlug->update($request->all());
+        $informationSlug->update([
+            "description"=> $request,
+        ]);
         return response()->json([
             "description"=> $informationSlug,
             "status"=>"success",
