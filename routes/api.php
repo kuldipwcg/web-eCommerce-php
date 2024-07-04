@@ -3,6 +3,9 @@
 
 // use Illuminate\Http\Request;
 // use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\ReviewController;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -102,5 +105,6 @@ Route::delete('deletenewsletter/{id}', [NewsLetterController::class, 'destroy'])
 //routes for contact details .
 Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
 Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
+Route::apiResource('reviews', ReviewController::class);
