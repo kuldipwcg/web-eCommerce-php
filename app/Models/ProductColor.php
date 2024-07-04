@@ -4,34 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Notifications\Notifiable;
+
 
 
 class ProductColor extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory,Notifiable;
+    protected $primaryKey = "id";
 
-    protected $table = "product_colors";
-    protected $guarded = [];
     protected $fillable = ['color'];
-
-    protected $primaryKey = 'id';
-    protected $keyType = 'string';
-    public $incrementing = false;
-
-
-
-    public function product_image()
+    
+    public function product_variants()
     {
-        return $this->hasOne(ProductColor::class);
+        return $this->hasMany(ProductVariants::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-        });
-    }
 }

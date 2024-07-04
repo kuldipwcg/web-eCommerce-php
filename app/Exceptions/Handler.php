@@ -18,7 +18,7 @@ class Handler extends ExceptionHandler
     protected $levels = [
         //
     ];
-
+    
     /**
      * A list of the exception types that are not reported.
      *
@@ -33,11 +33,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
 
     /**
      * Register the exception handling callbacks for the application.

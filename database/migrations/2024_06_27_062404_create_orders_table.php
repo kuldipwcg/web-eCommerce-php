@@ -20,7 +20,7 @@ return new class extends Migration
             $table->double('total',6,2);
             $table->string('image');
             $table->timestamps();
-            // $table->softDeletes();
+            
         });
     }
 

@@ -4,26 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
 
 class Category extends Model
 {
     use HasFactory;
+    
     protected $table = 'categories' ;
-    // protected $primaryKey = 'id';
-    // protected $keyType = 'string';
-    // public $incrementing = false;
-    // protected $guarded = [];
+    protected $primaryKey = 'id';
 
     protected $fillable = ['category_name','image','status','created_at','updated_at','deleted_at'];
 
     public function subcategories()
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->hasMany(SubCategory::class,'categoryId','id');
     }
     public function product()
     {
         return $this->hasMany(Product::class);
     }
-   
 }

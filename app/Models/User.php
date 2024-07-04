@@ -11,7 +11,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable;
+use HasApiTokens, HasFactory, Notifiable;
 
     protected $table="users";
 
@@ -24,7 +24,7 @@ class User extends Authenticatable
         'email',
         'firstName',
         'lastName',
-        'image',
+        // 'image',
         'password',
         'confirmPassword',
         'dob',
@@ -33,19 +33,19 @@ class User extends Authenticatable
         'role',
     ];
 
-    public function review(){
-        return $this->hasMany(Review::class,'user_id','id');
-    }
+public function review(){
+    return $this->hasMany(Review::class,'user_id','id');
+}
 
-    public function wishlist()
-    {
-        return $this->hasMany(Wishlist::class,'user_id','id');
-    }
+public function wishlist()
+{
+    return $this->hasMany(Wishlist::class,'user_id','id');
+}
 
-    public function order()
-    {
-        return $this->hasMany(Order::class,'user_id','id');
-    }
+public function order()
+{
+    return $this->hasMany(Order::class,'user_id','id');
+}
 
     public function cart()
     {
@@ -57,7 +57,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-
+        
         'dob',
         'phone_no',
         'address',
@@ -66,12 +66,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+/**
+ * The attributes that should be cast.
+ *
+ * @var array<string, string>
+ */
+protected $casts = [
+    'email_verified_at' => 'datetime',
+];
 }

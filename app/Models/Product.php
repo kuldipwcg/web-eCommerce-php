@@ -4,54 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Database\Eloquent\SoftDeletes;
-// use Ramsey\Uuid\Uuid;
 
 class Product extends Model
 {
     use HasFactory;
 
     protected $table = "products";
-    // protected $primaryKey = "id";
-    // protected $keyType = 'string';
-    // public $incrementing = false;
 
-
+    protected $primaryKey = "id";
     protected $fillable = [
         'product_name',
+        'short_desc',
         'description',
-        'product_price',
-        'discounted_price',
         'information',
+        'price',
         'category_id',
-        'discount_id',
+        'discount_type',
+        'discount_value',
         'is_featured',
     ];
 
-    public function product_image(){
-       return $this->hasMany(Product::class);
+    public function product_image()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
-    public function discounts(){
-        return $this->belongsTo(Discount::class);
-    }
     public function reviews(){
         return $this->hasMany(Review::class);
     }
 
-    public function product_color_sizes(){
-        return $this->hasMany(ProductColorSize::class);
+    public function product_variants(){
+        return $this->hasMany(ProductVariants::class);
     }
-    public function wishlist()
-    {
-        return $this->hasMany(Wishlist::class,'product_id','id');
-    }
-
-    // protected static function boot()
-    // {
-    //     parent::boot();
-    //     static::creating(function (Model $model) {
-    //         $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-    //     });
-    // }
 }
+

@@ -13,8 +13,7 @@ return new class extends Migration
 public function up(): void
 {
     Schema::create('users', function (Blueprint $table) {
-        // $table->uuid('id')->primary();
-        $table->id();
+       $table->id();
         $table->string('firstName',20);
         $table->string('lastName',20);
         $table->string('image')->nullable();
@@ -28,7 +27,7 @@ public function up(): void
         $table->timestamp('email_verified_at')->nullable();
         $table->rememberToken();
         $table->timestamps();
-        $table->softDeletes();
+        
     });
 }
 

@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('order_id');
+            $table->id();
+            $table->unsignedBigInteger('order_id');
             $table->double('amount',6,2);
             $table->uuid('transaction_id');
             $table->enum('transaction_type',array('gpay','cash-on-delivery'));
             $table->enum('transaction_status',array('completed','failed'));
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

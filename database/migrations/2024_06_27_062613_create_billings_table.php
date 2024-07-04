@@ -12,20 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('billings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('orderId');
+            $table->id();
+            $table->unsignedBigInteger('order_id');
             $table->string('firstName',20);
             $table->string('lastName',20);
             $table->string('email');
-            $table->text('address');
-            $table->integer('zipCode')->length(6)->unsigned();
             $table->integer('mobileNumber')->length(10)->unsigned();
+            $table->text('address1');
+            $table->text('address2');
+            $table->integer('zipCode')->length(6)->unsigned();
             $table->string('country',10);
             $table->string('state',10);
             $table->string('city',10);
             $table->double('shippingCost',6,2);
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 

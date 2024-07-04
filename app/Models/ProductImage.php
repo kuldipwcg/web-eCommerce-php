@@ -10,12 +10,15 @@ class ProductImage extends Model
     use HasFactory;
 
     protected $table = "product_images";
-
     protected $primaryKey = "id";
 
     protected $fillable = [
         "product_id",
         "product_image",
-        "color_id",
     ];
+
+    public function products(){
+        return $this->hasMany(ProductImage::class);
+     }
+
 }

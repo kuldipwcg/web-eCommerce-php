@@ -5,25 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
+use App\Models\ProductVariants;
+
 
 class ProductSize extends Model
 {
     use HasFactory,Notifiable;
-    protected $guarded = [];
+    protected $primaryKey = "id";
+
     protected $fillable = ['size'];
-
-    protected $primaryKey = 'id';
-    protected $keyType = 'string';
-    public $incrementing = false;
-
-    protected static function boot()
+    
+    public function product_variants()
     {
-        parent::boot();
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), Uuid::uuid4());
-        });
+        return $this->hasMany(ProductVariants::class);
     }
-
 
 }

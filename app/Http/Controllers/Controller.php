@@ -11,7 +11,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     // protected $model;
-    // use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests, ValidatesRequests;
+
+    
 
     // public function __construct($model)
     // {

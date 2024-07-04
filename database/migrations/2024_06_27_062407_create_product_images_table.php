@@ -15,13 +15,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_images', function (Blueprint $table) {
-
-            $table->uuid('id')->primary();
-            $table->uuid('product_id');
+            $table->id();
+            $table->unsignedInteger('product_id');
             $table->string('product_image');
-            $table->uuid('color_id');
             $table->timestamps();
-            $table->softDeletes();
+            
         });
     }
 
