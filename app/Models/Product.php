@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Review;
 
 class Product extends Model
 {
@@ -12,7 +13,7 @@ class Product extends Model
     protected $with = ['product_image'];
     // protected $with = ['reviews'];
     protected $table = "products";
-
+    protected $with = ['product_image','reviews'];
     protected $primaryKey = "id";
     protected $fillable = [
         'product_name',
@@ -27,8 +28,10 @@ class Product extends Model
     ];
 
     public function product_image()
-    {
-        return $this->hasMany(ProductImage::class);
+    {   
+        
+        return $this->hasMany(ProductImage::class); 
+
     }
 
     public function reviews(){

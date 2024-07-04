@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WishlistRequest;
-use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -14,15 +13,10 @@ class WishlistController extends Controller
 {
     //
     public function index()
-{
+    {
 
-    // $id = auth()->user()->id;
-
-    // if($id){
-
-//    
-    $Wishlist=Wishlist::with('product')->latest()->paginate(10);
-
+    $Wishlist = Wishlist::latest()->paginate(10);
+    $wishlist=Wishlist::with('Category')->latest()->paginate(10);
     if ($Wishlist) {
         return response()->json([
             'type' => 'success',
@@ -37,11 +31,9 @@ class WishlistController extends Controller
             'code' => 404,
         ]);
     }
-//}
 }
 public function store(WishlistRequest $request)
 { 
-    try{
     $Wishlist = Wishlist::create([
         'user_id' => $request->user_id,
         'product_id' => $request->product_id,
@@ -65,31 +57,13 @@ public function store(WishlistRequest $request)
         ]);
     }
 }
-catch (QueryException $e) {
-    if ($e->getCode() == 23000) { // Integrity constraint violation code for MySQL
-        return response()->json([
-            'error' => 'Duplicate entry: The product is already in your wishlist'
-        ], 409); // Conflict status code
-    }
-    return response()->json([
-        'error' => 'Something went wrong'
-    ], 500);
-}
-}
-
 
 public function destroy(){
+    $wishlist = auth()->user();
+    $wishlist->delete();
     
-    $id = auth()->user()->id;
-    dd($id);
-    // dd($id);
-    // $id->delete();
-    // $Wishlist=Wishlist::where('user_id',$id);
-    $Wishlist=Wishlist::get();
-    dd($Wishlist);
-    // $products = Product::latest('id')->get();
-
-    if ($Wishlist->delete()) {
+    if ($wishlist) {
+        // return response()->json(['error' => 'wishlist not deleted'], 404);
         return response()->json([
             'type' => 'success',
             'message' => 'Wishlist detail deleted successfully',
@@ -109,29 +83,4 @@ public function destroy(){
     
 }
 
-public function show()
-{
-    $id = auth()->user()->id;
-
-    if($id){
-
-//    
-    $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
-
-    if ($Wishlist) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Wishlist items displayed successfully',
-            'code' => 200,
-            'data' => $Wishlist
-        ]);
-    } else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-        ]);
-    }
-}
-}
 }

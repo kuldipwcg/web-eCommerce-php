@@ -48,9 +48,9 @@ class AdminController extends Controller
             if ($admin && Hash::check($request->password, $admin->password)) {
                 $token = $admin->createToken('AdminToken')->accessToken;
                 // dd($token);
-                return response()->json(['token' => $token], 200);
+                return response()->json(['token' => $token,'message'=>'login successfully'], 200);
             } else {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 402);
             }
         }
         catch(Exception $e){
@@ -65,7 +65,7 @@ class AdminController extends Controller
 
             return response()->json(['token' => $token], 200);
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized'], 402);
         }
     }
 
@@ -96,9 +96,10 @@ class AdminController extends Controller
             return response()->json(
 
                 [
-                    'message' => ' Error Occurs',
+                    'message' => 'Error occured',
+
                 ],
-                400
+                402
 
             );
         }

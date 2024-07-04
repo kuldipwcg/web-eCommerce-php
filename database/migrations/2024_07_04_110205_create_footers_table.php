@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('email')->unique();
             $table->text('address');
-            $table->integer('contact')->length(10);
+            $table->bigInteger('contact');
             $table->string('twitter')->nullable();
             $table->string('facebook')->nullable();
             $table->string('linkedIn')->nullable();

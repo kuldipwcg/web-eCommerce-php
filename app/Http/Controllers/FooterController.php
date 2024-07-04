@@ -35,21 +35,6 @@ class FooterController extends Controller
     //     return response()->json($footer);
     // }
 
-    public function store(Request $request){
-        $data = Footer::create([
-            'description' => $request->description,
-            'email' =>  $request->email,
-            'address' => $request->address,
-            'contact' => $request->contact,
-            'twitter' => $request->twitter,
-            'facebook' => $request->facebook,
-            'linkedIn' => $request->linkedIn,
-            'instagram' => $request->instagram,
-        ]);
-        return response()->json(['message'=>'Footer Data added successfully',
-         'data' => $data, 'status' => 200]);
-    } 
-
     public function update(Request $request)
     {
         $footer = Footer::get()->first();
