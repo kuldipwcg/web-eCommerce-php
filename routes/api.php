@@ -21,6 +21,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\InformationSlugController;
 
 // use App\Http\Controllers\ForgotPasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -79,6 +81,18 @@ Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
 Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
 
+ //admin category
+ Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
+ Route::post('addcategory', [CategoryController::class,'store'])->name('addcategory');
+ 
+ //admin subcategory
+ Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
+ Route::post('addsubcategory', [SubCategoryController::class,'store'])->name('addsubcategory');
+
+ //footer 
+ Route::post('add-footer', [FooterController::class, 'store']);
+ Route::put('update-footer', [FooterController::class, 'update']);
+
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
@@ -94,6 +108,7 @@ Route::get('login', function () {
 })->name('error');
 
 // Resource routes
+Route::apiResource('user', UserController::class);
 Route::apiResource('banners', BannerController::class);
 Route::apiResource('sizes', ProductSizeController::class);
 Route::apiResource('colors', ProductColorController::class);
@@ -104,6 +119,11 @@ Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
 Route::apiResource('billingAddress', BillingController::class);
 Route::apiResource('shippingAddress', ShippingController::class);
+Route::apiResource('language',LanguageController::class);
+Route::apiResource('informationslug',InformationSlugController::class);
+Route::apiResource('sizes',ProductSizeController::class);
+
+//footer route(to get footer data)
 Route::get('footer',[FooterController::class,'index']);
 
 // Newsletter routes
