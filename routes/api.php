@@ -85,8 +85,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
 Route::post('set', [AdminController::class, 'setAdmin']);
 Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
 Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
+
+
+//newsletter 
+Route::put('Update-newsletter/{id}', [NewsLetterController::class, 'update'])->name('Update-newsletter');
+Route::delete('Delete-newsletter/{id}', [NewsLetterController::class, 'destroy'])->name('Delete-newsletter');
 
  //admin category
  Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
@@ -120,6 +124,7 @@ Route::apiResource('user', UserController::class);
 Route::apiResource('banners', BannerController::class);
 Route::apiResource('sizes', ProductSizeController::class);
 Route::apiResource('colors', ProductColorController::class);
+Route::apiResource('contactlist', ContactController::class);
 Route::apiResource('category', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('subcategory', SubCategoryController::class);
@@ -136,8 +141,7 @@ Route::get('footer',[FooterController::class,'index']);
 
 // Newsletter routes
 Route::post('addnewsletter', [NewsLetterController::class, 'store'])->name('addnewsletter');
-Route::put('updatenewsletter/{id}', [NewsLetterController::class, 'update'])->name('updatenewsletter');
-Route::delete('deletenewsletter/{id}', [NewsLetterController::class, 'destroy'])->name('destroynewsletter');
+
 
 //routes for contact details .
 Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');

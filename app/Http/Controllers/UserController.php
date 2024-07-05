@@ -36,8 +36,8 @@ class UserController extends Controller
             DB::table('users')->insert($data);
 
             return response()->json([
-                'Message' => 'User created successfully',
                 'user-data' => $data,
+                'Message' => 'User created successfully',
                 'code'=>200
             ],200);
         } else {
@@ -57,8 +57,8 @@ class UserController extends Controller
             $token = $person->createToken('user-auth')->accessToken;
             $name = $person->firstName;
             return response()->json([
+                'name' => $person,
                 'message' => 'Successfully logged-in',
-                'name' => $name,
                 'token' => $token,
             ], 200);
         } else {
@@ -106,6 +106,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
+            'Data' => $user,
             'message' => 'Logged out successfully!',
             'status_code' => 200
         ], 200);
@@ -117,10 +118,10 @@ class UserController extends Controller
         $user = User::latest()->paginate(10);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
                 'code' => 200,
-                'data' => $user
             ],200);
         } else {
             return response()->json([
@@ -151,10 +152,10 @@ class UserController extends Controller
         ]);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile added successfully',
                 'code' => 200,
-                'data' => $user
             ]);
         } else {
             return response()->json([
@@ -171,10 +172,10 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
                 'code' => 200,
-                'data' => $user
             ]);
         } else {
             return response()->json([
@@ -214,9 +215,9 @@ class UserController extends Controller
             }
 
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile Updated successfully',
-                'data' => $user,
                 'code' => 200,
             ]);
         } else {

@@ -12,7 +12,7 @@ use DB;
 class ContactController extends Controller
 {
     
-    public function show(Request $request){
+    public function index(Request $request){
         $contact = contact::get();
         if($contact){
             return response()->json([
@@ -72,8 +72,8 @@ class ContactController extends Controller
         //   dd($data);
 
           return response()->json([
-            'Message' => 'contact updated successfully',
             'data' => $data,
+            'Message' => 'contact updated successfully',
           ],200);
     }
 
@@ -82,6 +82,7 @@ class ContactController extends Controller
         $data = contact::find($id);
         $data->delete();
         return response()->json([
+            'data' => $data,
             'message' => 'Deleted Successfully',
         ],200);
     }
