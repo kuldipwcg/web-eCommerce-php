@@ -41,7 +41,7 @@ class AdminController extends Controller
     public function login(LoginCheck $request)
     {
         // get the admin
-        $admin = Admin::where('email', $request->email)->first();   
+        $admin = Admin::where('email', $request->email)->first();
 
         // password checking
         try {
@@ -56,7 +56,7 @@ class AdminController extends Controller
         catch(Exception $e){
             return $e;
         }
-           
+
         // password checking
         if ($admin && Hash::check($request->password, $admin->password)) {
             $token = $admin->createToken('AdminToken')->accessToken;
@@ -116,6 +116,41 @@ class AdminController extends Controller
             'status_code' => 200
         ], 200);
     } 
+
+    public function update(Request $request)
+    {
+
+        $user = auth()->user();
+
+        if ($user) {
+            $input = $request->all();
+
+            $user->fill($input)->save();
+
+            $image = $request->file('image');
+            if ($image == null) {
+                $profileUrl = null;
+            } else {
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('/upload/adminProfile/'), $imageName);
+                $profileUrl = url('/upload/adminProfile/' . $imageName);
+                $user->fill(['image' => $profileUrl])->save();
+            }
+
+            return response()->json([
+                'type' => 'success',
+                'message' => 'User profile Updated successfully',
+                'data' => $user,
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'user not found',
+                'code' => 404,
+            ]);
+        }
+    }
 
     public function update(Request $request)
     {

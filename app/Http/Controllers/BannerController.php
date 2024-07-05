@@ -57,7 +57,7 @@ public function show($id)
 public function update(Request $request, $id)
 {
     $banner = Banner::findOrFail($id);
-    
+
     $bannerImage = $request->file('banner_image');
     $input = $request->all();
 
@@ -98,5 +98,5 @@ public function update(Request $request, $id)
             'massage' => "Banner deleted successfully",
             "status" => 200
         ]);
-    } 
+    }
 }
