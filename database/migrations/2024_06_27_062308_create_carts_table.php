@@ -15,9 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity')->unsigned();
-            $table->double('total', 7, 2);
             $table->boolean('order_placed')->default(false);
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

@@ -48,10 +48,11 @@ Route::middleware('auth:api')->group(function () {
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
 
-// routes for contact details .
-Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+Route::middleware('guest:api')->group(function () {
+
+Route::post('signup', [UserController::class, 'signup'])->name('signup');
+Route::post('login', [UserController::class, 'login'])->name('login');
+});
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -63,22 +64,15 @@ Route::middleware('auth:api')->group(function () {
             'data'=>auth()->user(),
             'dob'=>auth()->user()->dob,
 
-        ]); 
-    }); 
-    //wishlist routes
-    Route::get('show-wishlist',[WishlistController::class,'show'])->name('show-wishlist');
-    Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']); 
+        ]);
+    });
 });
-Route::get('wishlistRecords',[WishlistController::class,'index']);
-Route::post('AddWishList',[WishlistController::class,'store']);
-
-//wishlist 
-Route::get('Get-wishlist',[WishlistController::class,'index']);
-Route::post('Add-WishList',[WishlistController::class,'store']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
 
+// for admin
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
 Route::post('set', [AdminController::class, 'setAdmin']);
 Route::post('login', [AdminController::class, 'login'])->name('admin.login');
@@ -96,7 +90,7 @@ Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscribe
  //footer 
  Route::post('add-footer', [FooterController::class, 'store']);
  Route::put('update-footer', [FooterController::class, 'update']);
- Route::get('footer',[FooterController::class,'index']);
+
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
@@ -152,4 +146,3 @@ Route::post('addcontact', [ContactController::class,'store'])->name('addcontact'
 Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
 Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
 
-Route::apiResource('reviews', ReviewController::class);

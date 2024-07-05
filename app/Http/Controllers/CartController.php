@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
     public function index()
     {
-        return response()->json(Cart::paginate(10));
+        return response()->json(Cart::all());
     }
 
     public function store(cartRequest $request)
@@ -48,8 +47,11 @@ class CartController extends Controller
                 'code' => 404,
             ]);
         }
+    {
+        $cart = Cart::create($request->except('id'));
+        return response()->json($cart, 201);
     }
-
+        
     public function show($id)
     {
         $cart = Cart::find($id);
@@ -64,24 +66,10 @@ class CartController extends Controller
         if (!$cart) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = Storage::putFile('public/images', $image);
-            $cart->image = Storage::url($imagePath);
-        }
-
-        $cart->update([
-            'user_id' => $request->input('user_id'),
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'total' => $request->input('total'),
-            'order_placed' => $request->input('order_placed', false),
-        ]);
-
+        $cart->update($request->all());
         return response()->json($cart);
     }
+
     public function destroy($id)
     {
         $cart = Cart::find($id);

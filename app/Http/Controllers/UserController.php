@@ -49,10 +49,12 @@ class UserController extends Controller
         }
     }
 
-    public function login(LoginCheck $request)
+    public function login(Request $request)
     {
 
         $person = User::where('email', $request->email)->first();
+
+        // dd($person);
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
