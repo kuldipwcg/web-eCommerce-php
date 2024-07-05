@@ -57,7 +57,7 @@ public function show($id)
 public function update(Request $request, $id)
 {
     $banner = Banner::findOrFail($id);
-    
+
     $bannerImage = $request->file('banner_image');
     $input = $request->all();
 
@@ -78,7 +78,7 @@ public function update(Request $request, $id)
         'banner_title' => $request->banner_title,
         'banner_desc' => $request->banner_desc,
         'banner_link' => $request->banner_link,
-    ]); 
+    ]);
 
     return response()->json([
         "Banner data" => $banner,
@@ -98,5 +98,5 @@ public function update(Request $request, $id)
             'massage' => "Banner deleted successfully",
             "status" => 200
         ]);
-    } 
+    }
 }

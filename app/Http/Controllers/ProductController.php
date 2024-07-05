@@ -111,10 +111,10 @@ class ProductController extends Controller
 
         if ($request->has('image')) {
             foreach ($request->file('image') as $image) {
-                $imagename = time().$image->getClientOriginalName();
-                
+                $imagename = $image->getClientOriginalName();
+                $image->move(public_path('/upload/productimg/'), $imagename);
+
                 $productimg = url('/upload/productimg/' . $imagename);
-                $image->move(public_path('/upload/productimg/'), $productimg);
                 ProductImage::create([
                     'product_id' => $p->id,
                     'product_image' => $productimg,
@@ -132,6 +132,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
+
 
         $products = Product::with(['reviews','product_image', 'product_variants'])->where('id', $id)->get();
         if (Product::where('id', $id)->first()) {
@@ -157,9 +158,10 @@ class ProductController extends Controller
                     'is_featured' => $product->is_featured,
                     'colors' => $colors,
                     'sizes' => $sizes,
-                    "reviews"=>$product->reviews,
+                    "Reviews"=>$product->reviews,
                     "totalReviews"=> count($product->reviews),
-                    "rating_Count"=>$avgRating ? $avgRating : 0,
+                    "Rating_Count"=>$avgRating ? $avgRating : 0,
+
                     'product_images' => $product->product_image->pluck('product_image'),
                     // 'product_variants' => $product->product_variants->map(function ($variant) {
                     //     return [
@@ -168,7 +170,7 @@ class ProductController extends Controller
                     //         'quantity' => $variant->quantity,
                     //     ];
                     // }),
-                    
+
                 ];
             });
 
@@ -194,10 +196,8 @@ class ProductController extends Controller
 
         $product->product_variants()->delete();
         $product->product_image()->delete();
-        $product->reviews()->delete();
-
         $product->delete();
-        return response()->json(['message' => 'Product deleted successfully','DeletedProduct'=>$product], 200);
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 
 
@@ -266,20 +266,17 @@ class ProductController extends Controller
         }
         ProductVariants::where('product_id', $product->id)->whereNotIn('id', $updatedVariants)->delete();
 
-        // $product->product_image()->delete();
         if ($request->has('image')) {
             foreach ($request->file('image') as $image) {
-
                 $imageName = $image->getClientOriginalName();
                 $image->move(public_path('/upload/productimg/'), $imageName);
                 $productImgUrl = url('/upload/productimg/' . $imageName);
-                // $existingImage = ProductImage::where('product_id', $product->id)->first();
-                // dd($existingImage);
-                // if ($existingImage) {
-                //     $existingImage->update(['product_image' => $productImgUrl]);
-                // } else {
+                $existingImage = ProductImage::where('product_id', $product->id)->first();
+                if ($existingImage) {
+                    $existingImage->update(['product_image' => $productImgUrl]);
+                } else {
                     ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
-                // }
+                }
             }
         }
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
