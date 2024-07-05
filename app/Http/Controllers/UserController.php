@@ -38,12 +38,13 @@ class UserController extends Controller
             return response()->json([
                 'user-data' => $data,
                 'Message' => 'User created successfully',
-                'code'=>200
+                'status'=> 200,
+
             ],200);
         } else {
             return response()->json([
                 'Message' => 'Password and Confirm Password should be same',
-                'code'=>404
+                'status'=> 404,
             ],404);
         }
     }
@@ -55,16 +56,17 @@ class UserController extends Controller
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
-            $name = $person->firstName;
+            $data =['person'=>$person,'token'=>$token];
             return response()->json([
-                'name' => $person,
+                'data' => $data,
                 'message' => 'Successfully logged-in',
-                'token' => $token,
+                'status'=> 200,
             ], 200);
         } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-            ], 403);
+                'status'=> 404,
+            ], 404);
             // return 'error';
         }
     }
@@ -84,6 +86,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'message' => ' Password Changed',
+                    'status'=> 200,                   
                 ],
                 200
             );
@@ -92,8 +95,9 @@ class UserController extends Controller
             return response()->json(
                 [
                     'message' => ' Error  Occureed',
+                    'status'=> 404,                   
                 ],
-                402
+                404
             );
         }
     }
@@ -106,7 +110,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'Data' => $user,
+            'data' => $user,
             'message' => 'Logged out successfully!',
             'status_code' => 200
         ], 200);
@@ -121,14 +125,13 @@ class UserController extends Controller
                 'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
-                'code' => 200,
+                'status'=> 200,
             ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
+                'status'=> 404,
             ],404);
         }
     }
@@ -155,14 +158,13 @@ class UserController extends Controller
                 'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile added successfully',
-                'code' => 200,
+                'status'=> 200,
             ]);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
+                'status'=> 404,
             ]);
         }
     }
@@ -175,15 +177,14 @@ class UserController extends Controller
                 'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
-                'code' => 200,
-            ]);
+                'status'=> 200,
+            ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
-            ]);
+                'status'=> 200,
+            ],404);
         }
     }
 
@@ -218,14 +219,14 @@ class UserController extends Controller
                 'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile Updated successfully',
-                'code' => 200,
-            ]);
+                'status'=> 200,
+            ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'something went wrong',
-                'code' => 404,
-            ]);
+                'message' => 'user not found',
+                'status'=> 404,
+            ],404);
         }
     }
 }

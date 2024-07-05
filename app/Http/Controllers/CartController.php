@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -23,8 +24,13 @@ class CartController extends Controller
 
     public function store(cartRequest $request)
     {
-        $cart = Cart::create($request->except('id'));
-        return response()->json($cart, 201);
+        // $cart = Cart::create($request->except('id'));
+        // return response()->json($cart, 201); 
+        $product = Product::where('product_id', id)->get();
+        dd($product);
+        $product_data = Cart::where('product_id', $user)->get();
+    
+
     }
         
     public function show($id)

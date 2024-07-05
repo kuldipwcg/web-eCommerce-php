@@ -11,14 +11,18 @@ return new class extends Migration
      */
 
 
+
     public function up(): void
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+        Schema::create('banners', function (Blueprint $table) {
+
            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
+            $table->string('banner_image');
+            $table->string('banner_title',25);
+            $table->string('banner_desc',100);
+            $table->string('banner_link');
             $table->timestamps();
-            $table->unique(['user_id','product_id']);
+            
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('product_images');
     }
 };
