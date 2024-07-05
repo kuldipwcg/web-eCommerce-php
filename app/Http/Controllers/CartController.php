@@ -14,19 +14,13 @@ class CartController extends Controller
         return response()->json(Cart::paginate(10));
     }
 
-    // public function store(cartRequest $request)
-    // {
-    //     // dd(request()->all());
-    //     $cart = Cart::create($request->all());
-
-    //     return response()->json($cart, 201);
-    // }
-
     public function store(cartRequest $request)
-    {
+     {
+    
         $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $imagePath = Storage::putFile('public/images', $image);
+        $imageName = $image->getClientOriginalName();
+        $image->move(public_path('/upload/cart/'), $imageName);
+        $cartUrl = url('/upload/cart/' . $imageName);
 
         $cart = Cart::create([
             'user_id' => $request->input('user_id'),
@@ -34,10 +28,26 @@ class CartController extends Controller
             'quantity' => $request->input('quantity'),
             'total' => $request->input('total'),
             'order_placed' => $request->input('order_placed', false),
-            'image' => Storage::url($imagePath),
+            'image' => $cartUrl,
         ]);
 
-        return response()->json($cart, 201);
+        if ($cart) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'cart data added successfully',
+                'code' => 200,
+                'data' => $cart
+            ]);
+            
+    
+        }
+        else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'cart Data not added successfully',
+                'code' => 404,
+            ]);
+        }
     }
 
     public function show($id)

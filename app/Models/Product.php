@@ -13,7 +13,7 @@ class Product extends Model
     protected $with = ['product_image'];
     // protected $with = ['reviews'];
     protected $table = "products";
-    protected $with = ['product_image','reviews'];
+    // protected $with = ['product_image','reviews'];
     protected $primaryKey = "id";
     protected $fillable = [
         'product_name',

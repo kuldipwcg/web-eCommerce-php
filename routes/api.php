@@ -22,7 +22,7 @@ use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\InformationSlugController;
-use App\Http\Controllers\WishlistController;
+
 // use App\Http\Controllers\ForgotPasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
@@ -48,11 +48,10 @@ Route::middleware('auth:api')->group(function () {
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
 
-Route::middleware('guest:api')->group(function () {
-
-    Route::post('signup', [UserController::class, 'signup'])->name('signup');
-    Route::post('login', [UserController::class, 'login'])->name('login');
-});
+// routes for contact details .
+Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -63,135 +62,45 @@ Route::middleware('auth:api')->group(function () {
         return response()->json([
             'data'=>auth()->user(),
             'dob'=>auth()->user()->dob,
+
         ]); 
-
-
-        
     }); 
     //wishlist routes
     Route::get('show-wishlist',[WishlistController::class,'show'])->name('show-wishlist');
     Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']); 
-    Route::post('Add-WishList/{id}',[WishlistController::class,'store']);
-
-            'detail' => auth()->user(),
-            'dob' => auth()->user()->dob,
-
-        ]);
-
-
-
-    });
-    //wishlist routes
-    Route::get('show-wishlist', [WishlistController::class, 'show'])->name('show-wishlist');
-    Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']);
 });
+Route::get('wishlistRecords',[WishlistController::class,'index']);
+Route::post('AddWishList',[WishlistController::class,'store']);
 
 //wishlist 
 Route::get('Get-wishlist',[WishlistController::class,'index']);
-//wishlist
-Route::get('Get-wishlist', [WishlistController::class, 'index']);
-Route::post('Add-WishList', [WishlistController::class, 'store']);
+Route::post('Add-WishList',[WishlistController::class,'store']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
 
-// for admin
-Route::group(['prefix' => 'admin'], function () { 
-    //admin sign up
-    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    	
-    Route::put('update-profile', [AdminController::class, 'update']);
 
-    Route::middleware('auth:admin')->group(function () {  
-    //admin category
-    Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
-    Route::post('addcategory', [CategoryController::class,'store'])->name('addcategory');
-    Route::put('Update-category', [CategoryController::class,'store'])->name('Update-category');
-    Route::delete('Delete-category/{id}', [CategoryController::class, 'destroy'])->name('Delete-category');
-    
-    //admin subcategory
-    Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
-    Route::post('add-subcategory', [SubCategoryController::class,'store'])->name('add-subcategory');
-    Route::put('update-subcategory', [SubCategoryController::class,'store'])->name('update-subcategory');
-    Route::delete('Delete-subcategory/{id}', [SubCategoryController::class, 'destroy'])->name('Delete-subcategory');
-    //products 
-    Route::get('products-list', [ProductController::class,'index'])->name('products-list'); 
-    Route::get('products-list/{id}', [ProductController::class,'show']);
-    
-    //contactus route
-    Route::get('contactlist', [ContactController::class,'index'])->name('contactlist');
-    Route::delete('contactlist/{id}', [ContactController::class,'destroy'])->name('Delete-contact');
+Route::post('set', [AdminController::class, 'setAdmin']);
+Route::post('login', [AdminController::class, 'login'])->name('admin.login');
+Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
+Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
 
+ //admin category
+ Route::get('categorylist', [CategoryController::class,'show'])->name('categorylist');
+ Route::post('addcategory', [CategoryController::class,'store'])->name('addcategory');
+ 
+ //admin subcategory
+ Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
+ Route::post('addsubcategory', [SubCategoryController::class,'store'])->name('addsubcategory');
 
-    //Information slug
-    Route::get('informationslug',[InformationSlugController::class,'index'])->name('informationslug');
-    Route::put('informationslug/{informationslug}',[InformationSlugController::class,'update'])->name('informationslug');
-    
+ //footer 
+ Route::post('add-footer', [FooterController::class, 'store']);
+ Route::put('update-footer', [FooterController::class, 'update']);
+ Route::get('footer',[FooterController::class,'index']);
+Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
-    
-    Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
-
-
-
-
-    //newsletter 
-    Route::put('Update-newsletter/{id}', [NewsLetterController::class, 'update'])->name('Update-newsletter');
-    Route::delete('Delete-newsletter/{id}', [NewsLetterController::class, 'destroy'])->name('Delete-newsletter');
-
-
-
-    //footer 
-    Route::post('add-footer', [FooterController::class, 'store']);
-    Route::put('update-footer', [FooterController::class, 'update']);
-    Route::get('footer',[FooterController::class,'index']);
-
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    //admin sign up
-    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    //admin category
-    Route::get('categorylist', [CategoryController::class, 'show'])->name('categorylist');
-    Route::post('addcategory', [CategoryController::class, 'store'])->name('addcategory');
-    Route::put('Update-category', [CategoryController::class, 'store'])->name('Update-category');
-    Route::delete('Delete-category/{id}', [CategoryController::class, 'destroy'])->name('Delete-category');
-
-    //admin subcategory
-    Route::get('subcategorylist', [SubCategoryController::class, 'show'])->name('subcategorylist');
-    Route::post('add-subcategory', [SubCategoryController::class, 'store'])->name('add-subcategory');
-    Route::put('update-subcategory', [SubCategoryController::class, 'update'])->name('update-subcategory');
-    Route::delete('Delete-subcategory/{id}', [SubCategoryController::class, 'destroy'])->name('Delete-subcategory');
-    //products
-    Route::get('products-list', [ProductController::class, 'index'])->name('products-list');
-    Route::get('products-list/{id}', [ProductController::class, 'show']);
-
-    //contactus route
-    Route::get('contactlist', [ContactController::class, 'index'])->name('contactlist');
-    Route::delete('contactlist/{id}', [ContactController::class, 'destroy'])->name('Delete-contact');
-
-    Route::middleware('auth:admin')->group(function () {
-
-        Route::post('logout', [AdminController::class, 'logout']);
-        Route::post('change-password', [AdminController::class, 'change']);
-
-        Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
-
-        //newsletter
-        Route::put('Update-newsletter/{id}', [NewsLetterController::class, 'update'])->name('Update-newsletter');
-        Route::delete('Delete-newsletter/{id}', [NewsLetterController::class, 'destroy'])->name('Delete-newsletter');
-
-
-
-        //footer
-        Route::post('add-footer', [FooterController::class, 'store']);
-        Route::put('update-footer', [FooterController::class, 'update']);
-        Route::get('footer', [FooterController::class, 'index']);
-
-        Route::put('update-profile', [AdminController::class, 'update']);
-
-
-    });
+});
 });
 
 //when come at login without authorization
@@ -241,13 +150,6 @@ Route::post('add-to-cart', [CartController::class,'store'])->name('add-to-cart')
 //routes for contact details .
 Route::post('addcontact', [ContactController::class,'store'])->name('addcontact');
 Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact');
+Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
 
 Route::apiResource('reviews', ReviewController::class);
-//filter and product search
-Route::post('display-product', [ProductController::class,'display']);
-
-//routes for contact details .
-Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
