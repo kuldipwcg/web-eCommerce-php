@@ -4,81 +4,81 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
+    // public function index()
+    // {
+    //     return response()->json(Cart::paginate(10));
+    // }
     public function index()
     {
-        return response()->json(Cart::paginate(10));
-    }
-
-    // public function store(cartRequest $request)
-    // {
-    //     // dd(request()->all());
-    //     $cart = Cart::create($request->all());
-
-    //     return response()->json($cart, 201);
-    // }
-
-    public function store(cartRequest $request)
+        $carts = Cart::where('user_id', auth()->id())->get();
+        return response()->json($carts);
+    } 
+    public function store(Request $request)
     {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $imagePath = Storage::putFile('public/images', $image);
-
-        $cart = Cart::create([
-            'user_id' => $request->input('user_id'),
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'total' => $request->input('total'),
-            'order_placed' => $request->input('order_placed', false),
-            'image' => Storage::url($imagePath),
-        ]);
-
-        return response()->json($cart, 201);
+        $cart = new Cart();
+        $cart->user_id = auth()->id();
+        $cart->product_id = $request->input('product_id');
+        $cart->quantity = $request->input('quantity');
+        $cart->save();
+        return response()->json($cart);
     }
+
+    // public function store(Request $request)
+    // {
+    //     $user = auth()->user();
+    //     $product = Product::find($request->all('product_id'));
+    //     // if (!$product) {
+    //     //     return response()->json(['error' => 'Product not found'], 404);
+    //     // }
+    //     $cart = Cart::where('user_id', $user->id)
+    //         ->where('product_id', $product->id)
+    //         ->first();
+    //     if ($cart) {
+    //         $cart->quantity = min($cart->quantity + 1, 2);
+    //         $cart->save(); 
+    //     } else {
+    //         $cart = new Cart();
+    //         $cart->user_id = $user->id;
+    //         $cart->product_id = $product->id;
+    //         $cart->quantity = 1;
+    //         $cart->save();
+    //     }
+    //     return response()->json(['message' => 'Product added to cart'], 201);
+    // }
 
     public function show($id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['error' => 'Cart not found'], 404);
         }
         return response()->json($cart);
     }
-    public function update(cartRequest $request, $id)
+
+    public function update(Request $request, $id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = Storage::putFile('public/images', $image);
-            $cart->image = Storage::url($imagePath);
-        }
-
-        $cart->update([
-            'user_id' => $request->input('user_id'),
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'total' => $request->input('total'),
-            'order_placed' => $request->input('order_placed', false),
-        ]);
-
+        $cart->quantity = $request->input('quantity');
+        $cart->save();
         return response()->json($cart);
     }
+
     public function destroy($id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['error' => 'Cart not found'], 404);
         }
         $cart->delete();
-        return response()->json(['message' => 'Cart item deleted successfully']);
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
 }
