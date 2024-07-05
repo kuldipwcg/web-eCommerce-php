@@ -20,9 +20,9 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FooterController;
-use App\Http\Controllers\InformationSlugController;
-use App\Http\Controllers\LanguageController;
+// use App\Http\Controllers\FooterController;
+// use App\Http\Controllers\InformationSlugController;
+// use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
@@ -76,13 +76,17 @@ Route::middleware('auth:api')->group(function () {
     //wishlist routes
     Route::get('show-wishlist',[WishlistController::class,'show'])->name('show-wishlist');
     Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']); 
+    Route::post('AddWishList/{id}',[WishlistController::class,'store']);
 });
-Route::get('wishlistRecords',[WishlistController::class,'index']);
-Route::post('AddWishList',[WishlistController::class,'store']);
+// Route::get('wishlistRecords',[WishlistController::class,'index']);
+// Route::post('AddWishList',[WishlistController::class,'store']);
 
 //wishlist 
 Route::get('Get-wishlist',[WishlistController::class,'index']);
-Route::post('Add-WishList',[WishlistController::class,'store']);
+
+
+//cart
+Route::post('Add-cart',[CartController::class,'store']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
@@ -109,7 +113,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
 });
-});
+
 
 
 //when come at login without authorization 
@@ -129,7 +133,7 @@ Route::apiResource('category', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('subcategory', SubCategoryController::class);
 Route::apiResource('order', OrderController::class);
-Route::apiResource('carts', CartController::class);
+// Route::apiResource('carts', CartController::class);
 Route::apiResource('billingAddress', BillingController::class);
 Route::apiResource('shippingAddress', ShippingController::class);
 Route::apiResource('language',LanguageController::class);
