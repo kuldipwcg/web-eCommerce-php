@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\WishlistRequest;
 use App\Models\Wishlist;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use PhpParser\Node\Stmt\Else_;
@@ -13,7 +12,7 @@ class WishlistController extends Controller
 {
     //
     public function index()
-    {
+{
 
     $Wishlist = Wishlist::latest()->paginate(10);
     $wishlist=Wishlist::with('Category')->latest()->paginate(10);
@@ -66,7 +65,7 @@ public function destroy(){
         // return response()->json(['error' => 'wishlist not deleted'], 404);
         return response()->json([
             'type' => 'success',
-            'message' => 'Wishlist detail deleted successfully',
+            'message' => 'Wishlist  deleted successfully',
             'code' => 200,
         ]);
     }
@@ -75,7 +74,7 @@ public function destroy(){
     {
         return response()->json([
             'type' => 'failure',
-            'message' => 'Wishlist detail not deleted successfully',
+            'message' => 'Wishlist not deleted successfully',
             'code' => 404,
         ]);
     }

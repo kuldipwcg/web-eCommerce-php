@@ -38,7 +38,8 @@ class ProductSizeController extends Controller
     public function update(ProductSizeRequest $request, $id)
     {
         $record = ProductSize::findOrFail($id);
-        $record->update($request->all());
+        $record->fill($request->all());
+        $record->save();
         return response()->json([
             'Message'=>"Size Updated successfully",
             'data' => $record, 
