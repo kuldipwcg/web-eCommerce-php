@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-// use Illuminate\Http\Exceptions\HttpResponseException;
-// use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 class SubCategoryRequest extends FormRequest
 {
     /**
@@ -24,17 +24,26 @@ class SubCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required',
-            'subcategory_name' => 'required|min:3|max:25',
+            'categoryId' => 'required',
+            'subcategoryName' => 'required|min:3|max:25',
         ];
     }
     public function messages()
     {
         return [
-            'category_id.required' => 'category_id is required.',
-            'subcategory_name.required' => 'category_name is required.',
-            'subcategory_name.min' => 'please enter atleast 3 characters.',
-            'subcategory_name.max' => 'category_name must not exceed 25 characters.',
+            'categoryId.required' => 'categoryId is required.',
+            'subcategoryName.required' => 'subcategoryName is required.',
+            'subcategoryName.min' => 'please enter atleast 3 characters.',
+            'subcategoryName.max' => 'subcategoryName must not exceed 25 characters.',
         ];
     }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ]));
+    } 
 }

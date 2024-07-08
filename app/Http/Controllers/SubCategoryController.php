@@ -11,56 +11,73 @@ class SubCategoryController extends Controller
     
         public function index()
         {
-            $sub_category=subCategory::with('Category')->latest()->paginate(10);
-            //dd($sub_category);
+            $subCategories=subCategory::with('Category')->latest()->paginate(10);
             return response()->json([
                 'type'=>'success',
-                'message'=>'Category showed successfully',
+                'message'=>'subCategories showed successfully',
                 'code'=>200,
-                'data'=>$sub_category
+                'data'=>$subCategories
             ]);
         }
 
-    // public function store(SubCategoryRequest $request){
-        
-    //     $sub_category = Subcategory::create($request->all());
-        
-    //     return response()->json($sub_category, 201);
-    // }
 
-    public function store(Request $request){
+
+    public function store(SubCategoryRequest $request){
         
-            $sub_category = Subcategory::create($request->all());
+            $subCategories = Subcategory::create($request->all());
+            return response()->json([
+                'type'=>'success',
+                'message'=>'subCategory Added successfully',
+                'code'=>200,
+                'data'=>$subCategories
+            ]);
             
-            return response()->json($sub_category, 201);
 
     }
-    public function show()    
+    public function show($id)    
     {
-        $sub_category = Subcategory::get();
-        if (!$sub_category) {
-            return response()->json(['error' => 'No Sub_Category not found'], 404);
+        $subCategories = Subcategory::find($id);
+        if (!$subCategories) {
+            return response()->json(['error' => 'subCategory Not found'], 404);
         }
-        return response()->json($sub_category);
+        return response()->json([
+            'type'=>'success',
+            'message'=>'Particular subCategory showed successfully',
+            'code'=>200,
+            'data'=>$subCategories
+        ]);
     }
 
     public function update(SubCategoryRequest $request, $id)
     {
 
-        $sub_category = Subcategory::find($id);
-        if (!$sub_category) {
-            return response()->json(['error' => 'Sub_Category not found'], 404);
+        $subCategories = Subcategory::find($id);
+        if (!$subCategories) {
+            return response()->json(['error' => 'subCategory not found'], 404);
         }
-        $sub_category->update($request->all());
-        return response()->json($sub_category);
+        $subCategories->update($request->all());
+
+        return response()->json([
+            'type'=>'success',
+            'message'=>'subCategory Updated successfully',
+            'code'=>200,
+            'data'=>$subCategories
+        ]);
     }
 
     public function destroy($id){
-        $sub_category = SubCategory::find($id);
-        if (!$sub_category) {
-            return response()->json(['error' => 'Sub_Category not found'], 404);
+        $subCategories = SubCategory::find($id);
+        if (!$subCategories) {
+            return response()->json(['error' => 'subCategory not found'], 404);
         }
-        $sub_category->delete();
-        return response()->json(['message' => 'Sub_Category deleted successfully']);
+
+        $subCategories->delete();
+
+        return response()->json([
+            'type'=>'success',
+            'message'=>'subCategory Deleted successfully',
+            'code'=>200,
+            'data'=>$subCategories
+        ]);
     }
 }
