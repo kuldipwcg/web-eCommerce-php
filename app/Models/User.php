@@ -29,11 +29,7 @@ use HasApiTokens, HasFactory, Notifiable;
         'lastName',
         // 'image',
         'password',
-<<<<<<< Updated upstream
         'confirmPassword',
-=======
-        'confirm_password', 
->>>>>>> Stashed changes
         'dob',
         'phoneNo',
         'address',
