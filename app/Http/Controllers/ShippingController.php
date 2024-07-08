@@ -15,11 +15,6 @@ class ShippingController extends Controller
         return response()->json($shippings);
     }
 
-    // public function store(shippingRequest $request)
-    // {
-    //     $shipping = Shipping::create($request->all());
-    //     return response()->json($shipping, 201);
-    // }
 
     public function store(ShippingRequest $request)
     {
@@ -51,14 +46,7 @@ class ShippingController extends Controller
         return response()->json($shipping, 201);
     }
 
-    // public function show($id)
-    // {
-    //     $data = Shipping::findOrFail($id);
-    //     return response()->json([
-    //         'data' => $data,
-    //         'status' => 200
-    //     ]);
-    // }
+   
     public function show($id)
     {
         $shipping = Shipping::find($id);
@@ -68,16 +56,6 @@ class ShippingController extends Controller
         return response()->json($shipping);
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $data = Shipping::findOrFail($id);
-    //     $data->update($request->all());
-    //     return response()->json([
-    //         'Message' => "Data updated successfully",
-    //         'data' => $data,
-    //         'status' => 200
-    //     ]);
-    // }
     public function update(ShippingRequest $request, $id)
     {
         $shipping = Shipping::find($id);
@@ -88,16 +66,6 @@ class ShippingController extends Controller
         return response()->json($shipping);
     }
 
-    // public function destroy($id)
-    // {
-    //     $data = Shipping::findOrFail($id);
-    //     $data->delete();
-    //     return response()->json([
-    //         'Message' => "Data deleted successfully",
-    //         'data' => $data,
-    //         'status' => 200
-    //     ]);
-    // }
     public function destroy($id)
     {
         $shipping = Shipping::find($id);

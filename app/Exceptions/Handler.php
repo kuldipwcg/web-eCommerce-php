@@ -18,7 +18,7 @@ class Handler extends ExceptionHandler
     protected $levels = [
         //
     ];
-    
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -33,7 +33,11 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
 
     /**
      * Register the exception handling callbacks for the application.
@@ -44,7 +48,8 @@ class Handler extends ExceptionHandler
             //
         });
     }
-    public function render($request, Throwable $exception)
+//
+public function render($request, Throwable $exception)
 {
     if ($exception instanceof NotFoundHttpException) {
         return response()->json([
@@ -54,15 +59,13 @@ class Handler extends ExceptionHandler
         ], 404);
     }
 
+    if ($exception instanceof AuthenticationException) {
+        return response()->json([
+            'error' => 'Please login first.',
+            
+        ] );
+    }
+
     return parent::render($request, $exception);
 }
-
-// public function render($request, Throwable $exception)
-// {
-//     if ($exception instanceof AuthenticationException) {
-//         return response()->json(['error' => 'Unauthenticated. Please login first.'], Response::HTTP_UNAUTHORIZED);
-//     }
-
-// return parent::render($request, $exception);
-// }
 }

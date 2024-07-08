@@ -12,7 +12,10 @@ use App\Models\ProductColor;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Models\ProductVariants;
-use App\Http\Requests\ProductRequest;
+use App\Models\Review;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -155,9 +158,9 @@ class ProductController extends Controller
                 'is_featured' => $product->is_featured,
                 'colors' => $colors,
                 'sizes' => $sizes,
-                "Reviews" => $product->reviews,
-                "Total Reviews" => count($product->reviews),
-                "Rating_Count" => $avgRating ? $avgRating : 0,
+                "reviews"=>$product->reviews,
+                "totalReviews"=> count($product->reviews),
+                "rating_Count"=>$avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
                 // 'product_variants' => $product->product_variants->map(function ($variant) {
                 //     return [
@@ -171,6 +174,151 @@ class ProductController extends Controller
 
         return response()->json(['products' => $formattedProducts], 200);
     }
+
+
+    public function display(Request $request)
+    {
+
+        $productColor = [];
+        $productSize = [];
+        $productPrice = [];
+        $productSearch = [];
+        $FinalProduct = [];
+
+        //getting the data according to search
+        if ($request->has('search')) {
+            $productSearch = Product::whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
+
+            $FinalSearch = collect($productSearch)->pluck('id')->toArray();
+            $FinalProduct[] = $FinalSearch;
+
+            // dd($productSearch);
+        }
+
+
+        //getting the filtered data
+        if ($request->has('filter')) {
+
+            $filter = $request->all()['filter'];
+
+            //products from price filter
+            if (array_key_exists('price', $filter)) {
+
+                $len = count($filter['price']);
+                $min = $filter['price'][0][0];
+                $max = $filter['price'][$len - 1][1];
+
+                $productPrice = Product::whereBetween('price', [$min, $max])
+                    ->with(['reviews', 'product_image', 'product_variants'])
+                    ->get()->toArray();
+
+                if ($productPrice != []) {
+                    $FinalPrice = collect($productPrice)->pluck('id')->toArray();
+                    $FinalProduct[] = $FinalPrice;
+                }
+            }
+
+
+
+
+            //products from size filter
+
+            if (array_key_exists('size', $filter)) {
+
+
+                foreach ($filter['size'] as $key => $size) {
+
+                    $variant_ids = ProductVariants::where('size_id', $size)->pluck('product_id');
+
+                    foreach ($variant_ids as $key => $id) {
+
+                        $productSize[] = Product::where('id', $id)
+                            ->with(['reviews', 'product_image', 'product_variants'])
+                            ->get()->toArray();
+                    }
+                }
+
+                if ($productSize != []) {
+
+                    $FinalSize = collect(array_merge(...$productSize))->pluck('id')->toArray();
+                    $FinalProduct[] = $FinalSize;
+                }
+            }
+
+
+            //products from color filter
+
+            if (array_key_exists('color', $filter)) {
+
+                foreach ($filter['color'] as $key => $color) {
+
+                    $variant_ids = ProductVariants::where('color_id', $color)->pluck('product_id');
+
+                    foreach ($variant_ids as $key => $id) {
+
+                        $productColor[] = Product::where('id', $id)
+                            ->with(['reviews', 'product_image', 'product_variants'])
+                            ->get()->toArray();
+                    }
+                }
+                if ($productColor) {
+                    $FinalColor = collect(array_merge(...$productColor))->pluck('id')->toArray();
+                    $FinalProduct[] = $FinalColor;
+                }
+            }
+        }
+
+
+        $final = $FinalProduct;
+        //intersection of all the filters
+        $final  = call_user_func_array('array_intersect', $final);
+
+        $products = Product::whereIn('id', $final)
+            ->with(['reviews', 'product_image', 'product_variants'])
+            ->get();
+
+
+
+        $formattedProducts = $products->map(function ($product) {
+            $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
+            $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
+
+            $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
+            $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+            // dd($colors);
+
+            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+
+            return [
+                'product_id' => $product->id,
+                'product_name' => $product->product_name,
+                'short_desc' => $product->short_desc,
+                'description' => $product->description,
+                'information' => $product->information,
+                'price' => $product->price,
+                'discount_type' => $product->discount_type,
+                'discount_value' => $product->discount_value,
+                'is_featured' => $product->is_featured,
+                'colors' => $colors,
+                'sizes' => $sizes,
+                "reviews" => $product->reviews,
+                "totalReviews" => count($product->reviews),
+                "rating_Count" => $avgRating ? $avgRating : 0,
+                'product_images' => $product->product_image->pluck('product_image'),
+                // 'product_variants' => $product->product_variants->map(function ($variant) {
+                //     return [
+                //         'color' => $variant->color_id,
+                //         'size' => $variant->size_id,
+                //         'quantity' => $variant->quantity,
+                //     ];
+                // }),
+            ];
+        });
+
+        return response()->json(['products' => $formattedProducts], 200);
+    }
+
+
 
     public function store(ProductRequest $request)
     {
@@ -190,6 +338,7 @@ class ProductController extends Controller
                 'information' => $request->information,
                 'price' => $request->price,
                 'category_id' => $category->id,
+                'is_featured'=> $request->has('is_featured') ? $request->is_featured : 'false',
                 'discount_type' => $request->discount_type,
                 'discount_value' => $request->discount_value,
 
@@ -245,15 +394,17 @@ class ProductController extends Controller
     {
 
 
-        $products = Product::with(['reviews', 'product_image', 'product_variants'])->where('id', $id)->get();
+        $products = Product::with(['reviews','product_image', 'product_variants'])->where('id', $id)->get();
+        
         if (Product::where('id', $id)->first()) {
             $formattedProducts = $products->map(function ($product) {
+                $category = Category::where('id', $product->category_id)->first();
+                
                 $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
                 $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
 
                 $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
                 $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
-                // dd($colors);
 
                 $avgRating = Review::where('product_id', $product->id)->avg('rating');
 
@@ -266,12 +417,13 @@ class ProductController extends Controller
                     'price' => $product->price,
                     'discount_type' => $product->discount_type,
                     'discount_value' => $product->discount_value,
+                    'category'=> $category->category_name,
                     'is_featured' => $product->is_featured,
                     'colors' => $colors,
                     'sizes' => $sizes,
-                    "Reviews" => $product->reviews,
-                    "Total Reviews" => count($product->reviews),
-                    "Rating_Count" => $avgRating ? $avgRating : 0,
+                    "Reviews"=>$product->reviews,
+                    "totalReviews"=> count($product->reviews),
+                    "Rating_Count"=>$avgRating ? $avgRating : 0,
 
                     'product_images' => $product->product_image->pluck('product_image'),
                     // 'product_variants' => $product->product_variants->map(function ($variant) {

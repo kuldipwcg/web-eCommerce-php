@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\CustomPasswordBroker;
 use Laravel\Passport\Passport;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Passwords\PasswordBrokerManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,20 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         Passport::ignoreRoutes();
+
+        $this->app->extend('auth.password.broker', function ($service, $app) {
+            return new PasswordBrokerManager($app);
+        });
+
+        $this->app->singleton('auth.password.broker.custom', function ($app) {
+            return new CustomPasswordBroker(
+                $app['auth.password.tokens'],
+                $app['auth.providers.users'],
+                $app['mailer'],
+                $app['translator'],
+                config('auth.passwords.users.email')
+            );
+        });
     }
 
     /**
@@ -20,6 +36,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         
     }
 }

@@ -54,24 +54,31 @@ public function show($id)
 /**
  * Update the specified resource in storage.
  */
-public function update(BannerRequest $request, $id)
+public function update(Request $request, $id)
 {
     $banner = Banner::findOrFail($id);
 
     $bannerImage = $request->file('banner_image');
+    $input = $request->all();
 
     // $oldImageName = public_path() .$banner->banner_image;
     // unlink($oldImageName);
+    if ($bannerImage == null) { 
+        
+        $banner->fill($input)->save();
+    } else {
+        $imageName = $bannerImage->getClientOriginalName();
+        $bannerImage->move(public_path('/upload/banners/'), $imageName);
+        $bannerUrl = url('/upload/banners/' . $imageName);
 
-    $imageName = time() . $bannerImage->getClientOriginalName();
-    $bannerImage->move(public_path('/upload/banners/'), $imageName);
-    $bannerUrl = url('/upload/banners/' . $imageName);
-    $banner->update([
-        'banner_image' => $bannerUrl,
-        'banner_title' => $request->banner_title,
-        'banner_desc' => $request->banner_desc,
-        'banner_link' => $request->banner_link,
-    ]); 
+        $banner->fill(['image' => $bannerUrl])->save();
+        $banner->update([
+            'banner_image' => $bannerUrl,
+            'banner_title' => $request->banner_title,
+            'banner_desc' => $request->banner_desc,
+            'banner_link' => $request->banner_link,
+        ]); 
+    }
 
     return response()->json([
         "Banner data" => $banner,
@@ -91,5 +98,5 @@ public function update(BannerRequest $request, $id)
             'massage' => "Banner deleted successfully",
             "status" => 200
         ]);
-    } 
+    }
 }

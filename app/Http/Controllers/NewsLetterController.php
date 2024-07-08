@@ -74,6 +74,7 @@ class NewsLetterController extends Controller
         $data = newsletter::find($id);
         $data->delete();
         return response()->json([
+            'data' => $data,
             'message' => 'Deleted Successfully',
         ],200);
     }

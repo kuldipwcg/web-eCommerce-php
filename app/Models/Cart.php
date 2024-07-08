@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-
 class Cart extends Model
 {
     use HasFactory;
- 
-    protected $table = 'carts' ;
-   
-    protected $fillable = ['user_id','product_id','quantity','total','order_placed','created_at','updated_at','deleted_at'];
+
+    protected $table = 'carts';
+
+    protected $fillable = ['user_id', 'product_id', 'quantity','status','color','size','total', 'created_at', 'updated_at', 'deleted_at'];
 
     public function user()
     {
@@ -27,6 +25,11 @@ class Cart extends Model
     public function product()
     {
         return $this->hasMany(Product::class);
-    }
-   
+    } 
+
+    public function productvariation()
+    {
+        return $this->hasOne(ProductVariants::class);
+    } 
+
 }
