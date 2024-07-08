@@ -8,24 +8,16 @@ use Illuminate\Contracts\Validation\Validator;
 
 class OrderItemRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'order_id' =>   'required', //required|exists:orders,id',
-            'product_id' =>  'required',   //required|exists:products,id',
+            'order_id' => 'required', //required|exists:orders,id',
+            'product_id' => 'required', //required|exists:products,id',
             'quantity' => 'required',
             'unit_price' => 'required|numeric|min:0',
         ];
@@ -37,14 +29,17 @@ class OrderItemRequest extends FormRequest
             'product_id.required' => 'product_id is required.',
             'quantity.required' => 'quantity is required.',
             'total.required' => 'total is required.',
-            'unit_price.required'=>'unit_price is required.'
+            'unit_price.required' => 'unit_price is required.',
         ];
     }
-    public function failedValidation(Validator $validate){
-        throw new HttpResponseException(response()->json([
-            'success'=>false,
-            'message' => 'validation error',
-            'data' => $validate->errors()
-        ]));
+    public function failedValidation(Validator $validate)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'validation error',
+                'data' => $validate->errors(),
+            ]),
+        );
     }
 }

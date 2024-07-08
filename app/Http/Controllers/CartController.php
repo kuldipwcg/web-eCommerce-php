@@ -5,33 +5,42 @@ namespace App\Http\Controllers;
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function index()
+    //list all cart with their  paginate by  10 items per page to items :-
+    public function index(Request $request)
     {
-        return response()->json(Cart::all());
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json(
+            Cart::where('status', 'active')
+                ->where('user_id', $user->id)
+                ->get(),
+        );
     }
 
+    // Store a newly created cart
     public function store(CartRequest $request)
     {
-        $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/cart/'), $imageName);
-        $cartUrl = url('/upload/cart/' . $imageName);
-
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => $user->id,
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
-            'total' => $request->input('total'),
+            'status' => 'active', // default status is active
             'order_placed' => $request->input('order_placed', false),
-            'image' => $cartUrl,
         ]);
 
         if ($cart) {
             return response()->json([
-                'type' => 'success',
+                'type' => 'uccess',
                 'message' => 'Cart data added successfully',
                 'code' => 201,
                 'data' => $cart,
@@ -47,31 +56,49 @@ class CartController extends Controller
             );
         }
     }
-    public function show($id)
+    //Display the specified cart.
+    public function show(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
+        if (!$cart || $cart->user_id !== $user->id) {
             return response()->json(['error' => 'Cart item not found'], 404);
         }
         return response()->json($cart);
     }
-    public function update(cartRequest $request, $id)
+
+    //method to update Cart
+    public function update(CartRequest $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
+        if (!$cart || $cart->user_id !== $user->id) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
         $cart->update($request->all());
         return response()->json($cart);
     }
 
-    public function destroy($id)
+    // Remove the specified Category
+    public function destroy(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
+        if (!$cart || $cart->user_id !== $user->id) {
             return response()->json(['error' => 'Cart item not found'], 404);
         }
-        $cart->delete();
+        $cart->update(['status' => 'inactive']); // soft delete
         return response()->json(['message' => 'Cart item deleted successfully']);
     }
+
+
 }

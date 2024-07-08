@@ -8,59 +8,55 @@ use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    
-        public function index()
-        {
-            $sub_category=subCategory::with('Category')->latest()->paginate(10);
-            //dd($sub_category);
-            return response()->json([
-                'type'=>'success',
-                'message'=>'Category showed successfully',
-                'code'=>200,
-                'data'=>$sub_category
-            ]);
-        }
-
-    // public function store(SubCategoryRequest $request){
-        
-    //     $sub_category = Subcategory::create($request->all());
-        
-    //     return response()->json($sub_category, 201);
-    // }
-
-    public function store(Request $request){
-        
-            $sub_category = Subcategory::create($request->all());
-            
-            return response()->json($sub_category, 201);
-
-    }
-    public function show()    
+    //list all subcategory with paginate by  10 items per pageto items :-
+    public function index()
     {
-        $sub_category = Subcategory::get();
-        if (!$sub_category) {
-            return response()->json(['error' => 'No Sub_Category not found'], 404);
-        }
-        return response()->json($sub_category);
+        $subCategory = subCategory::with('Category')->latest()->paginate(10);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Category showed successfully',
+            'code' => 200,
+            'data' => $subCategory,
+        ]);
     }
 
+    // Store a newly created subCategory
+    public function store(Request $request)
+    {
+        $subCategory = Subcategory::create($request->all());
+
+        return response()->json($subCategory, 201);
+    }
+
+    // Retrieve the subcategory by ID
+    public function show()
+    {
+        $subCategory = Subcategory::get();
+        if (!$subCategory) {
+            return response()->json(['error' => 'No SubCategory not found'], 404);
+        }
+        return response()->json($subCategory);
+    }
+
+    //method to update subCategory
     public function update(SubCategoryRequest $request, $id)
     {
-
-        $sub_category = Subcategory::find($id);
-        if (!$sub_category) {
-            return response()->json(['error' => 'Sub_Category not found'], 404);
+        $subCategory = Subcategory::find($id);
+        if (!$subCategory) {
+            return response()->json(['error' => 'SubCategory not found'], 404);
         }
-        $sub_category->update($request->all());
-        return response()->json($sub_category);
+        $subCategory->update($request->all());
+        return response()->json($subCategory);
     }
 
-    public function destroy($id){
-        $sub_category = SubCategory::find($id);
-        if (!$sub_category) {
-            return response()->json(['error' => 'Sub_Category not found'], 404);
+    // Remove the specified subCategory
+    public function destroy($id)
+    {
+        $subCategory = SubCategory::find($id);
+        if (!$subCategory) {
+            return response()->json(['error' => 'SubCategory not found'], 404);
         }
-        $sub_category->delete();
-        return response()->json(['message' => 'Sub_Category deleted successfully']);
+        $subCategory->delete();
+        return response()->json(['message' => 'SubCategory deleted successfully']);
     }
 }

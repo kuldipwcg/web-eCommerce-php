@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class ShippingController extends Controller
 {
+    //list all ShippingAddress with their Subcagory paginate by  10 items per pageto items
     public function index()
     {
         $shippings = Shipping::paginate(10);
@@ -15,7 +16,7 @@ class ShippingController extends Controller
         return response()->json($shippings);
     }
 
-
+    // Store a newly created shippingAddress:-
     public function store(ShippingRequest $request)
     {
         if ($request->input('ship_to_different')) {
@@ -46,31 +47,32 @@ class ShippingController extends Controller
         return response()->json($shipping, 201);
     }
 
-   
+     // Retrieve the category by ID
     public function show($id)
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 404);
         }
         return response()->json($shipping);
     }
-
+       //method to update shippingAddress
     public function update(ShippingRequest $request, $id)
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 404);
         }
         $shipping->update($request->all());
         return response()->json($shipping);
     }
 
+   // Remove the specified Category
     public function destroy($id)
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 404);
         }
         $shipping->delete();
         return response()->json(['message' => 'Deleted successfully']);

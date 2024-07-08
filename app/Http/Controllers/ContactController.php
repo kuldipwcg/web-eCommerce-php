@@ -69,7 +69,7 @@ class ContactController extends Controller
           $data->email = $request->email;
           $data->message = $request->message;
           $data->save();
-        //   dd($data);
+   
 
           return response()->json([
             'data' => $data,
