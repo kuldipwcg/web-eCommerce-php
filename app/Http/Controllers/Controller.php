@@ -11,10 +11,15 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     // protected $model;
+<<<<<<< Updated upstream
     use AuthorizesRequests, ValidatesRequests;
 
     
 
+=======
+    // use AuthorizesRequests, ValidatesRequests;
+
+>>>>>>> Stashed changes
     // public function __construct($model)
     // {
     //     $this->model = $model;
@@ -25,6 +30,7 @@ class Controller extends BaseController
     // }
     // public function store(Request $request)
     // {
+<<<<<<< Updated upstream
     //     // $generatedUUID =Str::uuid()->toString();
     //     $record = $this->model::create($request->all());
     //     return response()->json($record, 201);
@@ -41,6 +47,11 @@ class Controller extends BaseController
     //     $record = $this->model::create($request->all());
     //     return response()->json(['data' => $record, 'status' => 200]);
     // }
+=======
+    //     $record = $this->model::create($request->all());
+    //     return response()->json($record, 201);
+    // }
+>>>>>>> Stashed changes
 
     // public function show($id)
     // {
@@ -61,4 +72,8 @@ class Controller extends BaseController
     //     $record->delete();
     //     return response()->json(null, 204);
     // }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Controller;
@@ -30,6 +31,9 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
+=======
+use App\Http\Controllers\CategoryController;
+>>>>>>> Stashed changes
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +59,7 @@ Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact
 Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
 Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
 
+<<<<<<< Updated upstream
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::post('change-password', [UserController::class, 'change']);
@@ -160,3 +165,22 @@ Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('up
 Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
 
 Route::apiResource('reviews', ReviewController::class);
+=======
+Route::post('signup', [UserController::class, 'signup']);
+Route::post('login', [UserController::class,'login'])->name('login');
+Route::apiResource('categories', CategoryController::class);
+
+Route::apiResource('product',ProductController::class);
+
+
+// Route::prefix('admin')->group(function () {
+    
+
+// });
+
+// Route::prefix('web')->group(function () {
+
+//     Route::apiResource('product',ProductController::class);
+
+// });
+>>>>>>> Stashed changes
