@@ -23,11 +23,22 @@ class UserController extends Controller
     public function signup(SignupCheck $request)
     {
         // dd($request->all());
+        
         if ($request->password == $request->confirmPassword) {
             $data = [
 
+<<<<<<< Updated upstream
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
+=======
+        if($request->password == $request->confirm_password){
+
+
+            $data = [   
+                
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+>>>>>>> Stashed changes
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'confirmPassword' => Hash::make($request->confirmPassword),
@@ -49,10 +60,12 @@ class UserController extends Controller
         }
     }
 
-    public function login(LoginCheck $request)
+    public function login(Request $request)
     {
 
         $person = User::where('email', $request->email)->first();
+
+        // dd($person);
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
@@ -139,7 +152,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
+        $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
         // $user = User::create($request->all());

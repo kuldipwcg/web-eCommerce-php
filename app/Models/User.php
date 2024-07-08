@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 class User extends Authenticatable
 {
 
@@ -43,12 +43,10 @@ use HasApiTokens, HasFactory, Notifiable;
      * @var array<int, string>
      */
     protected $hidden = [
-        
         'dob',
         'phone_no',
         'address',
         'role',
-        'password',
         'remember_token',
     ];
     
