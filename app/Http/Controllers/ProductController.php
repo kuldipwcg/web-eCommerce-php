@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
-use App\Models\Category;
+use App\Models\User;
+use App\Models\Review;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\PriceFilter;
+use App\Models\ProductSize;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
-use App\Models\ProductSize;
+use Illuminate\Http\Request;
 use App\Models\ProductVariants;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -17,9 +20,121 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function display(Request $request)
     {
-        $products = Product::with(['reviews','product_image', 'product_variants'])->get();
+
+        // $finalProduct = [];
+
+        
+
+
+        // dd(collect($request->all());
+        $products = [];
+
+
+
+
+        if ($request->all() == []) {
+        
+        
+            $products = Product::with(['reviews', 'product_image', 'product_variants'])->get();
+
+            // dd($products);
+
+        } else {
+
+            $index = 0;
+
+            dd(collect($request->all())->first());
+            dd(collect($request->all())->first() == $request->all()['pid']);
+
+            if(collect($request->all())->first() == $request->all()['pid'])
+            {
+                foreach ($request->all()['pid'] as $key => $price_id) {
+
+                    if ($request->pid) {
+                        $prices = PriceFilter::where('id', $price_id)->first();
+
+                        $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
+                    }
+
+                   
+
+                }
+
+            }
+            elseif (collect($request->all())->first() == $request->all()['cid']) {
+             
+                foreach ($request->all()['cid'] as $key => $color_name) {
+
+                    if ($request->pid) {
+
+                        $color = ProductColor::where('color',$color_name);
+                        dd($color);
+
+                        // $prices = PriceFilter::where('id', $price_id)->first();
+
+                        $products[] = Product::where();
+                    }
+
+                   
+
+                }
+
+
+            }
+            else{
+
+            }
+
+
+            
+
+            if ($request->pid) {
+
+                foreach ($request->pid as $key => $price_id) {
+
+                    if ($request->pid) {
+                        $prices = PriceFilter::where('id', $price_id)->first();
+
+                        $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
+                    }
+
+                   
+
+                }
+            }
+            // dd($products);
+            // if ($request->sid) {
+
+            //     foreach ($request->pid as $key => $price_id) {
+
+            //         if ($request->pid) {
+            //             $prices = PriceFilter::where('id', $price_id)->first();
+
+            //             $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
+            //         }
+
+
+            //     }
+            // }
+            // if ($request->cid) {
+
+            //     foreach ($request->pid as $key => $price_id) {
+
+            //         if ($request->pid) {
+            //             $prices = PriceFilter::where('id', $price_id)->first();
+
+            //             $products = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
+            //         }
+
+
+            //     }
+            // }
+            
+        }
+
+        
 
         $formattedProducts = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
@@ -27,7 +142,6 @@ class ProductController extends Controller
 
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
-            // dd($colors);
 
             $avgRating = Review::where('product_id', $product->id)->avg('rating');
 
@@ -429,6 +543,28 @@ class ProductController extends Controller
             }
         }
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
+    }
 
+    public function isFeatured()
+    {
+
+        $featured = Product::where('is_featured', 'true')->get();
+
+        if ($featured) {
+            return response()->json(
+                [
+                    'is_featured' => $featured,
+                ],
+                200
+            );
+        } else {
+
+            return response()->json(
+                [
+                    'message' => "Data not found",
+                ],
+                404
+            );
+        }
     }
 }

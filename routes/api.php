@@ -87,7 +87,7 @@ Route::group(['prefix' => 'admin'], function () {
     //admin sign up
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('set', [AdminController::class, 'setAdmin']);
-        
+
     Route::put('update-profile', [AdminController::class, 'update']);
 
     Route::middleware('auth:admin')->group(function () {  
@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::delete('Delete-category/{id}', [CategoryController::class, 'destroy'])->name('Delete-category');
     
     //admin subcategory
+
     Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
     Route::post('add-subcategory', [SubCategoryController::class,'store'])->name('add-subcategory');
     Route::put('update-subcategory', [SubCategoryController::class,'store'])->name('update-subcategory');
@@ -107,6 +108,20 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('products-list/{id}', [ProductController::class,'show']);
     Route::post('products', [ProductController::class,'store']);
     Route::put('products/{id}', [ProductController::class,'update']);
+
+    // Route::get('subcategorylist', [SubCategoryController::class,'show'])->name('subcategorylist');
+    // Route::post('add-subcategory', [SubCategoryController::class,'store'])->name('add-subcategory');
+    // Route::put('update-subcategory', [SubCategoryController::class,'store'])->name('update-subcategory');
+    // Route::delete('Delete-subcategory/{id}', [SubCategoryController::class, 'destroy'])->name('Delete-subcategory'); 
+    Route::apiResource('subcategory', SubCategoryController::class);
+
+    //products 
+    // Route::get('products-list', [ProductController::class,'index'])->name('products-list'); 
+    // Route::get('products-list/{id}', [ProductController::class,'show']);
+    // Route::post('products', [ProductController::class,'store']);
+    // Route::put('products/{id}', [ProductController::class,'update']);
+    Route::apiResource('products', ProductController::class);
+
     
     //contactus route
     Route::get('contactlist', [ContactController::class,'index'])->name('contactlist');
@@ -114,8 +129,10 @@ Route::group(['prefix' => 'admin'], function () {
 
 
     //Information slug
-    // Route::get('informationslug',[InformationSlugController::class,'index'])->name('informationslug');
-    // Route::put('informationslug/{informationslug}',[InformationSlugController::class,'update'])->name('informationslug');
+
+    Route::get('informationslug',[InformationSlugController::class,'index'])->name('informationslug');
+    Route::put('informationslug/{informationslug}',[InformationSlugController::class,'update'])->name('informationslug');
+
     
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('change-password', [AdminController::class, 'change']);
@@ -139,6 +156,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
+  
 
 //when come at login without authorization 
 Route::get('login', function () {
@@ -190,4 +208,6 @@ Route::post('addcontact', [ContactController::class,'store'])->name('addcontact'
 Route::put('updatecontact/{id}', [ContactController::class,'update'])->name('updatecontact');
 Route::delete('deletecontact/{id}', [ContactController::class,'destroy'])->name('destroycontact'); 
 
+//reviews 
 Route::apiResource('reviews', ReviewController::class);
+

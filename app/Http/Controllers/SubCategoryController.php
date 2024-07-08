@@ -20,10 +20,14 @@ class SubCategoryController extends Controller
         ]);
     }
 
+
     // Store a newly created subCategory
     public function store(Request $request)
     {
         $subCategory = Subcategory::create($request->all());
+
+   
+
 
         return response()->json($subCategory, 201);
     }
@@ -35,7 +39,9 @@ class SubCategoryController extends Controller
         if (!$subCategory) {
             return response()->json(['error' => 'No SubCategory not found'], 404);
         }
+
         return response()->json($subCategory);
+
     }
 
     //method to update subCategory
@@ -45,8 +51,11 @@ class SubCategoryController extends Controller
         if (!$subCategory) {
             return response()->json(['error' => 'SubCategory not found'], 404);
         }
+
         $subCategory->update($request->all());
         return response()->json($subCategory);
+
+
     }
 
     // Remove the specified subCategory
