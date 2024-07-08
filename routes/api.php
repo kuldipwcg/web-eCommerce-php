@@ -40,49 +40,7 @@ use App\Http\Controllers\FooterController;
 |
 */
 
-// // for admin
-Route::group(['prefix' => 'admin'], function () { 
-    //admin sign up
-    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::put('update-profile', [AdminController::class, 'update']);
 
-    Route::middleware('auth:admin')->group(function () {  
-    //category
-    Route::apiResource('category', CategoryController::class);
-    
-    //subcategory
-    Route::apiResource('subcategory', SubCategoryController::class);
-    
-    //banner 
-    Route::apiResource('banners', BannerController::class);
-
-    //products 
-    Route::apiResource('products', ProductController::class);
-    
-    //contactus route
-    Route::apiResource('contactlist', ContactController::class);
-
-    //newsletter route
-    Route::apiResource('subscriber', NewsLetterController::class);
-
-    //Information slug
-    Route::apiResource('informationslug', InformationSlugController::class);
-
-    //footer
-    Route::apiResource('footer', FooterController::class);
-
-    //color
-    // Route::apiResource('colors', ProductColorController::class);
-    //size
-    Route::apiResource('sizes', ProductSizeController::class);
-
-    //for admin logout and password change
-    Route::post('logout', [AdminController::class, 'logout']);
-    Route::post('change-password', [AdminController::class, 'change']);
-
-    });
-});
 
 //user Route
 Route::post('signup',[UserController::class,'signup'])->name('signup');
@@ -123,8 +81,8 @@ Route::middleware('auth:api')->group(function () {
 Route::apiResource('language',LanguageController::class);
 Route::apiResource('contactUs',ContactController::class);
 Route::apiResource('newsLetter', NewsLetterController::class);
-Route::apiResource('banners', BannerController::class);
-Route::apiResource('informationslug', InformationSlugController::class);
+Route::get('banners', [BannerController::class,'index']);
+Route::get('informationslug', [InformationSlugController::class,'index']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
