@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< Updated upstream
 use App\Http\Requests\CategoryRequest;
+=======
+>>>>>>> Stashed changes
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\categoryValidation;
 
 class CategoryController extends Controller
 {
+<<<<<<< Updated upstream
     public function index()
     {
         // $category=Category::with('subcategories')->get();
@@ -39,12 +44,30 @@ class CategoryController extends Controller
     public function show()
     {
         $category = Category::get();
+=======
+    
+    public function index()
+    {
+        return response()->json(Category::all());
+    }
+
+    public function store(categoryValidation $request){
+        // dd($request->all());
+        $category = Category::create($request->all());
+            return response()->json($category, 201);
+                
+    }
+    public function show($id)	
+    {
+        $category = Category::find($id);
+>>>>>>> Stashed changes
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
         return response()->json($category);
     }
 
+<<<<<<< Updated upstream
     public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -63,6 +86,21 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
+=======
+    public function update(categoryValidation $request, $id)
+    {
+        $category = Category::findOrFail($id);
+        // dd($id);
+        if (!$category) {
+           
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+        $category->update($request->all());
+        return response()->json($category);
+    }
+
+    public function destroy($id){
+>>>>>>> Stashed changes
         $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);

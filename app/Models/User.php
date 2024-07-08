@@ -29,7 +29,11 @@ use HasApiTokens, HasFactory, Notifiable;
         'lastName',
         // 'image',
         'password',
+<<<<<<< Updated upstream
         'confirmPassword',
+=======
+        'confirm_password', 
+>>>>>>> Stashed changes
         'dob',
         'phoneNo',
         'address',
@@ -43,12 +47,10 @@ use HasApiTokens, HasFactory, Notifiable;
      * @var array<int, string>
      */
     protected $hidden = [
-        
         'dob',
         'phone_no',
         'address',
         'role',
-        'password',
         'remember_token',
     ];
     

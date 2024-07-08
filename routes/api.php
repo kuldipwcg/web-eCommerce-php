@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Http\Request;
@@ -45,25 +46,27 @@ Route::middleware('auth:api')->group(function () {
 });
 
 //signup for user
-Route::post('signup', [UserController::class, 'signup'])->name('signup');
-Route::post('login', [UserController::class, 'login'])->name('login');
+Route::post('signup',[UserController::class,'signup'])->name('signup');
+Route::post('login', [UserController::class,'login'])->name('login');
 
 Route::middleware('guest:api')->group(function () {
 
 Route::post('signup', [UserController::class, 'signup'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
-});
+
+// routes for contact details .
+Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact');
+Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
+Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::post('change-password', [UserController::class, 'change']);
     Route::put('update-profile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
-
         return response()->json([
-            'data'=>auth()->user(),
-            'dob'=>auth()->user()->dob,
-
+            'detail' => auth()->user(),
+            'dob' => auth()->user()->dob,
         ]);
     });
 });
@@ -97,7 +100,7 @@ Route::middleware('auth:admin')->group(function () {
 });
 });
 
-//when come at login without authorization
+//when come at login without authorization 
 Route::get('login', function () {
     return response()->json([
         "status" => true,
@@ -123,17 +126,12 @@ Route::apiResource('order', OrderController::class);
 Route::apiResource('carts', CartController::class);
 Route::apiResource('billingAddress', BillingController::class);
 Route::apiResource('shippingAddress', ShippingController::class);
-Route::apiResource('language',LanguageController::class);
-Route::apiResource('sizes',ProductSizeController::class);
 Route::apiResource('language', LanguageController::class);
 Route::apiResource('informationslug', InformationSlugController::class);
 Route::apiResource('sizes', ProductSizeController::class);
 
-//contactus route
-Route::post('add-contact', [ContactController::class,'store'])->name('add-contact');
-
 //footer route(to get footer data)
-Route::get('footer', [FooterController::class, 'index']);
+Route::get('footer',[FooterController::class,'index']);
 
 // Newsletter routes
 Route::post('addnewsletter', [NewsLetterController::class, 'store'])->name('addnewsletter');
