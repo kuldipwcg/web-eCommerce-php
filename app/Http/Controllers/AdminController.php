@@ -120,7 +120,7 @@ class AdminController extends Controller
     public function update(Request $request)
     {
 
-        $user = auth()->user();
+        $user = auth()->guard('admin')->user();
 
         if ($user) {
             $input = $request->all();
@@ -152,38 +152,4 @@ class AdminController extends Controller
         }
     }
 
-    public function update(Request $request)
-    {
-
-        $user = auth()->user();
-
-        if ($user) {
-            $input = $request->all();
-
-            $user->fill($input)->save();
-
-            $image = $request->file('image');
-            if ($image == null) {
-                $profileUrl = null;
-            } else {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('/upload/adminProfile/'), $imageName);
-                $profileUrl = url('/upload/adminProfile/' . $imageName);
-                $user->fill(['image' => $profileUrl])->save();
-            }
-
-            return response()->json([
-                'type' => 'success',
-                'message' => 'User profile Updated successfully',
-                'data' => $user,
-                'code' => 200,
-            ]);
-        } else {
-            return response()->json([
-                'type' => 'failure',
-                'message' => 'user not found',
-                'code' => 404,
-            ]);
-        }
-    }
 }
