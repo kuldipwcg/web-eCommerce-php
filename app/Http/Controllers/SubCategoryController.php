@@ -32,7 +32,7 @@ class SubCategoryController extends Controller
         
             $sub_category = Subcategory::create($request->all());
             
-            return response()->json($sub_category, 201);
+            return response()->json(['data'=>$sub_category,'code' => 201]);
 
     }
     public function show()    
@@ -41,7 +41,7 @@ class SubCategoryController extends Controller
         if (!$sub_category) {
             return response()->json(['error' => 'No Sub_Category not found'], 404);
         }
-        return response()->json($sub_category);
+        return response()->json(['data'=>$sub_category,'code' => 201]);
     }
 
     public function update(SubCategoryRequest $request, $id)
@@ -52,7 +52,7 @@ class SubCategoryController extends Controller
             return response()->json(['error' => 'Sub_Category not found'], 404);
         }
         $sub_category->update($request->all());
-        return response()->json($sub_category);
+        return response()->json(['data'=>$sub_category,'code' => 201]);
     }
 
     public function destroy($id){
