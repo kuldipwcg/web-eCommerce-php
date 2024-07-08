@@ -16,18 +16,19 @@ class CartController extends Controller
     public function store(cartRequest $request)
      {
     
-        $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/cart/'), $imageName);
-        $cartUrl = url('/upload/cart/' . $imageName);
+        // $image = $request->file('image');
+        // $imageName = $image->getClientOriginalName();
+        // $image->move(public_path('/upload/cart/'), $imageName);
+        // $cartUrl = url('/upload/cart/' . $imageName);
 
         $cart = Cart::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->id,
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
             'total' => $request->input('total'),
             'order_placed' => $request->input('order_placed', false),
-            'image' => $cartUrl,
+            'variants_id' =>$request->input('variants_id'),
+            // 'image' => $cartUrl,
         ]);
 
         if ($cart) {
@@ -47,7 +48,7 @@ class CartController extends Controller
                 'code' => 404,
             ]);
         }
-    {
+    
         $cart = Cart::create($request->except('id'));
         return response()->json($cart, 201);
     }

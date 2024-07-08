@@ -1,47 +1,30 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Requests\ChangePasswordCheck;
 use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
+use App\Http\Requests\UpdateUserCheck;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
-use function Laravel\Prompts\password;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class UserController extends Controller
 {
 
     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
         
-        if ($request->password == $request->confirmPassword) {
-            $data = [
-
-<<<<<<< Updated upstream
-                'firstName' => $request->firstName,
-                'lastName' => $request->lastName,
-=======
-        if($request->password == $request->confirm_password){
-
 
             $data = [   
                 
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
->>>>>>> Stashed changes
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'confirmPassword' => Hash::make($request->confirmPassword),
             ];
 
             DB::table('users')->insert($data);
@@ -52,20 +35,17 @@ class UserController extends Controller
                 'status'=> 200,
 
             ],200);
-        } else {
-            return response()->json([
-                'Message' => 'Password and Confirm Password should be same',
-                'status'=> 404,
-            ],404);
-        }
+        
     }
 
-    public function login(Request $request)
+    public function login(LoginCheck $request)
     {
 
         $person = User::where('email', $request->email)->first();
 
-        // dd($person);
+        if($person){
+
+        
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
@@ -80,12 +60,20 @@ class UserController extends Controller
                 'message' => 'Credential are wrong',
                 'status'=> 404,
             ], 404);
-            // return 'error';
         }
     }
-    //logout 
+    else{
 
-    public function change(Request $request)
+        return response()->json([
+            'message' => 'User not found',
+            'status'=> 404,
+        ], 404);
+
+    }
+    }
+
+
+    public function change(ChangePasswordCheck $request)
     {
         $id = auth()->user()->id;
 
@@ -107,7 +95,7 @@ class UserController extends Controller
 
             return response()->json(
                 [
-                    'message' => ' Error  Occureed',
+                    'message' => ' Error Occured',
                     'status'=> 404,                   
                 ],
                 404
@@ -133,6 +121,7 @@ class UserController extends Controller
     {
 
         $user = User::latest()->paginate(10);
+
         if ($user) {
             return response()->json([
                 'data' => $user,
@@ -143,7 +132,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'something went wrong',
+                'message' => 'User not found',
                 'status'=> 404,
             ],404);
         }
@@ -155,13 +144,12 @@ class UserController extends Controller
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
-        // $user = User::create($request->all());
 
         $user = User::create([
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             'email' => $request->email,
-            'phoneNo' => $request->phoneNo,
+            'phoneNo' => $request->phoneNumber,
             'dob' => $request->dob,
             'image' => $profileUrl,
 
@@ -176,7 +164,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'something went wrong',
+                'message' => 'User not found',
                 'status'=> 404,
             ]);
         }
@@ -195,38 +183,49 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'something went wrong',
+                'message' => 'User not found',
                 'status'=> 200,
             ],404);
         }
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserCheck $request)
     {
-
-        // dd($request);
-
-        $id = auth()->user()->id;
-
+        $id = auth()->user()->id;   
         $user = User::find($id);
-
+     
         if ($user) {
 
             $input = $request->all();
 
-            $user->fill($input)->save();
-
-
             $image = $request->file('image');
-            if ($image == null) {
-                $profileUrl = null;
-            } else {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('/upload/userProfile/'), $imageName);
-                $profileUrl = url('/upload/userProfile/' . $imageName);
 
-                $user->fill(['image' => $profileUrl])->save();
+            if ($image == null) {
+                
+                $profileUrl = null;
+            
+            } else {                
+                
+                // dd($user->image);
+                if($user->image)
+                {
+                    unlink(public_path($user->image));
+                }
+                
+                $imageName = time() . $image->getClientOriginalName();
+                $image->move(public_path('/upload/userProfile/'), $imageName);
+                $profileUrl = '/upload/userProfile/' . $imageName;
+                
             }
+
+                $user->firstName = $request->firstName ?: $user->firstName;
+                $user->lastName = $request->lastName ?: $user->lastName;
+                $user->email = $request->email ?: $user->email;
+                $user->image = $profileUrl ?: $user->image;
+                $user->dob = $request->dob ?: $user->dob;
+                $user->phoneNo = $request->phoneNumber ?: $user->phoneNumber;
+                $user->address = $request->address ?: $user->address;
+                $user->save();
 
             return response()->json([
                 'data' => $user,
@@ -237,7 +236,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'user not found',
+                'message' => 'User not found',
                 'status'=> 404,
             ],404);
         }

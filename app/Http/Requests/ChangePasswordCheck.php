@@ -2,15 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class LoginCheck extends FormRequest
+class ChangePasswordCheck extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+    
     public function authorize(): bool
     {
         return true;
@@ -24,26 +22,28 @@ class LoginCheck extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'currentPassword' => 'required',
             'password' => 'required',
+            'confirmPassword' => 'required|same:password',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ],402));
+            'data'      => $validator->errors(),
+            'Status'   => 'Invalid',
+            'message'   => 'Invalid Input, Please enter valid input',
+        ]));
     } 
-
     public function messages()
     {
         return [
-            "email.email"=> "Please enter valid email",
-            'email.required' => 'Email is required',
+            'currentPassword.required' => 'Current Password is required.',
             'password.required' => 'Password is required',
+            'confirmPassword.required' => 'Confirm Password is required.',
+            'confirmPassword.same' => 'Password and Confirm Password should be same.',
         ];
     }
+
 }

@@ -2,179 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\PriceFilter;
 use App\Models\ProductSize;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Models\ProductVariants;
-use App\Models\Review;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-
-    public function display(Request $request)
+    public function index()
     {
+        $products = Product::with(['reviews','product_image', 'product_variants'])->get();
 
-        // $finalProduct = [];
+    $formattedProducts = $products->map(function ($product) {
+        $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
+        $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
 
-        
+        $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
+        $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+        // dd($colors);
 
-
-        // dd(collect($request->all());
-        $products = [];
-
-
-
-
-        if ($request->all() == []) {
-        
-        
-            $products = Product::with(['reviews', 'product_image', 'product_variants'])->get();
-
-            // dd($products);
-
-        } else {
-
-            $index = 0;
-
-            dd(collect($request->all())->first());
-            dd(collect($request->all())->first() == $request->all()['pid']);
-
-            if(collect($request->all())->first() == $request->all()['pid'])
-            {
-                foreach ($request->all()['pid'] as $key => $price_id) {
-
-                    if ($request->pid) {
-                        $prices = PriceFilter::where('id', $price_id)->first();
-
-                        $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
-                    }
-
-                   
-
-                }
-
-            }
-            elseif (collect($request->all())->first() == $request->all()['cid']) {
-             
-                foreach ($request->all()['cid'] as $key => $color_name) {
-
-                    if ($request->pid) {
-
-                        $color = ProductColor::where('color',$color_name);
-                        dd($color);
-
-                        // $prices = PriceFilter::where('id', $price_id)->first();
-
-                        $products[] = Product::where();
-                    }
-
-                   
-
-                }
+        $avgRating = Review::where('product_id', $product->id)->avg('rating');
 
 
-            }
-            else{
+        return [
+            'product_id' => $product->id,
+            'product_name' => $product->product_name,
+            'short_desc' => $product->short_desc,
+            'description' => $product->description,
+            'information' => $product->information,
+            'price' => $product->price,
+            'discount_type' => $product->discount_type,
+            'discount_value' => $product->discount_value,
+            'is_featured' => $product->is_featured,
+            'colors' => $colors,
+            'sizes' => $sizes,
+            "reviews"=>$product->reviews,
+            "totalReviews"=> count($product->reviews),
+            "rating_Count"=>$avgRating ? $avgRating : 0,
+            'product_images' => $product->product_image->pluck('product_image'),
+            // 'product_variants' => $product->product_variants->map(function ($variant) {
+            //     return [
+            //         'color' => $variant->color_id,
+            //         'size' => $variant->size_id,
+            //         'quantity' => $variant->quantity,
+            //     ];
+            // }),
+        ];
+    });
 
-            }
+    return response()->json(['products' => $formattedProducts], 200);
+}
 
-
-            
-
-            if ($request->pid) {
-
-                foreach ($request->pid as $key => $price_id) {
-
-                    if ($request->pid) {
-                        $prices = PriceFilter::where('id', $price_id)->first();
-
-                        $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
-                    }
-
-                   
-
-                }
-            }
-            // dd($products);
-            // if ($request->sid) {
-
-            //     foreach ($request->pid as $key => $price_id) {
-
-            //         if ($request->pid) {
-            //             $prices = PriceFilter::where('id', $price_id)->first();
-
-            //             $products[] = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
-            //         }
-
-
-            //     }
-            // }
-            // if ($request->cid) {
-
-            //     foreach ($request->pid as $key => $price_id) {
-
-            //         if ($request->pid) {
-            //             $prices = PriceFilter::where('id', $price_id)->first();
-
-            //             $products = Product::whereBetween('price', [$prices->min, $prices->max])->with(['reviews', 'product_image', 'product_variants'])->get();
-            //         }
-
-
-            //     }
-            // }
-            
-        }
-
-        
-
-        $formattedProducts = $products->map(function ($product) {
-            $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
-            $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
-
-            $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
-            $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
-
-            $avgRating = Review::where('product_id', $product->id)->avg('rating');
-
-
-            return [
-                'product_id' => $product->id,
-                'product_name' => $product->product_name,
-                'short_desc' => $product->short_desc,
-                'description' => $product->description,
-                'information' => $product->information,
-                'price' => $product->price,
-                'discount_type' => $product->discount_type,
-                'discount_value' => $product->discount_value,
-                'is_featured' => $product->is_featured,
-                'colors' => $colors,
-                'sizes' => $sizes,
-                "reviews"=>$product->reviews,
-                "totalReviews"=> count($product->reviews),
-                "rating_Count"=>$avgRating ? $avgRating : 0,
-                'product_images' => $product->product_image->pluck('product_image'),
-                // 'product_variants' => $product->product_variants->map(function ($variant) {
-                //     return [
-                //         'color' => $variant->color_id,
-                //         'size' => $variant->size_id,
-                //         'quantity' => $variant->quantity,
-                //     ];
-                // }),
-            ];
-        });
-
-        return response()->json(['products' => $formattedProducts], 200);
-    }
-
+    
 
     public function display(Request $request)
     {
@@ -187,14 +72,23 @@ class ProductController extends Controller
 
         //getting the data according to search
         if ($request->has('search')) {
-            $productSearch = Product::whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
 
+            // foreach(explode($request->search) as $str)
+            // {
+                
+            // }
+            
+            // dd(Product::with(['reviews', 'product_image', 'product_variants'])->where('id',29)->get()->toArray());
+
+
+            $productSearch = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
+
+            
             $FinalSearch = collect($productSearch)->pluck('id')->toArray();
             $FinalProduct[] = $FinalSearch;
 
             // dd($productSearch);
         }
-
 
         //getting the filtered data
         if ($request->has('filter')) {
