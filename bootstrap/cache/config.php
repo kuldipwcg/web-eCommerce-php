@@ -4,13 +4,13 @@
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://localhost',
+    'url' => 'http://192.168.1.181:8000',
     'asset_url' => '/',
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:G++xfJ01vjGAhiwvOMK0/0r/J8j4UEQ0CZ+LmJW3v8U=',
+    'key' => 'base64:g69d6dDLYq+/O4TFo0pqc9kWAxqrxb7b8gsZOfj//+Q=',
     'cipher' => 'AES-256-CBC',
     'maintenance' => 
     array (
@@ -402,7 +402,7 @@
       array (
         'driver' => 'local',
         'root' => '/var/www/html/web-eCommerce-php/storage/app/public',
-        'url' => 'http://localhost/storage',
+        'url' => 'http://192.168.1.181:8000/storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -664,7 +664,7 @@
       2 => '127.0.0.1',
       3 => '127.0.0.1:8000',
       4 => '::1',
-      5 => 'localhost',
+      5 => '192.168.1.181:8000',
     ),
     'guard' => 
     array (
@@ -727,6 +727,10 @@
       0 => '/var/www/html/web-eCommerce-php/resources/views',
     ),
     'compiled' => '/var/www/html/web-eCommerce-php/storage/framework/views',
+  ),
+  'base64validation' => 
+  array (
+    'replace_validation_messages' => true,
   ),
   'flare' => 
   array (

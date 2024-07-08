@@ -13,9 +13,8 @@ class CartController extends Controller
         return response()->json(Cart::all());
     }
 
-    public function store(cartRequest $request)
-     {
-    
+    public function store(CartRequest $request)
+    {
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
         $image->move(public_path('/upload/cart/'), $imageName);
@@ -33,24 +32,22 @@ class CartController extends Controller
         if ($cart) {
             return response()->json([
                 'type' => 'success',
-                'message' => 'cart data added successfully',
-                'code' => 200,
-                'data' => $cart
+                'message' => 'Cart data added successfully',
+                'code' => 201,
+                'data' => $cart,
             ]);
-            
-    
+        } else {
+            return response()->json(
+                [
+                    'type' => 'failure',
+                    'message' => 'Cart data not added successfully',
+                    'code' => 422,
+                ],
+                422,
+            );
         }
-        else {
-            return response()->json([
-                'type' => 'failure',
-                'message' => 'cart Data not added successfully',
-                'code' => 404,
-            ]);
-        }
-    {
-        $cart = Cart::create($request->except('id'));
-        return response()->json($cart, 201);
     }
+
         
     public function show($id)
     {

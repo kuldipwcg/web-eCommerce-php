@@ -22,22 +22,11 @@ class UserController extends Controller
 
     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
         if ($request->password == $request->confirmPassword) {
             $data = [
 
-<<<<<<< Updated upstream
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
-=======
-        if($request->password == $request->confirm_password){
-
-
-            $data = [   
-                
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
->>>>>>> Stashed changes
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'confirmPassword' => Hash::make($request->confirmPassword),
@@ -64,9 +53,7 @@ class UserController extends Controller
 
         $person = User::where('email', $request->email)->first();
 
-        // dd($person);
-
-        if (Hash::check($request->password, $person->password)) {
+        if (Hash::check($request->password, $person->password) ) {
             $token = $person->createToken('user-auth')->accessToken;
             $data =['person'=>$person,'token'=>$token];
             return response()->json([
@@ -79,10 +66,8 @@ class UserController extends Controller
                 'message' => 'Credential are wrong',
                 'status'=> 404,
             ], 404);
-            // return 'error';
         }
     }
-    //logout 
 
     public function change(Request $request)
     {
@@ -106,7 +91,7 @@ class UserController extends Controller
 
             return response()->json(
                 [
-                    'message' => ' Error  Occureed',
+                    'message' => ' Error occurred',
                     'status'=> 404,                   
                 ],
                 404
@@ -117,7 +102,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-
         $user = auth()->user()->token();
         $user->delete();
 
@@ -130,7 +114,6 @@ class UserController extends Controller
 
     public function index()
     {
-
         $user = User::latest()->paginate(10);
         if ($user) {
             return response()->json([
@@ -154,7 +137,6 @@ class UserController extends Controller
         $imageName = $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
-        // $user = User::create($request->all());
 
         $user = User::create([
             'firstName' => $request->firstName,
@@ -203,18 +185,12 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
-        // dd($request);
-
         $id = auth()->user()->id;
-
         $user = User::find($id);
 
         if ($user) {
-
             $input = $request->all();
-
             $user->fill($input)->save();
-
 
             $image = $request->file('image');
             if ($image == null) {

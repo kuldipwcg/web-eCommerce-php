@@ -33,7 +33,7 @@ class SubCategoryRequest extends FormRequest
         return [
             'category_id.required' => 'category_id is required.',
             'subcategory_name.required' => 'category_name is required.',
-            'subcategory_name.min' => 'please enter atleast 3 characters.',
+            'subcategory_name.min' => 'please enter at least 3 characters.',
             'subcategory_name.max' => 'category_name must not exceed 25 characters.',
         ];
     }

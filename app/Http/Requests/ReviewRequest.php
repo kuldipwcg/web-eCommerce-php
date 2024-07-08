@@ -38,7 +38,7 @@ class ReviewRequest extends FormRequest
             'product_id.exists' => 'The selected product id does not exist.',
             'rating.required'=> 'The rating is Required.',
             'rating.min'=> 'The rating value must be at least 1.',
-            'rating.max' =>'The discount value must be less than or equals 5.',
+            'rating.max' =>'The rating value must be less than or equals 5.',
             'review.required'=> 'The review is Required.',
             'review.string'=>'The review type must be a string.',
             'review.min'=> 'The review length must be at least 4 characters.',

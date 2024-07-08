@@ -10,11 +10,11 @@ use Illuminate\Notifications\Notifiable;
 
 class ProductColor extends Model
 {
-    use HasFactory,Notifiable;
+    use HasFactory, Notifiable;
     protected $primaryKey = "id";
 
-    protected $fillable = ['color'];
-    
+    protected $fillable = ['color', 'status'];
+
     public function product_variants()
     {
         return $this->hasMany(ProductVariants::class);

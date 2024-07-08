@@ -10,11 +10,11 @@ use App\Models\ProductVariants;
 
 class ProductSize extends Model
 {
-    use HasFactory,Notifiable;
+    use HasFactory, Notifiable;
     protected $primaryKey = "id";
 
     protected $fillable = ['size'];
-    
+
     public function product_variants()
     {
         return $this->hasMany(ProductVariants::class);

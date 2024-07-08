@@ -11,14 +11,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-     
-        $category = Category::with('subcategories')->latest()->paginate(10);
+        $category = Category::with('subcategories')->where('status','active')->latest()->get();
 
         return response()->json([
+            'data' => $category,
             'type' => 'success',
             'message' => 'Category showed successfully',
-            'code' => 200,
-            'data' => $category,
+            'status' => 200,
         ]);
     }
 
@@ -68,5 +67,23 @@ class CategoryController extends Controller
         }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
+    }
+
+    public function categorystatus(Request $request, $id)
+    {
+        $category = CategoryController::find($id);
+        if(!$category){
+            return response()->json([
+                'Message' => "Category is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $category->status = $request->status;
+        $category->save();
+        return response()->json([
+            'message' => 'Category status updated successfully.',
+            'status' => 200
+        ]);
     }
 }
