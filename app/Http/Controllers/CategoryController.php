@@ -36,9 +36,9 @@ class CategoryController extends Controller
         ]);
         return response()->json(['message' => 'category added successfully', 'data' => $record, 'status' => 200]);
     }
-    public function show()
+    public function show($id)
     {
-        $category = Category::get();
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
@@ -51,11 +51,12 @@ class CategoryController extends Controller
         $image = $request->file('image');
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/images/'), $imageName);
+        $categoryUrl = url('/upload/category/' . $imageName);
 
         $category->update([
             'category_name' => $request->category_name,
             'sub_categories_id' => $request->sub_categories_id,
-            'image' => $imageName,
+            'image' => $categoryUrl,
             'status' => $request->status,
         ]);
         return response()->json($category, 200);

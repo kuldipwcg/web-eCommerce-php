@@ -9,15 +9,15 @@ use App\Http\Requests\NewsletterValidation;
 use Illuminate\Support\Facades\DB;
 
 
-class NewsLetterController extends Controller
+class newsLetterController extends Controller
 {   
 
-    public function show(Request $request){
+    public function index(){
         //get all subscriber 
-        $newsletter = newsletter::get();
-        if($newsletter){
+        $newsLetter = newsletter::get();
+        if($newsLetter){
             return response()->json([
-                'data' => $newsletter,
+                'data' => $newsLetter,
                 'status' => 'Success',
                 'code' => 200
             ],200);
@@ -36,8 +36,8 @@ class NewsLetterController extends Controller
             'email' => $request->email,    
         ];
         
-        $newsletter = DB::table('newsletters')->insert($data);
-        if($newsletter){
+        $newsLetter = DB::table('newsletters')->insert($data);
+        if($newsLetter){
             return response()->json([
                 'data' => $data,
                 'Message' => 'News letter added successfully',
@@ -47,35 +47,36 @@ class NewsLetterController extends Controller
         }
         else{
             return response()->json([ 
-                'Message' => 'Data not added',
+                'Message' => 'Data not found',
                 'Status' => 'Failed',
-                'code' => 401                    
-            ], 401);
+                'code' => 404                    
+            ], 404);
         }
         
     } 
 
     public function update(NewsletterValidation $request, $id)
     {
-          $data = newsletter::find($id);
+          $newsLetter = newsletter::find($id);
 
-          $data->email = $request->email;
-          $data->update();
-          $data->save();
+          $newsLetter->email = $request->email;
+          $newsLetter->update();
+          $newsLetter->save();
 
           return response()->json([
-            'Message' => 'contact updated successfully',
-            'data' => $data,
+            'data' => $newsLetter,
+            'Message' => 'newsLetter updated successfully',
           ],200);
     }  
 
     public function destroy($id)
     {
-        $data = newsletter::find($id);
-        $data->delete();
+        $newsLetter = newsletter::find($id);
+        $newsLetter->delete();
         return response()->json([
-            'data' => $data,
-            'message' => 'Deleted Successfully',
+            'data' => $newsLetter,
+            'message' => 'newsLetter Deleted Successfully',
+            'status' => 'success',
         ],200);
     }
 }
