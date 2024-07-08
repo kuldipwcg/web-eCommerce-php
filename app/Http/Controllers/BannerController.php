@@ -61,24 +61,24 @@ public function update(Request $request, $id)
     $bannerImage = $request->file('banner_image');
     $input = $request->all();
 
-    $banner->fill($input)->save();
     // $oldImageName = public_path() .$banner->banner_image;
     // unlink($oldImageName);
-    if ($bannerImage == null) {
-        $bannerUrl = null;
+    if ($bannerImage == null) { 
+        
+        $banner->fill($input)->save();
     } else {
         $imageName = $bannerImage->getClientOriginalName();
-        $bannerImage->move(public_path('/upload/userProfile/'), $imageName);
-        $bannerUrl = url('/upload/userProfile/' . $imageName);
+        $bannerImage->move(public_path('/upload/banners/'), $imageName);
+        $bannerUrl = url('/upload/banners/' . $imageName);
 
         $banner->fill(['image' => $bannerUrl])->save();
+        $banner->update([
+            'banner_image' => $bannerUrl,
+            'banner_title' => $request->banner_title,
+            'banner_desc' => $request->banner_desc,
+            'banner_link' => $request->banner_link,
+        ]); 
     }
-    $banner->update([
-        'banner_image' => $bannerUrl,
-        'banner_title' => $request->banner_title,
-        'banner_desc' => $request->banner_desc,
-        'banner_link' => $request->banner_link,
-    ]);
 
     return response()->json([
         "Banner data" => $banner,

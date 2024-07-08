@@ -115,12 +115,12 @@ class AdminController extends Controller
             'message' => 'Logged out successfully!',
             'status_code' => 200
         ], 200);
-    }
+    } 
 
     public function update(Request $request)
     {
 
-        $user = auth()->user();
+        $user = auth()->guard('admin')->user();
 
         if ($user) {
             $input = $request->all();
@@ -151,4 +151,5 @@ class AdminController extends Controller
             ]);
         }
     }
+
 }

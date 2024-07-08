@@ -5,28 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
     public function index()
     {
-        return response()->json(Cart::paginate(10));
+        return response()->json(Cart::all());
     }
 
-    // public function store(cartRequest $request)
-    // {
-    //     // dd(request()->all());
-    //     $cart = Cart::create($request->all());
-
-    //     return response()->json($cart, 201);
-    // }
-
     public function store(cartRequest $request)
-    {
+     {
+    
         $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $imagePath = Storage::putFile('public/images', $image);
+        $imageName = $image->getClientOriginalName();
+        $image->move(public_path('/upload/cart/'), $imageName);
+        $cartUrl = url('/upload/cart/' . $imageName);
 
         $cart = Cart::create([
             'user_id' => $request->input('user_id'),
@@ -34,12 +27,31 @@ class CartController extends Controller
             'quantity' => $request->input('quantity'),
             'total' => $request->input('total'),
             'order_placed' => $request->input('order_placed', false),
-            'image' => Storage::url($imagePath),
+            'image' => $cartUrl,
         ]);
 
+        if ($cart) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'cart data added successfully',
+                'code' => 200,
+                'data' => $cart
+            ]);
+            
+    
+        }
+        else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'cart Data not added successfully',
+                'code' => 404,
+            ]);
+        }
+    {
+        $cart = Cart::create($request->except('id'));
         return response()->json($cart, 201);
     }
-
+        
     public function show($id)
     {
         $cart = Cart::find($id);
@@ -54,24 +66,10 @@ class CartController extends Controller
         if (!$cart) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = Storage::putFile('public/images', $image);
-            $cart->image = Storage::url($imagePath);
-        }
-
-        $cart->update([
-            'user_id' => $request->input('user_id'),
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'total' => $request->input('total'),
-            'order_placed' => $request->input('order_placed', false),
-        ]);
-
+        $cart->update($request->all());
         return response()->json($cart);
     }
+
     public function destroy($id)
     {
         $cart = Cart::find($id);

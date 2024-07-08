@@ -23,11 +23,22 @@ class UserController extends Controller
     public function signup(SignupCheck $request)
     {
         // dd($request->all());
+        
         if ($request->password == $request->confirmPassword) {
             $data = [
 
+<<<<<<< Updated upstream
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
+=======
+        if($request->password == $request->confirm_password){
+
+
+            $data = [   
+                
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+>>>>>>> Stashed changes
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'confirmPassword' => Hash::make($request->confirmPassword),
@@ -36,35 +47,39 @@ class UserController extends Controller
             DB::table('users')->insert($data);
 
             return response()->json([
-                'Message' => 'User created successfully',
                 'user-data' => $data,
-                'code'=>200
+                'Message' => 'User created successfully',
+                'status'=> 200,
+
             ],200);
         } else {
             return response()->json([
                 'Message' => 'Password and Confirm Password should be same',
-                'code'=>404
+                'status'=> 404,
             ],404);
         }
     }
 
-    public function login(LoginCheck $request)
+    public function login(Request $request)
     {
 
         $person = User::where('email', $request->email)->first();
 
+        // dd($person);
+
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
-            $name = $person->firstName;
+            $data =['person'=>$person,'token'=>$token];
             return response()->json([
+                'data' => $data,
                 'message' => 'Successfully logged-in',
-                'name' => $name,
-                'token' => $token,
+                'status'=> 200,
             ], 200);
         } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-            ], 403);
+                'status'=> 404,
+            ], 404);
             // return 'error';
         }
     }
@@ -84,6 +99,7 @@ class UserController extends Controller
             return response()->json(
                 [
                     'message' => ' Password Changed',
+                    'status'=> 200,                   
                 ],
                 200
             );
@@ -92,8 +108,9 @@ class UserController extends Controller
             return response()->json(
                 [
                     'message' => ' Error  Occureed',
+                    'status'=> 404,                   
                 ],
-                402
+                404
             );
         }
     }
@@ -106,6 +123,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
+            'data' => $user,
             'message' => 'Logged out successfully!',
             'status_code' => 200
         ], 200);
@@ -117,17 +135,16 @@ class UserController extends Controller
         $user = User::latest()->paginate(10);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
-                'code' => 200,
-                'data' => $user
+                'status'=> 200,
             ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
+                'status'=> 404,
             ],404);
         }
     }
@@ -135,7 +152,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
+        $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
         // $user = User::create($request->all());
@@ -151,17 +168,16 @@ class UserController extends Controller
         ]);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile added successfully',
-                'code' => 200,
-                'data' => $user
+                'status'=> 200,
             ]);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
+                'status'=> 404,
             ]);
         }
     }
@@ -171,18 +187,17 @@ class UserController extends Controller
         $user = User::find($id);
         if ($user) {
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile displayed successfully',
-                'code' => 200,
-                'data' => $user
-            ]);
+                'status'=> 200,
+            ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'code' => 404,
-
-            ]);
+                'status'=> 200,
+            ],404);
         }
     }
 
@@ -214,17 +229,17 @@ class UserController extends Controller
             }
 
             return response()->json([
+                'data' => $user,
                 'type' => 'success',
                 'message' => 'User profile Updated successfully',
-                'data' => $user,
-                'code' => 200,
-            ]);
+                'status'=> 200,
+            ],200);
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'something went wrong',
-                'code' => 404,
-            ]);
+                'message' => 'user not found',
+                'status'=> 404,
+            ],404);
         }
     }
 }
