@@ -11,5 +11,7 @@ class InformationSlug extends Model
 
     protected $table="information_slugs";
 
+    protected $primaryKey = 'id';
+
     protected $fillable=["slug","description"];
 }
