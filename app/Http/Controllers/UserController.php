@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(SignupCheck $request)
+     public function signup(SignupCheck $request)
     {
         if ($request->password == $request->confirmPassword) {
             $data = [
@@ -48,10 +48,12 @@ class UserController extends Controller
         }
     }
 
-    public function login(LoginCheck $request)
+    public function login(Request $request)
     {
 
         $person = User::where('email', $request->email)->first();
+
+        // dd($person);
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
@@ -138,7 +140,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
+        $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
         // $user = User::create($request->all());
