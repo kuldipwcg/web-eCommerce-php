@@ -20,9 +20,8 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(SignupCheck $request)
+     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
         if ($request->password == $request->confirmPassword) {
             $data = [
 
@@ -49,10 +48,12 @@ class UserController extends Controller
         }
     }
 
-    public function login(LoginCheck $request)
+    public function login(Request $request)
     {
 
         $person = User::where('email', $request->email)->first();
+
+        // dd($person);
 
         if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
@@ -70,7 +71,7 @@ class UserController extends Controller
             // return 'error';
         }
     }
-   
+    //logout 
 
     public function change(Request $request)
     {
@@ -116,8 +117,78 @@ class UserController extends Controller
         ], 200);
     }
 
-  
-   
+    public function index()
+    {
+
+        $user = User::latest()->paginate(10);
+        if ($user) {
+            return response()->json([
+                'data' => $user,
+                'type' => 'success',
+                'message' => 'User profile displayed successfully',
+                'status'=> 200,
+            ],200);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'status'=> 404,
+            ],404);
+        }
+    }
+
+    public function store(UserRequest $request)
+    {
+        $image = $request->file('image');
+        $imageName = time() . $image->getClientOriginalName();
+        $image->move(public_path('/upload/userProfile/'), $imageName);
+        $profileUrl = url('/upload/userProfile/' . $imageName);
+        // $user = User::create($request->all());
+
+        $user = User::create([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
+            'phoneNo' => $request->phoneNo,
+            'dob' => $request->dob,
+            'image' => $profileUrl,
+
+        ]);
+        if ($user) {
+            return response()->json([
+                'data' => $user,
+                'type' => 'success',
+                'message' => 'User profile added successfully',
+                'status'=> 200,
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'status'=> 404,
+            ]);
+        }
+    }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            return response()->json([
+                'data' => $user,
+                'type' => 'success',
+                'message' => 'User profile displayed successfully',
+                'status'=> 200,
+            ],200);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'status'=> 200,
+            ],404);
+        }
+    }
+
     public function update(Request $request)
     {
 

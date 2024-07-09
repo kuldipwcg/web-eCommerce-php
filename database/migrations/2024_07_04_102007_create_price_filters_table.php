@@ -9,20 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
-
-
     public function up(): void
     {
-        Schema::create('banners', function (Blueprint $table) {
-
-           $table->id();
-            $table->string('banner_image');
-            $table->string('banner_title',25);
-            $table->string('banner_desc',100);
-            $table->string('banner_link');
+        Schema::create('price_filters', function (Blueprint $table) {
+            $table->id();
+            $table->integer('min');
+            $table->integer('max');
             $table->timestamps();
-            
         });
     }
 
@@ -31,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_images');
+        Schema::dropIfExists('price_filters');
     }
 };

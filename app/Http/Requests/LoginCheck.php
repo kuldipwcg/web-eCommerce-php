@@ -24,7 +24,7 @@ class LoginCheck extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ];
     }
@@ -41,6 +41,7 @@ class LoginCheck extends FormRequest
     public function messages()
     {
         return [
+            "email.email"=> "Please enter valid email",
             'email.required' => 'Email is required',
             'password.required' => 'Password is required',
         ];

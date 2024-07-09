@@ -10,11 +10,9 @@ class Product extends Model
 {
 
     use HasFactory;
+
     protected $with = ['product_image'];
-    // protected $with = ['reviews'];
-    protected $table = "products";
-    // protected $with = ['product_image','reviews'];
-    protected $primaryKey = "id";
+
     protected $fillable = [
         'product_name',
         'short_desc',
@@ -26,19 +24,19 @@ class Product extends Model
         'discount_value',
         'is_featured',
     ];
-
+    protected $hidden = ['created_at','updated_at'];
     public function product_image()
-    {   
-        
-        return $this->hasMany(ProductImage::class); 
-
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function product_variants(){
+    public function product_variants()
+    {
         return $this->hasMany(ProductVariants::class);
     }
 }

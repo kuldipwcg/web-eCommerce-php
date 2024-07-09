@@ -25,13 +25,14 @@ class ProductSizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'size' => 'required',
+            'size' => "required|unique:product_sizes,size",
         ];
     }
     public function messages():array
     {
         return [
-            'required' => "Size is Required",
+            "size.required" => "The size name is required.",
+            "size.unique"=> "The size name must be unique.",
         ];
     }
 
@@ -39,10 +40,11 @@ class ProductSizeRequest extends FormRequest
     {
         throw new HttpResponseException(
             response()->json([
+                'status' => 403,
                 'success' => false,
                 'message' => 'Validation errors',
                 'data' => $validator->errors(),
-            ]),
+            ],403),
         );
     }
 }

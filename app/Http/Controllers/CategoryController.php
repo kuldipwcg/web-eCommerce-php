@@ -5,21 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\categoryValidation;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        // $category=Category::with('subcategories')->get();
-        // // dd($category);
-        // return response()->json(Category::all());
-        $category = Category::with('subcategories')->latest()->paginate(10);
+        $category = Category::with('subcategories')->where('status','active')->latest()->get();
 
         return response()->json([
+            'data' => $category,
             'type' => 'success',
             'message' => 'Category showed successfully',
-            'code' => 200,
-            'data' => $category,
+            'status' => 200,
         ]);
     }
 
@@ -36,9 +34,9 @@ class CategoryController extends Controller
         ]);
         return response()->json(['message' => 'category added successfully', 'data' => $record, 'status' => 200]);
     }
-    public function show()
+    public function show($id)
     {
-        $category = Category::get();
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
@@ -51,11 +49,12 @@ class CategoryController extends Controller
         $image = $request->file('image');
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/images/'), $imageName);
+        $categoryUrl = url('/upload/category/' . $imageName);
 
         $category->update([
             'category_name' => $request->category_name,
             'sub_categories_id' => $request->sub_categories_id,
-            'image' => $imageName,
+            'image' => $categoryUrl,
             'status' => $request->status,
         ]);
         return response()->json($category, 200);
@@ -69,5 +68,23 @@ class CategoryController extends Controller
         }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
+    }
+
+    public function categorystatus(Request $request, $id)
+    {
+        $category = CategoryController::find($id);
+        if(!$category){
+            return response()->json([
+                'Message' => "Category is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $category->status = $request->status;
+        $category->save();
+        return response()->json([
+            'message' => 'Category status updated successfully.',
+            'status' => 200
+        ]);
     }
 }

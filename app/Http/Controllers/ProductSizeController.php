@@ -10,50 +10,71 @@ class ProductSizeController extends Controller
 {
     public function index()
     {
-        return response()->json(ProductSize::orderBy('created_at')->get());
+        $size = ProductSize::where('status', 'active')->orderBy('created_at')->get();
+        return response()->json(["size"=>$size]);
     }
 
 
     public function store(ProductSizeRequest $request)
     {
-        $record = ProductSize::create($request->all());
+        $size = ProductSize::create($request->all());
         return response()->json([
-            'Message'=>"Size inserted successfully",
-            'data' => $record, 
+            'Message' => "Size inserted successfully.",
+            'data' => $size,
             'status' => 200
         ]);
     }
-
-
-    public function show($id)
-    {
-        $record = ProductSize::findOrFail($id);
-        return response()->json([
-            'data' => $record, 
-            'status' => 200
-        ]);
-    }
-
 
     public function update(ProductSizeRequest $request, $id)
     {
-        $record = ProductSize::findOrFail($id);
-        $record->fill($request->all());
-        $record->save();
+        $size = ProductSize::find($id);
+        if(!$size){
+            return response()->json([
+                'Message' => "Size is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $size->update($request->all());
+        $size->save();
         return response()->json([
-            'Message'=>"Size Updated successfully",
-            'data' => $record, 
+            'Message' => "Size Updated successfully.",
+            'data' => $size,
             'status' => 200
         ]);
     }
 
-
     public function destroy($id)
     {
-        $record = ProductSize::findOrFail($id);
-        $record->delete();
+        $size = ProductSize::find($id);
+        if(!$size){
+            return response()->json([
+                'Message' => "Size is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $size->delete();
         return response()->json([
-            'Message'=>"Size Deleted successfully",
+            'Message' => "Size Deleted successfully.",
+            'status' => 200
+        ]);
+    }
+
+    public function sizestatus(Request $request, $id)
+    {
+        $size = ProductSize::find($id);
+        if(!$size){
+            return response()->json([
+                'Message' => "Size is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $size->status = $request->status;
+        $size->save();
+        return response()->json([
+            'message' => 'Size status updated successfully.',
             'status' => 200
         ]);
     }

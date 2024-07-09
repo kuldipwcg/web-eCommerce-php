@@ -24,23 +24,24 @@ class cartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'product_id' => 'required',
             'quantity' => 'required|integer',
-            'image'=> 'required|mimes:jpeg,jpg,png|max:5000',
-            'total' => 'required|numeric',
-            'order_placed' => 'boolean',
+            // 'order_placed' => 'boolean',
         ];
     }
     public function messages()
     {
         return [
-            'user_id.required' => 'user_id is required.',
+            // 'user_id.required' => 'user_id is required.',
+            // 'product_id' => 'required|exists:products,id',
             'product_id.required' => 'product_id is required.',
-            'quantity.required' => 'quantity is required.',
-            'total.required' => 'total is required.',
-            'order_placed.required'=>'order_placed is required.'
+            // 'quantity.required' => 'quantity is required.',
+            'quantity' => 'required|integer|max:2',
         ];
+           
+          
+        
     }
     public function failedValidation(Validator $validate)
     {

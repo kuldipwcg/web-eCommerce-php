@@ -13,6 +13,7 @@ class SubCategoryController extends Controller
         {
             $subCategories=subCategory::with('Category')->latest()->paginate(10);
             return response()->json([
+                'data'=>$sub_category,
                 'type'=>'success',
                 'message'=>'subCategories showed successfully',
                 'code'=>200,
@@ -38,6 +39,7 @@ class SubCategoryController extends Controller
             
 
     }
+    public function show($id)    
     public function show($id)    
     {
         $subCategory = Subcategory::find($id);

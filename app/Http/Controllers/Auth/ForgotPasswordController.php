@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 
@@ -36,21 +35,28 @@ class ForgotPasswordController extends Controller
         }
     }
 
+
+    //resetting password
     public function updatePassword(ResetPasswordCheck $request)
     {
+        //with guest api
         $this->middleware('guest');
 
         try {
-           
+
+            // reset function to reset the password
             $status = Password::reset(
                 $request->only('email', 'password', 'password_confirmation', 'token'),
                 function ($user, $password) {
+
+                    //bypassing mass assignment protection
                     $user->forceFill([
                         'password' => Hash::make($password),
-                    ])->setRememberToken(Str::random(60));
+                    ]);
 
                     $user->save();
 
+                    // event is dispatched for reset password
                     event(new PasswordReset($user));
                 }
             );

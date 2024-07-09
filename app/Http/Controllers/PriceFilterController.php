@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProductColorSizeController extends Controller
+class PriceFilterController extends Controller
 {
-    //
+    
+    
+
 }
