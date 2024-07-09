@@ -102,22 +102,22 @@ class WishlistController extends Controller
         dd($Wishlist);
         // $products = Product::latest('id')->get();
 
-    if ($Wishlist->delete()) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Wishlist detail deleted successfully',
-            'code' => 200,
-        ]);
-    }
+        if ($Wishlist->delete()) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'Wishlist detail deleted successfully',
+                'code' => 200,
+            ]);
+        }
 
-    else
-    {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'Wishlist detail not deleted successfully',
-            'code' => 404,
-        ]);
-    }
+        else
+        {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'Wishlist detail not deleted successfully',
+                'code' => 404,
+            ]);
+        }
     
     }
 
@@ -126,23 +126,22 @@ class WishlistController extends Controller
         $id = auth()->user()->id;
 
     if($id){
-    //
         $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
 
-    if ($Wishlist) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Wishlist items displayed successfully',
-            'code' => 200,
-            'data' => $Wishlist
-        ]);
-    } else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-        ]);
-    }
+        if ($Wishlist) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'Wishlist items displayed successfully',
+                'code' => 200,
+                'data' => $Wishlist
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'something went wrong',
+                'code' => 404,
+            ]);
+        }
     }
     }
 }

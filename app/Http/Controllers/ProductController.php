@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\PriceFilter;
 use App\Models\ProductSize;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
@@ -18,16 +17,24 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $products = Product::with(['reviews','product_image', 'product_variants'])->get();
+
+    $formattedProducts = $products->map(function ($product) {
+        $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
+        $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
+    public function index()
+    {
         $products = Product::with(['reviews', 'product_image', 'product_variants'])->get();
 
         $formattedProduct = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
             $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
 
-            $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
-            $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+        $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
+        $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
+        // dd($colors);
 
-            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+        $avgRating = Review::where('product_id', $product->id)->avg('rating');
 
 
             return [
@@ -64,14 +71,20 @@ class ProductController extends Controller
 
         //getting the data according to search
         if ($request->has('search')) {
-            $productSearch = Product::whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
 
+            foreach(explode(" ",$request->search) as $str)
+            {
+                
+                $productSearch = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
+            }
+            
+            // dd(Product::with(['reviews', 'product_image', 'product_variants'])->where('id',29)->get()->toArray());
+            
             $FinalSearch = collect($productSearch)->pluck('id')->toArray();
             $FinalProduct[] = $FinalSearch;
 
             // dd($productSearch);
         }
-
 
         //getting the filtered data
         if ($request->has('filter')) {
@@ -81,6 +94,7 @@ class ProductController extends Controller
             //products from price filter
             if (array_key_exists('price', $filter)) {
 
+                
                 $len = count($filter['price']);
                 $min = $filter['price'][0][0];
                 $max = $filter['price'][$len - 1][1];
@@ -97,7 +111,7 @@ class ProductController extends Controller
 
 
 
-
+            // dd($productSearch);
             //products from size filter
 
             if (array_key_exists('size', $filter)) {

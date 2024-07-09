@@ -20,10 +20,8 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(SignupCheck $request)
+     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
-        
         if ($request->password == $request->confirmPassword) {
             $data = [
 
@@ -55,7 +53,9 @@ class UserController extends Controller
 
         $person = User::where('email', $request->email)->first();
 
-        if (Hash::check($request->password, $person->password) ) {
+        // dd($person);
+
+        if (Hash::check($request->password, $person->password)) {
             $token = $person->createToken('user-auth')->accessToken;
             $data =['person'=>$person,'token'=>$token];
             return response()->json([
@@ -68,8 +68,10 @@ class UserController extends Controller
                 'message' => 'Credential are wrong',
                 'status'=> 404,
             ], 404);
+            // return 'error';
         }
     }
+    //logout 
 
     public function change(Request $request)
     {
@@ -93,7 +95,7 @@ class UserController extends Controller
 
             return response()->json(
                 [
-                    'message' => ' Error occurred',
+                    'message' => ' Error  Occureed',
                     'status'=> 404,                   
                 ],
                 404
@@ -104,6 +106,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+
         $user = auth()->user()->token();
         $user->delete();
 
@@ -116,6 +119,7 @@ class UserController extends Controller
 
     public function index()
     {
+
         $user = User::latest()->paginate(10);
         if ($user) {
             return response()->json([
@@ -139,6 +143,7 @@ class UserController extends Controller
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
+        // $user = User::create($request->all());
 
         $user = User::create([
             'firstName' => $request->firstName,
@@ -187,12 +192,18 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
+        // dd($request);
+
         $id = auth()->user()->id;
+
         $user = User::find($id);
 
         if ($user) {
+
             $input = $request->all();
+
             $user->fill($input)->save();
+
 
             $image = $request->file('image');
             if ($image == null) {

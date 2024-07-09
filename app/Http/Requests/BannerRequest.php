@@ -24,6 +24,7 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "banner_image"=>"mimes:jpeg,jpg,png,gif",
             "banner_title" => "required",
             "banner_desc" => "required",
             "banner_link" => "required|url",
@@ -37,6 +38,7 @@ class BannerRequest extends FormRequest
             "banner_desc.required" => "Banner Description field required",
             "banner_link.required" => "Banner Link field required",
             "banner_link.url"=> "Enter valid URL",
+            "banner_image.mimes"=>"banner image must be in jpeg, jpg, png or gif",
         ];
     }
     public function failedValidation(Validator $validator)

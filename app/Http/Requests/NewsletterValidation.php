@@ -24,7 +24,7 @@ class NewsletterValidation extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>'required|email|unique:newsletters,email',
+            'email'=>'required|email:dns|unique:newsletters,email',
         ];
     }
 

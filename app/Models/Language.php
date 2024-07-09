@@ -11,8 +11,10 @@ class Language extends Model
 
     protected $table="languages";
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         "name",
         "code",
-    ];
+    ]; 
 }

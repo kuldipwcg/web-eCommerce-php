@@ -9,8 +9,6 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
-
     protected $fillable = ['user_id', 'cart_id', 'order_date', 'status', 'total'];
     public function billings()
     {
@@ -26,13 +24,4 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
     }
-    // public function customer()
-    // {
-    //     return $this->belongsTo(Customer::class);
-    // }
-
-    // public function orderItems()
-    // {
-    //     return $this->hasMany(OrderItem::class);
-    // }
 }
