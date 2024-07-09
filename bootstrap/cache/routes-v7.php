@@ -6832,3 +6832,4 @@ app('router')->setCompiledRoutes(
   ),
 )
 );
+

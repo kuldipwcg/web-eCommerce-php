@@ -41,4 +41,6 @@ class SubCategoryRequest extends FormRequest
             'subcategoryName.required' => 'category_name is required.',
         ];
     }
+
+
 }
