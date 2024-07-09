@@ -1,3 +1,4 @@
+``` php
 <?php
 use Illuminate\Http\Request;
 
@@ -16,13 +17,8 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\InformationSlugController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
-
-// use App\Http\Controllers\ForgotPasswordController;
-use Laravel\Passport\Http\Controllers\AccessTokenController;
-use Laravel\Passport\Http\Controllers\TransientTokenController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
-use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,67 +31,15 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::middleware('auth:api')->group(function () {
-    // Route::post('/signup','UserController@signup')->name('signup');
-});
-
-//signup for user
-Route::post('signup', [UserController::class, 'signup'])->name('signup');
-Route::post('login', [UserController::class, 'login'])->name('login');
-
+//User side Routes
 Route::middleware('guest:api')->group(function () {
     Route::post('signup', [UserController::class, 'signup'])->name('signup');
     Route::post('login', [UserController::class, 'login'])->name('login');
 });
 
-Route::middleware('auth:api')->group(function () {
-    Route::post('logout', [UserController::class, 'logout'])->name('logout');
-    Route::post('changePassword', [UserController::class, 'change']);
-    Route::put('updateProfile', [UserController::class, 'update']);
-    Route::get('profile', function (Request $r) {
-        return response()->json([
-            'data'=>auth()->user(),
-            'dob'=>auth()->user()->dob,
-        ]); 
-
-    }); 
-    //wishlist routes
-    Route::get('getWishlist',[WishlistController::class,'show'])->name('getWishlist');
-    Route::delete('deleteWishlist', [WishlistController::class, 'destroy']); 
-    Route::post('addWishList/{id}',[WishlistController::class,'store']);
-            'detail' => auth()->user(),
-            'dob' => auth()->user()->dob,
-        ]);
-    });
-});
-
-Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
-
-// for admin
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-    Route::get('contactlist', [ContactController::class, 'show'])->name('contactlist');
-    Route::get('subscriber', [NewsLetterController::class, 'show'])->name('subscriber');
-
-    //admin category
-    Route::get('categorylist', [CategoryController::class, 'show'])->name('categorylist');
-    Route::post('addcategory', [CategoryController::class, 'store'])->name('addcategory');
-
-    //admin subcategory
-    Route::get('subcategorylist', [SubCategoryController::class, 'show'])->name('subcategorylist');
-    Route::post('addsubcategory', [SubCategoryController::class, 'store'])->name('addsubcategory');
-
-    //footer
-    Route::post('add-footer', [FooterController::class, 'store']);
-    Route::put('update-footer', [FooterController::class, 'update']);
-
-    Route::middleware('auth:admin')->group(function () {
-        Route::post('logout', [AdminController::class, 'logout']);
-        Route::post('change-password', [AdminController::class, 'change']);
-    });
-});
+//resource routes
+Route::apiResource('contactUs', ContactController::class);
+Route::apiResource('newsLetter', NewsLetterController::class);
 
 //when come at login without authorization
 Route::get('login', function () {
@@ -105,32 +49,56 @@ Route::get('login', function () {
     ]);
 })->name('error');
 
-// Resource routes
-Route::apiResource('user', UserController::class);
-Route::apiResource('banners', BannerController::class);
-Route::apiResource('sizes', ProductSizeController::class);
-Route::apiResource('colors', ProductColorController::class);
-Route::apiResource('category', CategoryController::class);
-Route::apiResource('products', ProductController::class);
-Route::apiResource('subcategory', SubCategoryController::class);
-Route::apiResource('order', OrderController::class);
-Route::apiResource('carts', CartController::class);
-Route::apiResource('billingAddress', BillingController::class);
-Route::apiResource('payment', PaymentController::class);
-Route::apiResource('shippingAddress', ShippingController::class);
-Route::apiResource('language', LanguageController::class);
-Route::apiResource('informationslug', InformationSlugController::class);
-Route::apiResource('sizes', ProductSizeController::class);
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [UserController::class, 'logout'])->name('logout');
+    Route::post('changePassword', [UserController::class, 'change']);
+    Route::put('updateProfile', [UserController::class, 'update']);
+    Route::get('profile', function (Request $r) {
+        return response()->json([
+            'data' => auth()->user(),
+            'dob' => auth()->user()->dob,
+        ]);
+    });
+    //cart routes
+    Route::get('cart', [CartController::class, 'index']);
+    Route::post('cart/store', [CartController::class, 'store']);
+    Route::post('cart/add', [CartController::class, 'addtocart']);
+    Route::put('cart/{id}', [CartController::class, 'update']);
+    Route::delete('cart/{id}', [CartController::class, 'destroy']);
+
+    //wishlist routes
+    Route::get('getWishlist', [WishlistController::class, 'show'])->name('getWishlist');
+    Route::delete('deleteWishlist', [WishlistController::class, 'destroy']);
+    Route::post('addWishList/{id}', [WishlistController::class, 'store']);
+
+    // Resource routes
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('order', OrderController::class);
+    Route::apiResource('carts', CartController::class);
+    Route::apiResource('billingAddress', BillingController::class);
+    Route::apiResource('shippingAddress', ShippingController::class);
+    Route::apiResource('reviews', ReviewController::class);
+});
+//banner
+Route::get('banners', [BannerController::class, 'index']);
+
+//informationslug
+Route::get('informationSlug/{informationslug}', [InformationSlugController::class, 'index']);
+
+//reset password with mail
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('resetPassword', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
+
+//products
+Route::get('products/{id}', [ProductController::class, 'show'])->name('products');
+Route::get('products', [ProductController::class, 'index']);
+Route::post('filterProduct', [ProductController::class, 'display']);
 
 //footer route(to get footer data)
 Route::get('footer', [FooterController::class, 'index']);
 
-// Newsletter routes
-Route::post('addnewsletter', [NewsLetterController::class, 'store'])->name('addnewsletter');
-Route::put('updatenewsletter/{id}', [NewsLetterController::class, 'update'])->name('updatenewsletter');
-Route::delete('deletenewsletter/{id}', [NewsLetterController::class, 'destroy'])->name('destroynewsletter');
+//category
+Route::get('category', [SubCategoryController::class, 'index']);
 
-//routes for contact details .
-Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
+//subcategory user side
+Route::get('subcategory', [SubCategoryController::class, 'show']);

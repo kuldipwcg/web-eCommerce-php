@@ -39,6 +39,7 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category added successfully', 'data' => $record, 'status' => 200]);
     }
 
+    // Retrieve the category by ID
     public function show($id)
 
     {
@@ -78,21 +79,5 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category deleted successfully']);
     }
 
-    public function categorystatus(Request $request, $id)
-    {
-        $category = CategoryController::find($id);
-        if(!$category){
-            return response()->json([
-                'Message' => "Category is not available",
-                'status' => 404
-            ],404);
-        }
-
-        $category->status = $request->status;
-        $category->save();
-        return response()->json([
-            'message' => 'Category status updated successfully.',
-            'status' => 200
-        ]);
-    }
+    
 }
