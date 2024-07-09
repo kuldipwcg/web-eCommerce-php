@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         $ORDER = Order::find($id);
         if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json(['error' => 'Order not found'], 422);
         }
 
         return response()->json(
@@ -48,7 +48,7 @@ class OrderController extends Controller
     {
         $ORDER = Order::find($id);
         if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json(['error' => 'Order not found'], 422);
         }
 
         $ORDER->update([
@@ -66,7 +66,7 @@ class OrderController extends Controller
     {
         $ORDER = Order::find($id);
         if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json(['error' => 'Order not found'], 422);
         }
         $ORDER->delete();
         return response()->json(['message' => 'Order deleted successfully']);

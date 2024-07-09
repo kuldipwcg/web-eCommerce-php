@@ -41,9 +41,7 @@ class billingRequest extends FormRequest
             "zipCode.required"=>"zipcode is required",
             "country.required" => "country is required",
             "state.required" => "state is required",
-            "city.required" => "city is required",
-          
-           
+            "city.required" => "city is required",   
         ];
     }
     public function failedValidation(Validator $validator)

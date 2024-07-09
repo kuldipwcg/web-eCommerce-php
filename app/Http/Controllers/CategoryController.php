@@ -36,7 +36,7 @@ class CategoryController extends Controller
             'image' => $categoryUrl,
             'status' => $request->status,
         ]);
-        return response()->json(['message' => 'category added successfully', 'data' => $record, 'status' => 200]);
+        return response()->json(['message' => 'Category added successfully', 'data' => $record, 'status' => 200]);
     }
 
     public function show($id)
