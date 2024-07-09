@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
@@ -12,8 +11,7 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Models\ProductVariants;
 use App\Http\Requests\ProductRequest;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+
 
 class ProductController extends Controller
 {
