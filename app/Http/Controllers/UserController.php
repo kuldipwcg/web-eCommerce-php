@@ -43,19 +43,26 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'Message' => 'Password and Confirm Password should be same',
-                'status'=> 404,
-            ],404);
+                'status'=> 422,
+            ],422);
         }
     }
 
     public function login(Request $request)
     {
-
         $person = User::where('email', $request->email)->first();
 
-        // dd($person);
-
         if (Hash::check($request->password, $person->password)) {
+            if ($person->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'User is not active',
+                        'status' => 422,
+                    ],
+                    422,
+                );
+            }
+
             $token = $person->createToken('user-auth')->accessToken;
             $data =['person'=>$person,'token'=>$token];
             return response()->json([
@@ -66,8 +73,8 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'message' => 'Credential are wrong',
-                'status'=> 404,
-            ], 404);
+                'status'=> 422,
+            ], 422);
             // return 'error';
         }
     }
@@ -96,9 +103,9 @@ class UserController extends Controller
             return response()->json(
                 [
                     'message' => ' Error  Occureed',
-                    'status'=> 404,                   
+                    'status'=> 422,                   
                 ],
-                404
+                422
             );
         }
     }
@@ -106,7 +113,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-
         $user = auth()->user()->token();
         $user->delete();
 
@@ -119,7 +125,6 @@ class UserController extends Controller
 
     public function index()
     {
-
         $user = User::latest()->paginate(10);
         if ($user) {
             return response()->json([
@@ -132,8 +137,8 @@ class UserController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'status'=> 404,
-            ],404);
+                'status'=> 422,
+            ],422);
         }
     }
 
@@ -165,7 +170,7 @@ class UserController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'something went wrong',
-                'status'=> 404,
+                'status'=> 422,
             ]);
         }
     }
@@ -185,21 +190,16 @@ class UserController extends Controller
                 'type' => 'failure',
                 'message' => 'something went wrong',
                 'status'=> 200,
-            ],404);
+            ],422);
         }
     }
 
     public function update(Request $request)
     {
 
-        // dd($request);
-
         $id = auth()->user()->id;
-
         $user = User::find($id);
-
         if ($user) {
-
             $input = $request->all();
 
             $user->fill($input)->save();
@@ -226,8 +226,27 @@ class UserController extends Controller
             return response()->json([
                 'type' => 'failure',
                 'message' => 'user not found',
-                'status'=> 404,
-            ],404);
+                'status'=> 422,
+            ],422
+);
         }
+    }
+
+    public function userstatus(Request $request, $id)
+    {
+        $user = UserController::find($id);
+        if(!$user){
+            return response()->json([
+                'Message' => "User is not available",
+                'status' => 422
+            ],422);
+        }
+
+        $user->status = $request->status;
+        $user->save();
+        return response()->json([
+            'message' => 'User status updated successfully.',
+            'status' => 200
+        ]);
     }
 }

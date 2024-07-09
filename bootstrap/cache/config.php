@@ -728,10 +728,6 @@
     ),
     'compiled' => '/var/www/html/web-eCommerce-php/storage/framework/views',
   ),
-  'base64validation' => 
-  array (
-    'replace_validation_messages' => true,
-  ),
   'flare' => 
   array (
     'key' => NULL,
@@ -858,4 +854,3 @@
     ),
   ),
 );
-

@@ -25,9 +25,8 @@ class ProductController extends Controller
 
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
-            // dd($colors);
 
-            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+            $avgRating = Review::where('product_id', $product->id)->avg('rating');  
 
             return [
                 'product_id' => $product->id,
@@ -180,6 +179,15 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $category = Category::where('category_name', $request->category_name)->first();
+        if (!$category || $category->status !== 'active') {
+            return response()->json(
+                [
+                    'Message' => 'Category is not active or not available.',
+                    'status' => 200,
+                ],
+                200,
+            );
+        }
 
         $product = Product::create([
             'product_name' => $request->product_name,
@@ -197,22 +205,22 @@ class ProductController extends Controller
             $color = ProductColor::where('color', $v['color'])->first();
             $size = ProductSize::where('size', $v['size'])->first();
 
-            if (!$color) {
+            if (!$color || $color->status !== 'active') {
                 return response()->json(
                     [
-                        'Message' => 'Color is not available.',
-                        'status' => 404,
+                        'Message' => 'Color is not active or not available.',
+                        'status' => 200,
                     ],
-                    404,
+                    200,
                 );
             }
-            if (!$size) {
+            if (!$size || $size->status !== 'active') {
                 return response()->json(
                     [
-                        'Message' => 'Size is not available.',
-                        'Status' => 404,
+                        'Message' => 'Size is not active or not available.',
+                        'Status' => 200,
                     ],
-                    404,
+                    200,
                 );
             }
 
@@ -239,9 +247,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Image Not found',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
 
@@ -257,9 +265,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Product data is not available',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
 
@@ -300,9 +308,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Product data is not available',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
     }
@@ -314,9 +322,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Product data is not available',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
 
@@ -333,9 +341,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Product data is not available',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
 
@@ -344,9 +352,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Category is not available.',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
 
@@ -417,9 +425,9 @@ class ProductController extends Controller
             return response()->json(
                 [
                     'Message' => 'Product is not available',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
         $product->status = $request->status;
@@ -444,7 +452,7 @@ class ProductController extends Controller
                 [
                     'message' => 'Data not found',
                 ],
-                404,
+                200,
             );
         }
     }

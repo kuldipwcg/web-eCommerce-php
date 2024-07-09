@@ -52,7 +52,17 @@ class CategoryController extends Controller
     //method to update Category
     public function update(CategoryRequest $request, $id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::find($id);
+        if (!$category || $category->status !== 'active') {
+            return response()->json(
+                [
+                    'Message' => 'Category is not active or not available.',
+                    'status' => 422,
+                ],
+                422,
+            );
+        }
+        
         $image = $request->file('image');
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/images/'), $imageName);
