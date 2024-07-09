@@ -85,6 +85,7 @@ class CategoryController extends Controller
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 200);
         }
+        
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
     }
