@@ -50,8 +50,8 @@ Route::get('login', function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
-    Route::post('change-password', [UserController::class, 'change']);
-    Route::put('update-profile', [UserController::class, 'update']);
+    Route::post('changePassword', [UserController::class, 'change']);
+    Route::put('updateProfile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
         
         return response()->json([
@@ -61,9 +61,9 @@ Route::middleware('auth:api')->group(function () {
 
     }); 
     //wishlist routes
-    Route::get('show-wishlist',[WishlistController::class,'show'])->name('show-wishlist');
-    Route::delete('Delete-wishlist', [WishlistController::class, 'destroy']); 
-    Route::post('Add-WishList/{id}',[WishlistController::class,'store']);
+    Route::get('getWishlist',[WishlistController::class,'show'])->name('getWishlist');
+    Route::delete('deleteWishlist', [WishlistController::class, 'destroy']); 
+    Route::post('addWishList/{id}',[WishlistController::class,'store']);
 
     // Resource routes
     Route::apiResource('user', UserController::class);
@@ -78,24 +78,18 @@ Route::apiResource('language',LanguageController::class);
 Route::apiResource('contactUs',ContactController::class);
 Route::apiResource('newsLetter', NewsLetterController::class);
 Route::get('banners', [BannerController::class,'index']);
-Route::get('informationslug', [InformationSlugController::class,'index']);
+Route::get('informationSlug/{informationslug}', [InformationSlugController::class,'index']);
 
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
-Route::post('reset-password', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
+Route::post('resetPassword', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
 
 //products
 Route::get('products/{id}', [ProductController::class,'show'])->name('products');
 Route::get('products', [ProductController::class,'index']);
-Route::post('filter-product', [ProductController::class,'display']);
+Route::post('filterProduct', [ProductController::class,'display']);
 
 //footer route(to get footer data)
 Route::get('footer',[FooterController::class,'index']);
-
-//filter and product search(shop page)
-Route::post('display-product', [ProductController::class,'display']);
-
-//cart 
-Route::post('add-to-cart', [CartController::class,'store'])->name('add-to-cart');
 
 //category
 Route::get('category', [SubCategoryController::class,'index']);
