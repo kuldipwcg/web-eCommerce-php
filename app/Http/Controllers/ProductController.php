@@ -112,7 +112,7 @@ class ProductController extends Controller
 
 
 
-
+            // dd($productSearch);
             //products from size filter
 
             if (array_key_exists('size', $filter)) {

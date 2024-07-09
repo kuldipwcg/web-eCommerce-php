@@ -74,3 +74,4 @@ use HasApiTokens, HasFactory, Notifiable;
         return $this->hasMany(Cart::class,'user_id','id');
     }
 }
+

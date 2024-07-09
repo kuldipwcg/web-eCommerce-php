@@ -14,5 +14,7 @@ class contact extends Model
         'subject',
         'email',
         'message',
-    ];
+    ]; 
+
+    protected $hidden = ['created_at','updated_at'];
 }
