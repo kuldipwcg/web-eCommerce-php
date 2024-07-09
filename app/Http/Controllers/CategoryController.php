@@ -9,9 +9,12 @@ use App\Http\Requests\categoryValidation;
 
 class CategoryController extends Controller
 {
+    //list all category with their Subcagory paginate by  10 items per pageto items :-
     public function index()
     {
-        $category = Category::with('subcategories')->where('status','active')->latest()->get();
+
+        $category = Category::with('subcategories')->latest()->paginate(10);
+
 
         return response()->json([
             'data' => $category,
@@ -21,6 +24,7 @@ class CategoryController extends Controller
         ]);
     }
 
+    // Store a newly created Category
     public function store(CategoryRequest $request)
     {
         $image = $request->file('image');
@@ -34,7 +38,9 @@ class CategoryController extends Controller
         ]);
         return response()->json(['message' => 'category added successfully', 'data' => $record, 'status' => 200]);
     }
+
     public function show($id)
+
     {
         $category = Category::find($id);
         if (!$category) {
@@ -43,6 +49,7 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
+    //method to update Category
     public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -60,6 +67,7 @@ class CategoryController extends Controller
         return response()->json($category, 200);
     }
 
+    // Remove the specified Category
     public function destroy($id)
     {
         $category = Category::find($id);

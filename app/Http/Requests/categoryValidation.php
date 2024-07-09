@@ -8,24 +8,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 class categoryValidation extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+   
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        //for the updation process, ignore current category id for check unique category name
-        //  $ignoreId = $this->category!= null? $this->category->id : '';
-
         return [
             'category_name' => ['required', Rule::unique('categories', 'category_name')],
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',

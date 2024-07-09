@@ -4,53 +4,101 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
-use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function index()
+    //list all cart with their  paginate by  10 items per page to items :-
+    public function index(Request $request)
     {
-        return response()->json(Cart::all());
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json(
+            Cart::where('status', 'active')
+                ->where('user_id', $user->id)
+                ->get(),
+        );
     }
 
-
-    public function store(Request $request)
+    // Store a newly created cart
+    public function store(CartRequest $request)
     {
-        $product = Cart::where('product_id')->with('product')->get();
-        $quantity = 1;
-        dd($product);
-        $product_data = Cart::where('product_id', $user)->get();
-    
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $cart = Cart::create([
+            'user_id' => $user->id,
+            'product_id' => $request->input('product_id'),
+            'quantity' => $request->input('quantity'),
+            'status' => 'active', // default status is active
+            'order_placed' => $request->input('order_placed', false),
+        ]);
 
+        if ($cart) {
+            return response()->json([
+                'type' => 'uccess',
+                'message' => 'Cart data added successfully',
+                'code' => 201,
+                'data' => $cart,
+            ]);
+        } else {
+            return response()->json(
+                [
+                    'type' => 'failure',
+                    'message' => 'Cart data not added successfully',
+                    'code' => 422,
+                ],
+                422,
+            );
+        }
     }
-
-        
-    public function show($id)
+    //Display the specified cart.
+    public function show(Request $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart item not found'], 422);
         }
         return response()->json($cart);
     }
-    public function update(cartRequest $request, $id)
+
+    //method to update Cart
+    public function update(CartRequest $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart not found'], 422);
         }
         $cart->update($request->all());
         return response()->json($cart);
     }
 
-    public function destroy($id)
+    // Remove the specified Category
+    public function destroy(Request $request, $id)
     {
-        $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $cart->delete();
+        $cart = Cart::find($id);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart item not found'], 422);
+        }
+        $cart->update(['status' => 'inactive']); // soft delete
         return response()->json(['message' => 'Cart item deleted successfully']);
     }
+
+
 }

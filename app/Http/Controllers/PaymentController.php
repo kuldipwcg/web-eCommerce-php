@@ -8,29 +8,25 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    //list all Payment :-
+
     public function index()
     {
         $payments = Payment::all();
         return response()->json($payments);
     }
+
+    // Store a newly created payment:-
     public function store(PaymentRequest $request)
     {
         $payment = Payment::create($request->all());
         return response()->json($payment, 201);
     }
+
+    //Display the specified payment.
     public function show(Payment $payment)
     {
         return response()->json($payment);
     }
-    public function update(PaymentRequest $request, Payment $payment)
-    {
-        $payment->update($request->all());
-        return response()->json($payment);
-    }
-    public function destroy(Payment $payment)
-    {
-        $payment->delete();
-        return response()->json(null, 204);
-    }
-
+   
 }

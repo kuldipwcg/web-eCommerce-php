@@ -58,7 +58,7 @@ class ContactController extends Controller
           $data->email = $request->email;
           $data->message = $request->message;
           $data->save();
-        
+
           return response()->json([
             'data' => $contact,
             'Message' => 'contact updated successfully',

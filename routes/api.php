@@ -60,7 +60,6 @@ Route::middleware('auth:api')->group(function () {
         ]); 
 
     }); 
-
     //wishlist routes
     Route::get('getWishlist',[WishlistController::class,'show'])->name('getWishlist');
     Route::delete('deleteWishlist', [WishlistController::class, 'destroy']); 
@@ -74,7 +73,6 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('shippingAddress', ShippingController::class);
     Route::apiResource('reviews', ReviewController::class);
 });
-
 //resource routes
 Route::apiResource('language',LanguageController::class);
 Route::apiResource('contactUs',ContactController::class);
