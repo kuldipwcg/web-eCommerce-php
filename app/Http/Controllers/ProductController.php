@@ -17,13 +17,6 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['reviews','product_image', 'product_variants'])->get();
-
-    $formattedProducts = $products->map(function ($product) {
-        $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
-        $sizesId = $product->product_variants->pluck('size_id')->unique()->values()->all();
-    public function index()
-    {
         $products = Product::with(['reviews', 'product_image', 'product_variants'])->get();
 
         $formattedProduct = $products->map(function ($product) {
