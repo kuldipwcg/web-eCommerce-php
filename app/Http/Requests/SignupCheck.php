@@ -27,8 +27,9 @@ class SignupCheck extends FormRequest
         return [
             'firstName' => 'required',
             'lastName' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
+            'confirmPassword' => 'required|same:password',
         ];
     }
 
@@ -47,7 +48,11 @@ class SignupCheck extends FormRequest
             'firstName.required' => 'First Name is required',
             'lastName.required' => 'Last Name is required',
             'email.required' => 'Email is required',
+            "email.email"=> "Please enter valid email",
             'password.required' => 'Password is required',
+            'confirmPassword.required' => 'Confirm Password is required',
+            'confirmPassword.same' => 'Password and Confirm Password should be same',
+
         ];
     }
 

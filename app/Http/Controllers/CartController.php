@@ -14,18 +14,9 @@ class CartController extends Controller
         return response()->json(Cart::all());
     }
 
-    // public function store(cartRequest $request)
-    // {
-    //     // dd(request()->all());
-    //     $cart = Cart::create($request->all());
-
-    //     return response()->json($cart, 201);
-    // }
 
     public function store(Request $request)
     {
-        // $cart = Cart::create($request->except('id'));
-        // return response()->json($cart, 201); 
         $product = Cart::where('product_id')->with('product')->get();
         $quantity = 1;
         dd($product);

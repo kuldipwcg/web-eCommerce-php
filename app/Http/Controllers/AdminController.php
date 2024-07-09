@@ -7,15 +7,14 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\LoginCheck;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateUserCheck;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\SignupCheck;
 use Exception;
 
 
 class AdminController extends Controller
 {
-    public function setAdmin(Request $request)
+    public function setAdmin(LoginCheck $request)
     {
 
         // Check if admin already exists
@@ -47,7 +46,7 @@ class AdminController extends Controller
         try {
             if ($admin && Hash::check($request->password, $admin->password)) {
                 $token = $admin->createToken('AdminToken')->accessToken;
-                // dd($token);
+             
                 return response()->json(['token' => $token,'message'=>'login successfully'], 200);
             } else {
                 return response()->json(['error' => 'Unauthorized'], 402);
@@ -69,7 +68,7 @@ class AdminController extends Controller
         }
     }
 
-
+    //changing password
     public function change(Request $request)
     {
 
@@ -99,7 +98,7 @@ class AdminController extends Controller
                     'message' => 'Error occured',
 
                 ],
-                402
+                500
 
             );
         }
@@ -117,25 +116,38 @@ class AdminController extends Controller
         ], 200);
     } 
 
-    public function update(Request $request)
+    public function update(UpdateUserCheck $request)
     {
 
-        $user = auth()->guard('admin')->user();
+        $id = auth()->guard('admin')->user()->id;
+
+        $user = Admin::find($id);
 
         if ($user) {
-            $input = $request->all();
-
-            $user->fill($input)->save();
 
             $image = $request->file('image');
             if ($image == null) {
+
                 $profileUrl = null;
             } else {
+
+                if($user->image)
+                {
+                    unlink(public_path($user->image));
+                }
+
                 $imageName = $image->getClientOriginalName();
                 $image->move(public_path('/upload/adminProfile/'), $imageName);
-                $profileUrl = url('/upload/adminProfile/' . $imageName);
-                $user->fill(['image' => $profileUrl])->save();
+                $profileUrl = '/upload/adminProfile/' . $imageName;
+                
             }
+
+            $user->firstName = $request->firstName ?: $user->firstName;
+            $user->lastName = $request->lastName ?: $user->lastName;
+            $user->email = $request->email ?: $user->email;
+            $user->image = $profileUrl ?: $user->image;
+            $user->phoneNumber = $request->phoneNumber ?: $user->phoneNumber;
+            $user->save();
 
             return response()->json([
                 'type' => 'success',
@@ -146,8 +158,8 @@ class AdminController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'user not found',
-                'code' => 404,
+                'message' => 'User not found',
+                'code' => 500,
             ]);
         }
     }
