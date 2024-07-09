@@ -15,12 +15,8 @@ class WishlistController extends Controller
     //
     public function index()
     {
-
         //    
         $id = auth()->user()->id;
-
-        if ($id) {
-
             //    
             $wishList = Wishlist::with('product')->where('user_id', $id)->paginate(10);
 
@@ -31,36 +27,33 @@ class WishlistController extends Controller
                     'code' => 200,
                     'data' => $wishList
                 ]);
-            } else {
+            } 
+            
+            else {
                 return response()->json([
                     'type' => 'failure',
-                    'message' => 'Wishlist items do not displayed successfully',
+                    'message' => 'Wishlist do not have items',
                     'code' => 404,
                 ]);
             }
         }
-    }
-
-
-
-
 
     public function toggle(Request $request,$productId)
     {
         
-            $userId = auth()->user()->id;
+            $id  = auth()->user()->id;
            $product = Product::find($productId);
             if (!$product) {
                 return response()->json([
                     'type' => 'failure',
-                    'message' => 'product Does Not Exist',
+                    'message' => 'Product does not exist',
                     'code' => 404,
                 ]);
             }
 
 
             // Check if the product is already in the wishlist
-            $wishList = Wishlist::where('user_id', $userId)->where('product_id', $productId)->first();
+            $wishList = Wishlist::where('user_id', $id)->where('product_id', $productId)->first();
 
             if ($wishList) {
                 // (remove from wishlist)
@@ -73,7 +66,7 @@ class WishlistController extends Controller
             } else {
                 // If it does not exist, add it to the wishlist
                 $wishList = Wishlist::create([
-                    'user_id' => $userId,
+                    'user_id' => $id,
                     'product_id' => $productId,
                 ]);
                 return response()->json([
@@ -84,10 +77,4 @@ class WishlistController extends Controller
                 ]);
             }
         } 
-        
-      
-    
-
-  
-
 }

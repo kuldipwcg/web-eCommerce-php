@@ -70,7 +70,7 @@ class UserController extends Controller
             // return 'error';
         }
     }
-    //logout 
+   
 
     public function change(Request $request)
     {
