@@ -120,7 +120,7 @@ class AdminController extends Controller
     public function update(Request $request)
     {
 
-        $user = auth()->user();
+        $user = auth()->guard('admin')->user();
 
         if ($user) {
             $input = $request->all();

@@ -139,7 +139,6 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-
 //when come at login without authorization 
 Route::get('login', function () {
     return response()->json([

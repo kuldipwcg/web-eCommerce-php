@@ -22,6 +22,8 @@ class UserController extends Controller
 
     public function signup(SignupCheck $request)
     {
+        // dd($request->all());
+        
         if ($request->password == $request->confirmPassword) {
             $data = [
 
@@ -134,7 +136,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
+        $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/userProfile/'), $imageName);
         $profileUrl = url('/upload/userProfile/' . $imageName);
 
