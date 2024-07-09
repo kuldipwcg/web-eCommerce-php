@@ -15,7 +15,7 @@ class InformationSlugController extends Controller
             "data"=> $informationSlug,
             "message"=>"success",
             "status"=>200,
-        ]);
+        ],200);
     }
 
     public function show($slug)
@@ -25,7 +25,7 @@ class InformationSlugController extends Controller
             "data"=> $informationSlug,
             "message"=>"success",
             "status"=>200,
-        ]);
+        ],200);
     }
 
     public function update(Request $request, $slug)
@@ -38,6 +38,6 @@ class InformationSlugController extends Controller
             "data"=> $informationSlug,
             "message"=>"success",
             "status"=>200,
-        ]);
+        ],200);
     }
 }

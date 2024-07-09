@@ -16,7 +16,7 @@ class ProductColorController extends Controller
 
     public function store(ProductColorRequest $request)
     {
-        // dd($request->all());
+
         $color = ProductColor::create($request->all());
         return response()->json([
             'data' => $color,
@@ -38,8 +38,8 @@ class ProductColorController extends Controller
         } else {
             return response()->json([
                 'message' => "Data not found",
-                'status' => 404
-            ],404);
+                'status' => 200
+            ],200);
         }
     }
 
@@ -56,8 +56,8 @@ class ProductColorController extends Controller
         }else {
             return response()->json([
                 'message' => "Data not found",
-                'status' => 404
-            ],404);
+                'status' => 200
+            ],200);
         }
     }
 }
