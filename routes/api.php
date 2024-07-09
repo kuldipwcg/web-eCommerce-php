@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('change-password', [UserController::class, 'change']);
     Route::put('update-profile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
+        
         return response()->json([
             'data' => auth()->user(),
             'dob' => auth()->user()->dob,

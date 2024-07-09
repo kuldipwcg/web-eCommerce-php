@@ -39,7 +39,6 @@ class UserController extends Controller
 
     public function login(LoginCheck $request)
     {
-
         $person = User::where('email', $request->email)->first();
 
         if (Hash::check($request->password, $person->password)) {
@@ -103,7 +102,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-
         $user = auth()->user()->token();
         $user->delete();
 

@@ -49,12 +49,33 @@ class ProductColorController extends Controller
 
     public function destroy($id)
     {
-        $color = ProductColor::findOrFail($id);
-        $color->delete();
-        return response()->json([
-            'Message' => "Data deleted successfully",
-            'data' => $color,
-            'status' => 200
-        ]);
+        $color = ProductColor::find($id);
+        if ($color) {
+            $color->delete();
+            return response()->json([
+                'data' => $color,
+                'message' => "Color deleted successfully",
+                'status' => 200
+            ],200);
+        }else {
+            return response()->json([
+                'message' => "Color not found",
+                'status' => 200
+            ],200);
+        }
+    }
+    public function colorstatus(Request $request, $id)
+    {
+        $color = ProductColor::find($id);
+        if(!$color){
+            return response()->json([
+                'Message' => "Color is not available",
+                'status' => 200
+            ],200);
+        }
+        $color->status = $request->status;
+        $color->save();
+
+        return response()->json(['message' => 'ProductColor status updated successfully']);
     }
 }
