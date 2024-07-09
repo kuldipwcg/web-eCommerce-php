@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('categoryId');
             $table->string('subcategoryName',15);
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

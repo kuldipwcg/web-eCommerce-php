@@ -11,27 +11,17 @@ use App\Http\Requests\ContactValidation;
 class ContactController extends Controller
 {
     
-    public function index(Request $request){
+    public function index(){
         $contact = contact::get();
-        if($contact){
             return response()->json([
                 'data' => $contact,
+                'Message' => 'Data added successfully',
                 'status' => 'Success',
                 'code' => 200
             ],200);
-        }
-        else{
-            return response()->json([
-                'Message' => 'No Data Found',
-                'status' => 'failed',
-                'code' => 404
-            ],404);
-        }
     }
     public function store(ContactValidation $request)
     {
-            // dd($request->all());
-
             $data = [   
                 'name' => $request->name,
                 'subject' => $request->subject,
@@ -42,7 +32,7 @@ class ContactController extends Controller
            $contact = DB::table('contacts')->insert($data);
             if($contact){
                 return response()->json([
-                    'data' => $data,
+                    'data' => $contact,
                     'Message' => 'Contact data added successfully',
                     'status' => 'success',
                     'code' => 200
@@ -50,10 +40,10 @@ class ContactController extends Controller
             }
             else{
                 return response()->json([ 
-                    'Message' => 'Data not added',
+                    'Message' => 'No data found',
                     'Status' => 'Failed',
-                    'code' => 401                    
-                ], 401);
+                    'code' => 404                    
+                ], 404);
             }
             
     } 
@@ -61,28 +51,31 @@ class ContactController extends Controller
 
     public function update(ContactValidation $request, $id)
     {
-          $data = contact::find($id);
+          $contact = contact::find($id);
 
           $data->name = $request->name;
           $data->subject = $request->subject;
           $data->email = $request->email;
           $data->message = $request->message;
           $data->save();
-        //   dd($data);
 
           return response()->json([
-            'data' => $data,
+            'data' => $contact,
             'Message' => 'contact updated successfully',
+            'status' => 'success',
+            'code' => 200
           ],200);
     }
 
     public function destroy($id)
     {
-        $data = contact::find($id);
-        $data->delete();
+        $contact = contact::find($id);
+        $contact->delete();
         return response()->json([
-            'data' => $data,
-            'message' => 'Deleted Successfully',
+            'data' => $contact,
+            'message' => 'Contact deleted Successfully',
+            'status' => 'success',
+            'code' => 200
         ],200);
     }
 

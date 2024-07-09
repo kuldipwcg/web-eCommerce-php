@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\WishlistRequest;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Database\QueryException;
@@ -13,137 +12,68 @@ use PhpParser\Node\Stmt\Else_;
 class WishlistController extends Controller
 {
     //
-    //     public function index()
-    // {
-
-    //     // $id = auth()->user()->id;
-
-    //     // if($id){
-
-    // //
-    //     $Wishlist=Wishlist::with('product')->latest()->paginate(10);
-
-    //     if ($Wishlist) {
-    //         return response()->json([
-    //             'type' => 'success',
-    //             'message' => 'Wishlist items displayed successfully',
-    //             'code' => 200,
-    //             'data' => $Wishlist
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'type' => 'failure',
-    //             'message' => 'something went wrong',
-    //             'code' => 404,
-    //         ]);
-    //     }
-    // //}
-    // }
-    public function store(Request $request,$product_id)
-    { 
-
-    try{ 
+    public function index()
+    {
+        //    
         $id = auth()->user()->id;
-        
-        if($id){
-            $Wishlist = Wishlist::create([
-                'user_id' => $id,
-                'product_id' => $product_id,
-            ]);
-            if ($Wishlist) {
+            //    
+            $wishList = Wishlist::with('product')->where('user_id', $id)->paginate(10);
+
+            if ($wishList) {
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'data added successfully',
+                    'message' => 'Wishlist items displayed successfully',
                     'code' => 200,
-                    'data' => $Wishlist
+                    'data' => $wishList
                 ]);
-                
-        
-            }
+            } 
+            
             else {
                 return response()->json([
                     'type' => 'failure',
-                    'message' => 'Data not added successfully',
+                    'message' => 'Wishlist do not have items',
                     'code' => 404,
                 ]);
             }
         }
 
-        else
-        {
-            return response()->json([
-                'type' => 'failure',
-                'message' => 'Data not added successfully',
-                'code' => 402,
-            ]);
-        }
-    
-    }
-    catch (QueryException $e) {
-        if ($e->getCode() == 23000) { // Integrity constraint violation code for MySQL
-            return response()->json([
-                'error' => 'Duplicate entry: The product is already in your wishlist'
-            ], 409); // Conflict status code
-        }
-        return response()->json([
-            'error' => 'Something went wrong'
-        ], 500);
-    }
-    }
-
-    public function destroy(){
-
-        $id = auth()->user()->id;
-        dd($id);
-        // dd($id);
-        // $id->delete();
-        // $Wishlist=Wishlist::where('user_id',$id);
-        $Wishlist=Wishlist::get();
-        dd($Wishlist);
-        // $products = Product::latest('id')->get();
-
-    if ($Wishlist->delete()) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Wishlist detail deleted successfully',
-            'code' => 200,
-        ]);
-    }
-
-    else
+    public function toggle(Request $request,$productId)
     {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'Wishlist detail not deleted successfully',
-            'code' => 404,
-        ]);
-    }
-    
-    }
+        
+            $id  = auth()->user()->id;
+           $product = Product::find($productId);
+            if (!$product) {
+                return response()->json([
+                    'type' => 'failure',
+                    'message' => 'Product does not exist',
+                    'code' => 404,
+                ]);
+            }
 
-    public function show()
-    {
-        $id = auth()->user()->id;
 
-    if($id){
-    //
-        $Wishlist=Wishlist::with('product')->where('user_id',$id)->paginate(10);
+            // Check if the product is already in the wishlist
+            $wishList = Wishlist::where('user_id', $id)->where('product_id', $productId)->first();
 
-    if ($Wishlist) {
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Wishlist items displayed successfully',
-            'code' => 200,
-            'data' => $Wishlist
-        ]);
-    } else {
-        return response()->json([
-            'type' => 'failure',
-            'message' => 'something went wrong',
-            'code' => 404,
-        ]);
-    }
-    }
-    }
+            if ($wishList) {
+                // (remove from wishlist)
+                $wishList->delete();
+                return response()->json([
+                    'type' => 'success',
+                    'message' => 'Wishlist item removed successfully',
+                    'code' => 200,
+                ]);
+            } else {
+                // If it does not exist, add it to the wishlist
+                $wishList = Wishlist::create([
+                    'user_id' => $id,
+                    'product_id' => $productId,
+                ]);
+                return response()->json([
+                    'type' => 'success',
+                    'message' => 'Wishlist item added successfully',
+                    'code' => 200,
+                    'data' => $wishList
+                ]);
+            }
+        } 
 }
-

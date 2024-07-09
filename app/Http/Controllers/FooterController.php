@@ -13,45 +13,42 @@ class FooterController extends Controller
         $data = Footer::all();
         if($data){            
             return response()->json(
-                [
-                    'footer'=> $data,
-                    ]
-                    ,200);
+                ['footer'=> $data,
+                ],200);
                     
         }else{
             return response()->json(
-                [
-                    'Error'=> 'Data Not Found',
-                    ]
-                    ,400);
+                ['message'=> 'No Data Found'
+            ],404);
         }
     } 
 
-    // public function show(){
-    //     $footer = Footer::all();
-    //     if (!$footer) {
-    //         return response()->json(['error' => 'Footer data not found'], 404);
-    //     }
-    //     return response()->json($footer);
-    // }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
-        $footer = Footer::get()->first();
-        $footer->update([
-            'description' => $request->description,
-            'email' =>  $request->email,
-            'address' => $request->address,
-            'contact' => $request->contact,
-            'twitter' => $request->twitter,
-            'facebook' => $request->facebook,
-            'linkedIn' => $request->linkedIn,
-            'instagram' => $request->instagram,
-        ]);
-        return response()->json([
-            "data" => $footer,
-            'massage' => "footer updated successfully",
-            "status" => 200
-        ]);
+        $footer = Footer::find($id);
+        if($footer){
+            $footer->update([
+                'description' => $request->description,
+                'email' =>  $request->email,
+                'address' => $request->address,
+                'contact' => $request->contact,
+                'twitter' => $request->twitter,
+                'facebook' => $request->facebook,
+                'linkedIn' => $request->linkedIn,
+                'instagram' => $request->instagram,
+            ]);
+            return response()->json([
+                "data" => $footer,
+                'massage' => "footer updated successfully",
+                "status" => 200
+            ]);
+        }
+        else{
+            return response()->json([
+                'massage' => "Data not found",
+                "status" => 404
+            ]);
+        }
     }
 }

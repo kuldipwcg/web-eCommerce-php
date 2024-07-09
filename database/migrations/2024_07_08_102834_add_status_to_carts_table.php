@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('discounts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->string('category_type',15);
-            $table->enum('status',array('active','inactive'))->default('active');
-            $table->timestamps();
-            
+        Schema::table('carts', function (Blueprint $table) {
+            $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('discounts');
+        Schema::table('carts', function (Blueprint $table) {
+            Schema::dropIfExists('carts');
+        });
     }
 };

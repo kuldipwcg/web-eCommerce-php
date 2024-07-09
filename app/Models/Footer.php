@@ -11,4 +11,6 @@ class Footer extends Model
 
     public $timestamps = false;
     protected $fillable = ['address', 'email', 'contact','description','twitter','facebook','linkedIn','instagram'];
+    protected $hidden = ['created_at','updated_at'];
+
 }

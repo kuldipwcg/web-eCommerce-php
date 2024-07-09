@@ -1,34 +1,24 @@
 <?php
 
-
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\FooterController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsLetterController;
-use App\Http\Controllers\ProductSizeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\InformationSlugController;
+use App\Http\Controllers\FooterController; 
+
 // for admin
 
     //admin sign up
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::put('update-profile', [AdminController::class, 'update']);
-
-    Route::get('profile', function () {
-        
-        return response()->json([
-            'data'=>auth()->guard('admin')->user(),
-        ]); 
-
-    }); 
-
+    Route::put('updateProfile', [AdminController::class, 'update']);
 
     Route::middleware('auth:admin')->group(function () {  
     //category
@@ -44,13 +34,13 @@ use App\Http\Controllers\InformationSlugController;
     Route::apiResource('products', ProductController::class);
     
     //contactus route
-    Route::apiResource('contactlist', ContactController::class);
+    Route::apiResource('contactList', ContactController::class);
 
     //newsletter route
     Route::apiResource('subscriber', NewsLetterController::class);
 
     //Information slug
-    Route::apiResource('informationslug', InformationSlugController::class);
+    Route::apiResource('informationSlug', InformationSlugController::class);
 
     //footer
     Route::apiResource('footer', FooterController::class);
@@ -63,6 +53,6 @@ use App\Http\Controllers\InformationSlugController;
 
     //for admin logout and password change
     Route::post('logout', [AdminController::class, 'logout']);
-    Route::post('change-password', [AdminController::class, 'change']);
+    Route::post('changePassword', [AdminController::class, 'change']);
 
     });

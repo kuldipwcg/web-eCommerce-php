@@ -9,19 +9,22 @@ use App\Http\Requests\categoryValidation;
 
 class CategoryController extends Controller
 {
+    //list all category with their Subcagory paginate by  10 items per pageto items :-
     public function index()
     {
-     
+
         $category = Category::with('subcategories')->latest()->paginate(10);
 
+
         return response()->json([
+            'data' => $category,
             'type' => 'success',
             'message' => 'Category showed successfully',
-            'code' => 200,
-            'data' => $category,
+            'status' => 200,
         ]);
     }
 
+    // Store a newly created Category
     public function store(CategoryRequest $request)
     {
         $image = $request->file('image');
@@ -33,33 +36,38 @@ class CategoryController extends Controller
             'image' => $categoryUrl,
             'status' => $request->status,
         ]);
-        return response()->json(['message' => 'category added successfully', 'data' => $record, 'status' => 200]);
+        return response()->json(['message' => 'Category added successfully', 'data' => $record, 'status' => 200]);
     }
-    public function show()
+
+    public function show($id)
+
     {
-        $category = Category::get();
+        $category = Category::find($id);
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
         return response()->json($category);
     }
 
+    //method to update Category
     public function update(CategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $image = $request->file('image');
         $imageName = time() . $image->getClientOriginalName();
         $image->move(public_path('/upload/images/'), $imageName);
+        $categoryUrl = url('/upload/category/' . $imageName);
 
         $category->update([
             'category_name' => $request->category_name,
             'sub_categories_id' => $request->sub_categories_id,
-            'image' => $imageName,
+            'image' => $categoryUrl,
             'status' => $request->status,
         ]);
         return response()->json($category, 200);
     }
 
+    // Remove the specified Category
     public function destroy($id)
     {
         $category = Category::find($id);
@@ -68,5 +76,23 @@ class CategoryController extends Controller
         }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
+    }
+
+    public function categorystatus(Request $request, $id)
+    {
+        $category = CategoryController::find($id);
+        if(!$category){
+            return response()->json([
+                'Message' => "Category is not available",
+                'status' => 404
+            ],404);
+        }
+
+        $category->status = $request->status;
+        $category->save();
+        return response()->json([
+            'message' => 'Category status updated successfully.',
+            'status' => 200
+        ]);
     }
 }
