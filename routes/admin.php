@@ -11,28 +11,32 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\InformationSlugController;
-use App\Http\Controllers\FooterController; 
+use App\Http\Controllers\FooterController;
 
 // for admin
 
-    //admin sign up
-    Route::post('login', [AdminController::class, 'login'])->name('admin.login');
-    Route::post('set', [AdminController::class, 'setAdmin']);
-    Route::put('updateProfile', [AdminController::class, 'update']);
+//admin sign up
+Route::post('login', [AdminController::class, 'login'])->name('admin.login');
+Route::post('set', [AdminController::class, 'setAdmin']);
 
-    Route::middleware('auth:admin')->group(function () {  
+Route::middleware('auth:admin')->group(function () {
+
+
+    // update the authorized user
+    Route::put('updateProfile', [AdminController::class, 'update']);
+    
     //category
     Route::apiResource('category', CategoryController::class);
     
     //subcategory
     Route::apiResource('subcategory', SubCategoryController::class);
-    
+
     //banner 
     Route::apiResource('banners', BannerController::class);
 
     //products 
     Route::apiResource('products', ProductController::class);
-    
+
     //contactus route
     Route::apiResource('contactList', ContactController::class);
 
@@ -54,5 +58,4 @@ use App\Http\Controllers\FooterController;
     //for admin logout and password change
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('changePassword', [AdminController::class, 'change']);
-
-    });
+});

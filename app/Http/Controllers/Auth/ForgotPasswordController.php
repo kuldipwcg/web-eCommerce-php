@@ -3,28 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 
-use Illuminate\Http\Request;
-
-
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetMailCheck;
 use App\Http\Requests\ResetPasswordCheck;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+
 
 class ForgotPasswordController extends Controller
 {
 
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetLinkEmail(ResetMailCheck $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
 
         $response = Password::sendResetLink($request->only('email'));
 

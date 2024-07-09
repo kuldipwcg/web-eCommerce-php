@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
-
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Http\Requests\LoginCheck;
-use App\Http\Requests\UpdateUserCheck;
-use Illuminate\Support\Facades\Hash;
 use Exception;
+
+use App\Models\Admin;
+use Illuminate\Http\Request;
+use App\Http\Requests\LoginCheck;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UpdateUserCheck;
 
 
 class AdminController extends Controller
@@ -19,21 +19,27 @@ class AdminController extends Controller
 
         // Check if admin already exists
         $admin = Admin::where('email', $request->email)->first();
+        
 
-        // Update that existing admin
-        if ($admin) {
-            $admin->email = $request->email;
-            $admin->password = Hash::make($request->password);
-            $admin->save();
-        } else {
-            // Create new admin
-            $admin = Admin::create([
+        // Create new admin
+        if (!$admin) {
+         
+            $data =[
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-            ]);
+            ];
+
+            DB::table('admins')->insert($data);
         }
 
-        return response()->json(['admin' => $admin], 200);
+        return response()->json([
+            
+            'admin' => $admin,
+            'Message' => 'Admin created successfully',
+            'status'=> 200,
+    
+    
+    ], 200);
     }
 
 
@@ -49,22 +55,11 @@ class AdminController extends Controller
              
                 return response()->json(['token' => $token,'message'=>'login successfully'], 200);
             } else {
-                return response()->json(['error' => 'Unauthorized'], 402);
+                return response()->json(['error' => 'Unauthorized'], 200);
             }
         }
         catch(Exception $e){
             return $e;
-        }
-
-        // password checking
-        if ($admin && Hash::check($request->password, $admin->password)) {
-            $token = $admin->createToken('AdminToken')->accessToken;
-
-            // dd($token);
-
-            return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 402);
         }
     }
 
@@ -72,11 +67,12 @@ class AdminController extends Controller
     public function change(Request $request)
     {
 
-        $id = auth()->user()->id;
+        $admin = auth()->guard('admin')->user();
+        $id = $admin->id;
 
-        if (Hash::check($request->currentPassword, auth()->user()->password)) {
+        if (Hash::check($request->currentPassword, $admin->password)) {
 
-            User::where('id', $id)
+            Admin::where('id', $id)
                 ->update([
                     'password' => Hash::make($request->password),
                 ]);
@@ -85,20 +81,17 @@ class AdminController extends Controller
 
                 [
                     'message' => ' Password Changed',
-
                 ],
                 200
-
             );
         } else {
 
             return response()->json(
 
                 [
-                    'message' => 'Error occured',
-
+                    'message' => 'Current password and existing password are not matched',
                 ],
-                500
+                200
 
             );
         }
@@ -107,8 +100,8 @@ class AdminController extends Controller
     public function logout(Request $request)
     {
 
-        $user = auth()->user()->token();
-        $user->delete();
+        $admin = auth()->guard('admin')->user()->token();
+        $admin->delete();
 
         return response()->json([
             'message' => 'Logged out successfully!',
@@ -121,9 +114,7 @@ class AdminController extends Controller
 
         $id = auth()->guard('admin')->user()->id;
 
-        $user = Admin::find($id);
-
-        if ($user) {
+        $admin = Admin::find($id);
 
             $image = $request->file('image');
             if ($image == null) {
@@ -131,9 +122,9 @@ class AdminController extends Controller
                 $profileUrl = null;
             } else {
 
-                if($user->image)
+                if($admin->image)
                 {
-                    unlink(public_path($user->image));
+                    unlink(public_path($admin->image));
                 }
 
                 $imageName = $image->getClientOriginalName();
@@ -142,26 +133,20 @@ class AdminController extends Controller
                 
             }
 
-            $user->firstName = $request->firstName ?: $user->firstName;
-            $user->lastName = $request->lastName ?: $user->lastName;
-            $user->email = $request->email ?: $user->email;
-            $user->image = $profileUrl ?: $user->image;
-            $user->phoneNumber = $request->phoneNumber ?: $user->phoneNumber;
-            $user->save();
+            $admin->firstName = $request->firstName ?: $admin->firstName;
+            $admin->lastName = $request->lastName ?: $admin->lastName;
+            $admin->email = $request->email ?: $admin->email;
+            $admin->image = $profileUrl ?: $admin->image;
+            $admin->phoneNumber = $request->phoneNumber ?: $admin->phoneNumber;
+            $admin->save();
 
             return response()->json([
                 'type' => 'success',
-                'message' => 'User profile Updated successfully',
-                'data' => $user,
+                'message' => 'Admin profile Updated successfully',
+                'data' => $admin,
                 'code' => 200,
             ]);
-        } else {
-            return response()->json([
-                'type' => 'failure',
-                'message' => 'User not found',
-                'code' => 500,
-            ]);
-        }
+     
     }
 
 
