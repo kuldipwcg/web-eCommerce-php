@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\cartRequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
-    public function index()
+    //list all cart with their  paginate by  10 items per page to items :-
+    public function index(Request $request)
     {
         return response()->json(Cart::paginate(10));
     }
@@ -52,17 +55,27 @@ class CartController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart item not found'], 422);
         }
         return response()->json($cart);
     }
-    public function update(cartRequest $request, $id)
+
+    //method to update Cart
+    public function update(CartRequest $request, $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart not found'], 422);
         }
 
         if ($request->hasFile('image')) {
@@ -82,13 +95,24 @@ class CartController extends Controller
 
         return response()->json($cart);
     }
-    public function destroy($id)
+
+    
+
+
+    public function destroy(Request $request, $id)
+
     {
-        $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $cart->delete();
+        $cart = Cart::find($id);
+        if (!$cart || $cart->user_id !== $user->id) {
+            return response()->json(['error' => 'Cart item not found'], 422);
+        }
+        $cart->update(['status' => 'inactive']); // soft delete
         return response()->json(['message' => 'Cart item deleted successfully']);
     }
+
+
 }

@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Wishlist;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Stmt\Else_;
-
 class WishlistController extends Controller
 {
     //
@@ -32,21 +28,20 @@ class WishlistController extends Controller
                 return response()->json([
                     'type' => 'failure',
                     'message' => 'Wishlist do not have items',
-                    'code' => 404,
+                    'code' => 200,
                 ]);
             }
         }
 
     public function toggle(Request $request,$productId)
     {
-        
             $id  = auth()->user()->id;
            $product = Product::find($productId);
             if (!$product) {
                 return response()->json([
                     'type' => 'failure',
                     'message' => 'Product does not exist',
-                    'code' => 404,
+                    'code' => 200,
                 ]);
             }
 
@@ -59,10 +54,12 @@ class WishlistController extends Controller
                 $wishList->delete();
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Wishlist item removed successfully',
+                    'message' => 'Item removed from wishlist',
                     'code' => 200,
                 ]);
-            } else {
+            }
+            
+            else {
                 // If it does not exist, add it to the wishlist
                 $wishList = Wishlist::create([
                     'user_id' => $id,
@@ -70,7 +67,7 @@ class WishlistController extends Controller
                 ]);
                 return response()->json([
                     'type' => 'success',
-                    'message' => 'Wishlist item added successfully',
+                    'message' => 'Item added to wishlist',
                     'code' => 200,
                     'data' => $wishList
                 ]);

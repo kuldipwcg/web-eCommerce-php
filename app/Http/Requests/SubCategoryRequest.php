@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+
+// use Illuminate\Http\Exceptions\HttpResponseException;
+// use Illuminate\Contracts\Validation\Validator;
 class SubCategoryRequest extends FormRequest
 {
     /**
@@ -24,17 +27,10 @@ class SubCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subcategoryName' => 'required',
+            'category_id' => 'required',
+            'subcategory_name' => 'required|min:3|max:25',
         ];
     }
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ],402));
-    } 
     public function messages()
     {
         return [
