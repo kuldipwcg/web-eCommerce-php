@@ -14,7 +14,7 @@ class WishlistController extends Controller
     //
     public function index()
     {
-        //    
+        //   
         $id = auth()->user()->id;
             //    
             $wishList = Wishlist::with('product')->where('user_id', $id)->paginate(10);
