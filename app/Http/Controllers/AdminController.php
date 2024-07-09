@@ -46,7 +46,7 @@ class AdminController extends Controller
         try {
             if ($admin && Hash::check($request->password, $admin->password)) {
                 $token = $admin->createToken('AdminToken')->accessToken;
-                // dd($token);
+             
                 return response()->json(['token' => $token,'message'=>'login successfully'], 200);
             } else {
                 return response()->json(['error' => 'Unauthorized'], 402);
@@ -68,7 +68,7 @@ class AdminController extends Controller
         }
     }
 
-
+    //changing password
     public function change(Request $request)
     {
 
@@ -98,7 +98,7 @@ class AdminController extends Controller
                     'message' => 'Error occured',
 
                 ],
-                402
+                500
 
             );
         }
@@ -158,8 +158,8 @@ class AdminController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'user not found',
-                'code' => 404,
+                'message' => 'User not found',
+                'code' => 500,
             ]);
         }
     }

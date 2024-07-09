@@ -7,16 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-// use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
-class User extends Authenticatable implements CanResetPassword
+class User extends Authenticatable
 {
 
 use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table="users";
-    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +25,7 @@ use HasApiTokens, HasFactory, Notifiable;
         'firstName',
         'lastName',
         'password',
+        'phoneNo',
     ];
 
 
@@ -37,10 +35,12 @@ use HasApiTokens, HasFactory, Notifiable;
      * @var array<int, string>
      */
     protected $hidden = [
-        'dob',
-        'phoneNo',
+        
         'address',
         'role',
+        'created_at',
+        'updated_at',
+        'email_verified_at',
         'remember_token',
     ];
     

@@ -73,16 +73,13 @@ class ProductController extends Controller
         //getting the data according to search
         if ($request->has('search')) {
 
-            // foreach(explode($request->search) as $str)
-            // {
+            foreach(explode(" ",$request->search) as $str)
+            {
                 
-            // }
+                $productSearch = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
+            }
             
             // dd(Product::with(['reviews', 'product_image', 'product_variants'])->where('id',29)->get()->toArray());
-
-
-            $productSearch = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
-
             
             $FinalSearch = collect($productSearch)->pluck('id')->toArray();
             $FinalProduct[] = $FinalSearch;
@@ -98,6 +95,7 @@ class ProductController extends Controller
             //products from price filter
             if (array_key_exists('price', $filter)) {
 
+                
                 $len = count($filter['price']);
                 $min = $filter['price'][0][0];
                 $max = $filter['price'][$len - 1][1];
