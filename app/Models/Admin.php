@@ -13,12 +13,9 @@ use Laravel\Passport\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    public $table="admins";
-    protected $primaryKey = "id";
-
-
     use HasFactory;
     use HasApiTokens, Notifiable;
 
     protected $fillable = ['email', 'password','firstName','lastName','image','phoneNumber'];
+    protected $hidden = ['created_at','updated_at'];
 }

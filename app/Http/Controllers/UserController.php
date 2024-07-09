@@ -20,25 +20,13 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(SignupCheck $request)
+     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
-        
         if ($request->password == $request->confirmPassword) {
             $data = [
 
-<<<<<<< Updated upstream
                 'firstName' => $request->firstName,
                 'lastName' => $request->lastName,
-=======
-        if($request->password == $request->confirm_password){
-
-
-            $data = [   
-                
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
->>>>>>> Stashed changes
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'confirmPassword' => Hash::make($request->confirmPassword),
