@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
@@ -17,12 +18,19 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ReviewRequest $request)
     {
-        $userid = User::where('id', $request->user_id)->first();
-        $productid = Product::where('id', $request->product_id)->first();
+        $userId = User::where('id', $request->user_id)->first();
+        $productId = Product::where('id', $request->product_id)->first();
 
-        $existReview = Review::where('user_id', $userid)->where('product_id', $productid)->first();
+        if(!$userId){
+            return response()->json([
+                'Message' => 'The User is not available.',
+                'status' => 404
+            ], 404);
+        }
+
+        $existReview = Review::where('user_id', $userId)->where('product_id', $productId)->first();
         if($existReview){
             return response()->json([
                 'Message'=>'Review is already available from user',
@@ -36,14 +44,14 @@ class ReviewController extends Controller
             'rating' => $request->rating,
             'review' => $request->review
         ]);
-        return response()->json($review);
+        return response()->json(["Review" => $review],200);
     }
 
-    public function update(Request $request,$id){
+    public function update(ReviewRequest $request,$id){
         $review = Review::find($id);
         if(!$review){
             return response()->json([
-                'Message' => "Review Not Found.",
+                'Message' => "Review data is not available.",
                 'Status' => 404,
             ], 404);
         }
@@ -57,7 +65,7 @@ class ReviewController extends Controller
         $review = Review::find($id);
         if(!$review){
             return response()->json([
-                'Message' => "Review Not Found.",
+                'Message' => "Review data is not available.",
                 'Status' => 404,
             ], 404);
         }

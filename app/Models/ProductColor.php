@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class ProductColor extends Model
 {
+
     use HasFactory,Notifiable;
 
     protected $fillable = ['color'];

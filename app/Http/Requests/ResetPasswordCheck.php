@@ -50,8 +50,8 @@ class ResetPasswordCheck extends FormRequest
             "email.email"=> "Please enter valid email",
             'password.required' => 'Password is required',
             'password.min' => 'Password should contains minimum 6 characters',
-            'confirmPassword' => 'confirmPassword is required',
-            'confirmPassword'=> 'confirmPassword should be same as password',       
+            'confirmPassword.required' => 'confirmPassword is required',
+            'confirmPassword.same'=> 'confirmPassword should be same as password',       
            
         ];
     }
