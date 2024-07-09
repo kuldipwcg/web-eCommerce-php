@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\ProductVariants;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
