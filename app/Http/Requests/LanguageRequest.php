@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateLanguageRequest extends FormRequest
+class LanguageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class UpdateLanguageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=> "required",
-            "code"=> "required",
+            "name"=> "required|unique:languages,name",
+            "code"=> "required|unique:languages,code",
         ];
     }
 
@@ -33,15 +33,17 @@ class UpdateLanguageRequest extends FormRequest
     {
         return [
             "name.required"=> "name field requuired",
+            "name.unique"=> "this name is already exists",
             "code.required"=> "code field requuired",
+            "code.unique"=> "this code is already exists",
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'message' => 'Validation errors',
             'data' => $validator->errors(),
+            'message' => 'Validation errors',
             'success' => false,
         ]));
     }

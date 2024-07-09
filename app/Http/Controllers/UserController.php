@@ -20,10 +20,8 @@ use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 class UserController extends Controller
 {
 
-    public function signup(SignupCheck $request)
+     public function signup(SignupCheck $request)
     {
-        // dd($request->all());
-        
         if ($request->password == $request->confirmPassword) {
             $data = [
 

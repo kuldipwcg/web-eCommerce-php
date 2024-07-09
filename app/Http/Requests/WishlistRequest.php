@@ -25,7 +25,7 @@ class WishlistRequest extends FormRequest
     {
         return [
             //
-            'user_id'=>'required',
+          
             'product_id'=>'required'
         ];
     }
@@ -33,8 +33,8 @@ class WishlistRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id.required' => 'Mandatory to fill user_id.',
-            'product_id.required' => 'product_id is required.',
+            
+            'product_id.required' => 'productId is required.',
         ];
     }
     public function failedValidation(Validator $validator)

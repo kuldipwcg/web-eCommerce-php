@@ -10,16 +10,13 @@ use App\Models\Product;
 class Review extends Model
 {
     use HasFactory;
-
-    protected $table = "reviews";
-    protected $primaryKey = 'id';
-
     protected $fillable = [
         "product_id",
         "user_id",
         "rating",
         "review",
     ];
+    protected $hidden = ['created_at','updated_at'];
 
     public function user(){
         return $this->belongsTo(User::class);

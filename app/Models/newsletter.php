@@ -17,5 +17,7 @@ class newsletter extends Model
         'description',
         'email',
         'phone',
-    ];
+    ]; 
+    protected $hidden = ['created_at','updated_at'];
+
 }

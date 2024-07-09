@@ -15,19 +15,15 @@ class SubCategoryController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Category showed successfully',
-            'code' => 200,
+            'status' => 200,
             'data' => $subCategory,
         ]);
     }
-
 
     // Store a newly created subCategory
     public function store(Request $request)
     {
         $subCategory = Subcategory::create($request->all());
-
-   
-
 
         return response()->json($subCategory, 201);
     }
@@ -37,11 +33,9 @@ class SubCategoryController extends Controller
     {
         $subCategory = Subcategory::get();
         if (!$subCategory) {
-            return response()->json(['error' => 'No SubCategory not found'], 404);
+            return response()->json(['error' => 'No SubCategory not found'], 422);
         }
-
         return response()->json($subCategory);
-
     }
 
     //method to update subCategory
@@ -49,13 +43,10 @@ class SubCategoryController extends Controller
     {
         $subCategory = Subcategory::find($id);
         if (!$subCategory) {
-            return response()->json(['error' => 'SubCategory not found'], 404);
+            return response()->json(['error' => 'SubCategory not found'], 422);
         }
-
         $subCategory->update($request->all());
         return response()->json($subCategory);
-
-
     }
 
     // Remove the specified subCategory
@@ -63,7 +54,7 @@ class SubCategoryController extends Controller
     {
         $subCategory = SubCategory::find($id);
         if (!$subCategory) {
-            return response()->json(['error' => 'SubCategory not found'], 404);
+            return response()->json(['error' => 'SubCategory not found'], 422);
         }
         $subCategory->delete();
         return response()->json(['message' => 'SubCategory deleted successfully']);

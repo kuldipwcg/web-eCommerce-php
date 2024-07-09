@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreLanguageRequest extends FormRequest
+class UpdateUserCheck extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,19 @@ class StoreLanguageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=> "required|unique:languages,name",
-            "code"=> "required|unique:languages,code",
+            'email' => 'email',
+            'phoneNumber' => 'numeric|digits:10',
+            'image' => 'mimes:png,jpg,jpeg'
         ];
     }
+
 
     public function messages(): array
     {
         return [
-            "name.required"=> "name field requuired",
-            "name.unique"=> "this name is already exists",
-            "code.required"=> "code field requuired",
-            "code.unique"=> "this code is already exists",
+            "email.email"=> "Please enter valid email",
+            "phoneNumber.numeric"=> "phoneNumber should numeric",
+            "image.mimes"=> "Image must type of png, jpg and jpeg",
         ];
     }
 

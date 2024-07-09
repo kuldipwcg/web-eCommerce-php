@@ -2,21 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\CustomResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Contracts\Auth\CanResetPassword;
+
 class User extends Authenticatable
 {
 
 use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table="users";
-    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -27,13 +24,8 @@ use HasApiTokens, HasFactory, Notifiable;
         'email',
         'firstName',
         'lastName',
-        // 'image',
         'password',
-        'confirmPassword',
-        'dob',
         'phoneNo',
-        'address',
-        'role',
     ];
 
 
@@ -43,10 +35,12 @@ use HasApiTokens, HasFactory, Notifiable;
      * @var array<int, string>
      */
     protected $hidden = [
-        'dob',
-        'phone_no',
+        
         'address',
         'role',
+        'created_at',
+        'updated_at',
+        'email_verified_at',
         'remember_token',
     ];
     
@@ -55,10 +49,8 @@ use HasApiTokens, HasFactory, Notifiable;
     *
     * @var array<string, string>
     */
-    protected $casts = [
-    'email_verified_at' => 'datetime',
-    ];
 
+    // method from CanResetPassword is overrided  
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPasswordNotification($token));
@@ -82,3 +74,4 @@ use HasApiTokens, HasFactory, Notifiable;
         return $this->hasMany(Cart::class,'user_id','id');
     }
 }
+
