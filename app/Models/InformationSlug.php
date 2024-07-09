@@ -14,4 +14,6 @@ class InformationSlug extends Model
     protected $primaryKey = 'id';
 
     protected $fillable=["slug","description"];
+    protected $hidden = ['created_at','updated_at'];
+
 }

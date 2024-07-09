@@ -14,30 +14,23 @@ class SubCategoryController extends Controller
             $sub_category=subCategory::with('Category')->latest()->paginate(10);
             //dd($sub_category);
             return response()->json([
+                'data'=>$sub_category,
                 'type'=>'success',
                 'message'=>'Category showed successfully',
                 'code'=>200,
-                'data'=>$sub_category
             ]);
         }
 
-    // public function store(SubCategoryRequest $request){
-        
-    //     $sub_category = Subcategory::create($request->all());
-        
-    //     return response()->json($sub_category, 201);
-    // }
-
-    public function store(Request $request){
+    public function store(SubCategoryRequest $request){
         
             $sub_category = Subcategory::create($request->all());
             
             return response()->json(['data'=>$sub_category,'code' => 201]);
 
     }
-    public function show()    
+    public function show($id)    
     {
-        $sub_category = Subcategory::get();
+        $sub_category = Subcategory::find($id);
         if (!$sub_category) {
             return response()->json(['error' => 'No Sub_Category not found'], 404);
         }
