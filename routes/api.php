@@ -19,7 +19,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
-use App\Http\Controllers\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -95,7 +95,7 @@ Route::post('filterProduct', [ProductController::class,'display']);
 Route::get('footer',[FooterController::class,'index']);
 
 //category
-Route::get('category', [CategoryController::class,'index']);
+Route::get('category', [SubCategoryController::class,'index']);
 
 //subcategory user side
 Route::get('subcategory', [SubCategoryController::class,'show']);

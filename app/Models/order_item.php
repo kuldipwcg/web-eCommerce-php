@@ -10,8 +10,9 @@ class order_item extends Model
     use HasFactory;
     protected $table = 'order_item';
 
-    protected $fillable = ['order_id', 'product_id', 'quantity', 'unit_price'];
+    protected $fillable = ['order_id', 'product_id', 'quantity', 'color','size','unit_price'];
 
+    protected $primaryKey = 'id';
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');

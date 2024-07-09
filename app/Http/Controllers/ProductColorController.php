@@ -18,7 +18,6 @@ class ProductColorController extends Controller
 
     public function store(ProductColorRequest $request)
     {
-        // dd($request->all());
         $color = ProductColor::create($request->all());
         
         return response()->json([
@@ -31,19 +30,21 @@ class ProductColorController extends Controller
     public function update(ProductColorRequest $request, $id)
     {
         $color = ProductColor::find($id);
-        if ($color) {
-            $color->update($request->all());
+        if(!$color  || $color->status !== 'active'){
             return response()->json([
-                'data' => $color,
-                'message' => "Data updated successfully",
-                'status' => 200
-            ],200);
-        } else {
-            return response()->json([
-                'message' => "Data not found",
+                'Message' => "Color is not available or not active",
                 'status' => 404
             ],404);
         }
+
+        $color->update($request->all());
+        $color->save();
+        return response()->json([
+            'Message' => "Size Updated successfully.",
+            'data' => $color,
+            'status' => 200
+        ]);
+
     }
 
     public function destroy($id)

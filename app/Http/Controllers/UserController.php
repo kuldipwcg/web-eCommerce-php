@@ -41,10 +41,19 @@ class UserController extends Controller
 
     public function login(LoginCheck $request)
     {
-
         $person = User::where('email', $request->email)->first();
 
         if (Hash::check($request->password, $person->password)) {
+            if ($person->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'User is not active',
+                        'status' => 422,
+                    ],
+                    422,
+                );
+            }
+
             $token = $person->createToken('user-auth')->accessToken;
             $data = ['person' => $person, 'token' => $token];
             return response()->json([
@@ -94,7 +103,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-
         $user = auth()->user()->token();
         $user->delete();
 
