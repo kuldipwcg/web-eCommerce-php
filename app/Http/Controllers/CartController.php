@@ -65,7 +65,7 @@ class CartController extends Controller
         }
         $cart = Cart::find($id);
         if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['error' => 'Cart item not found'], 422);
         }
         return response()->json($cart);
     }
@@ -79,7 +79,7 @@ class CartController extends Controller
         }
         $cart = Cart::find($id);
         if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart not found'], 404);
+            return response()->json(['error' => 'Cart not found'], 422);
         }
         $cart->update($request->all());
         return response()->json($cart);
@@ -94,7 +94,7 @@ class CartController extends Controller
         }
         $cart = Cart::find($id);
         if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['error' => 'Cart item not found'], 422);
         }
         $cart->update(['status' => 'inactive']); // soft delete
         return response()->json(['message' => 'Cart item deleted successfully']);

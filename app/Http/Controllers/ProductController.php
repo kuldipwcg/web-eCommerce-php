@@ -27,8 +27,6 @@ class ProductController extends Controller
 
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
-            // dd($colors);
-
             $avgRating = Review::where('product_id', $product->id)->avg('rating');
 
 
@@ -48,13 +46,6 @@ class ProductController extends Controller
                 "totalReviews"=> count($product->reviews),
                 "rating_Count"=>$avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
-                // 'product_variants' => $product->product_variants->map(function ($variant) {
-                //     return [
-                //         'color' => $variant->color_id,
-                //         'size' => $variant->size_id,
-                //         'quantity' => $variant->quantity,
-                //     ];
-                // }),
             ];
         });
 

@@ -52,7 +52,7 @@ class ShippingController extends Controller
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Shipping Address Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 422);
         }
         return response()->json($shipping);
     }
@@ -61,7 +61,7 @@ class ShippingController extends Controller
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Shipping Address Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 422);
         }
         $shipping->update($request->all());
         return response()->json($shipping);
@@ -72,7 +72,7 @@ class ShippingController extends Controller
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            return response()->json(['error' => 'Shipping Address Not found'], 404);
+            return response()->json(['error' => 'Shipping Address Not found'], 422);
         }
         $shipping->delete();
         return response()->json(['message' => 'Deleted successfully']);

@@ -10,7 +10,7 @@ class orderItemConteroller extends Controller
 {
     public function index()
     {
-        $orderItems = order_item    ::all();
+        $orderItems = order_item::all();
         return response()->json($orderItems);
     }
     public function store(OrderItemRequest $request)
@@ -27,7 +27,7 @@ class orderItemConteroller extends Controller
     {
         $orderItem = order_item::find($id);
         if (!$orderItem) {
-            return response()->json(['message' => 'Order item not found'], 404);
+            return response()->json(['message' => 'Order item not found'], 422);
         }
         return response()->json($orderItem);
     }
@@ -35,7 +35,7 @@ class orderItemConteroller extends Controller
     {
         $orderItem = order_item::find($id);
         if (!$orderItem) {
-            return response()->json(['message' => 'Order item not found'], 404);
+            return response()->json(['message' => 'Order item not found'], 422);
         }
         $orderItem->order_id = $request->input('order_id');
         $orderItem->product_id = $request->input('product_id');
@@ -49,7 +49,7 @@ class orderItemConteroller extends Controller
     {
         $orderItem = order_item::find($id);
         if (!$orderItem) {
-            return response()->json(['message' => 'Order item not found'], 404);
+            return response()->json(['message' => 'Order item not found'], 422);
         }
         $orderItem->delete();
 

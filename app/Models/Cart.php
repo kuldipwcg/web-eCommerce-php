@@ -31,5 +31,6 @@ class Cart extends Model
     {
         return $this->hasOne(ProductVariants::class);
     } 
-
 }
+
+

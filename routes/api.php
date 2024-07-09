@@ -30,6 +30,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Http\Controllers\TransientTokenController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,7 +130,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('Update-newsletter/{id}', [NewsLetterController::class, 'update'])->name('Update-newsletter');
     Route::delete('Delete-newsletter/{id}', [NewsLetterController::class, 'destroy'])->name('Delete-newsletter');
 
-
+  
 
     //footer 
     Route::post('add-footer', [FooterController::class, 'store']);
@@ -164,6 +165,7 @@ Route::apiResource('billingAddress', BillingController::class);
 Route::apiResource('shippingAddress', ShippingController::class);
 Route::apiResource('language',LanguageController::class);
 Route::apiResource('sizes',ProductSizeController::class);
+Route::apiResource('payment', PaymentController::class);
 
 //contactus route
 Route::post('add-contact', [ContactController::class,'store'])->name('add-contact');

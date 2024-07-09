@@ -27,7 +27,7 @@ class BillingController extends Controller
     {
         $billing = Billing::find($id);
         if (!$billing) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Not found'], 422);
         }
         return response()->json($billing);
     }
@@ -37,7 +37,7 @@ class BillingController extends Controller
     {
         $billing = Billing::find($id);
         if (!$billing) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Not found'], 422);
         }
         $billing->update($request->all());
         return response()->json($billing);
@@ -48,7 +48,7 @@ class BillingController extends Controller
     {
         $billing = Billing::find($id);
         if (!$billing) {
-            return response()->json(['error' => 'Not found'], 404);
+            return response()->json(['error' => 'Not found'], 422);
         }
         $billing->delete();
         return response()->json(['message' => 'Deleted successfully']);
