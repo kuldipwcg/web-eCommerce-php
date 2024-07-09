@@ -13,14 +13,16 @@ use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\InformationSlugController;
 use App\Http\Controllers\FooterController; 
 
-// for admin
+//Routes for admin
 
     //admin sign up
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('set', [AdminController::class, 'setAdmin']);
+    
+Route::middleware('auth:admin')->group(function () {  
+        
+    //admin update profile    
     Route::put('updateProfile', [AdminController::class, 'update']);
-
-    Route::middleware('auth:admin')->group(function () {  
     //category
     Route::apiResource('category', CategoryController::class);
     
@@ -55,4 +57,4 @@ use App\Http\Controllers\FooterController;
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('changePassword', [AdminController::class, 'change']);
 
-    });
+});

@@ -26,7 +26,6 @@ class newsLetterController extends Controller
             return response()->json([
                 'Message' => 'No Data Found',
                 'status' => 'failed',
-                'code' => 404
             ],200);
         }
     }
@@ -37,22 +36,11 @@ class newsLetterController extends Controller
         ];
         
         $newsLetter = DB::table('newsletters')->insert($data);
-        if($newsLetter){
             return response()->json([
                 'data' => $data,
                 'Message' => 'News letter added successfully',
                 'status' => 'Success',
-                'code' => 200
             ],200);
-        }
-        else{
-            return response()->json([ 
-                'Message' => 'Data not found',
-                'Status' => 'Failed',
-                'code' => 404                    
-            ], 404);
-        }
-        
     } 
 
     public function update(NewsletterValidation $request, $id)
@@ -66,6 +54,7 @@ class newsLetterController extends Controller
           return response()->json([
             'data' => $newsLetter,
             'Message' => 'newsLetter updated successfully',
+            'Status' => 'Success'
           ],200);
     }  
 
@@ -76,7 +65,7 @@ class newsLetterController extends Controller
         return response()->json([
             'data' => $newsLetter,
             'message' => 'newsLetter Deleted Successfully',
-            'status' => 'success',
+            'Status' => 'success',
         ],200);
     }
 }

@@ -9,6 +9,8 @@ class contact extends Model
 {
     use HasFactory; 
 
+    protected $table = 'contacts' ;
+
     protected $fillable = [
         'name',
         'subject',

@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\contact;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ContactValidation;
-
+use DB;
 class ContactController extends Controller
 {
     
@@ -30,22 +29,12 @@ class ContactController extends Controller
             ];
             
            $contact = DB::table('contacts')->insert($data);
-            if($contact){
                 return response()->json([
                     'data' => $contact,
                     'Message' => 'Contact data added successfully',
                     'status' => 'success',
                     'code' => 200
                 ],200);
-            }
-            else{
-                return response()->json([ 
-                    'Message' => 'No data found',
-                    'Status' => 'Failed',
-                    'code' => 404                    
-                ], 404);
-            }
-            
     } 
 
 
@@ -58,12 +47,11 @@ class ContactController extends Controller
           $data->email = $request->email;
           $data->message = $request->message;
           $data->save();
-
+        
           return response()->json([
             'data' => $contact,
             'Message' => 'contact updated successfully',
             'status' => 'success',
-            'code' => 200
           ],200);
     }
 
@@ -75,7 +63,6 @@ class ContactController extends Controller
             'data' => $contact,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
-            'code' => 200
         ],200);
     }
 

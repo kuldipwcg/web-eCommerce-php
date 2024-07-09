@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+
     protected $table = 'carts';
+
     protected $fillable = ['user_id', 'product_id', 'quantity', 'total', 'order_placed', 'image'];
     protected $hidden = ['created_at','updated_at'];
 
@@ -24,12 +26,5 @@ class Cart extends Model
     public function product()
     {
         return $this->hasMany(Product::class);
-    } 
-
-    public function productvariation()
-    {
-        return $this->hasOne(ProductVariants::class);
-    } 
+    }
 }
-
-
