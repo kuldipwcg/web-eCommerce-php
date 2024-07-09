@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
+use App\Http\Requests\UpdateUserCheck;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use function Laravel\Prompts\password;
@@ -118,32 +119,41 @@ class UserController extends Controller
     }
 
    
-    public function update(Request $request)
+    public function update(UpdateUserCheck $request)
     {
-
-        // dd($request);
-
-        $id = auth()->user()->id;
-
+        $id = auth()->user()->id;   
         $user = User::find($id);
-
+     
         if ($user) {
 
-            $input = $request->all();
-
-            $user->fill($input)->save();
-
-
             $image = $request->file('image');
-            if ($image == null) {
-                $profileUrl = null;
-            } else {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('/upload/userProfile/'), $imageName);
-                $profileUrl = url('/upload/userProfile/' . $imageName);
 
-                $user->fill(['image' => $profileUrl])->save();
+            if ($image == null) {
+                
+                $profileUrl = null;
+            
+            } 
+            else {                
+                
+                if($user->image)
+                {
+                    unlink(public_path($user->image));
+                }
+                
+                $imageName = time() . $image->getClientOriginalName();
+                $image->move(public_path('/upload/userProfile/'), $imageName);
+                $profileUrl = '/upload/userProfile/' . $imageName;
+                
             }
+
+                $user->firstName = $request->firstName ?: $user->firstName;
+                $user->lastName = $request->lastName ?: $user->lastName;
+                $user->email = $request->email ?: $user->email;
+                $user->image = $profileUrl ?: $user->image;
+                $user->dob = $request->dob ?: $user->dob;
+                $user->phoneNo = $request->phoneNumber ?: $user->phoneNumber;
+                $user->address = $request->address ?: $user->address;
+                $user->save();
 
             return response()->json([
                 'data' => $user,
@@ -154,9 +164,9 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'type' => 'failure',
-                'message' => 'user not found',
-                'status'=> 404,
-            ],404);
+                'message' => 'User not found',
+                'status'=> 500,
+            ],500);
         }
     }
 }

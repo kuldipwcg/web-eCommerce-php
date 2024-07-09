@@ -74,13 +74,14 @@ class CategoryController extends Controller
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
+        
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
     }
 
     public function categorystatus(Request $request, $id)
     {
-        $category = CategoryController::find($id);
+        $category = Category::find($id);
         if(!$category){
             return response()->json([
                 'Message' => "Category is not available",
