@@ -11,30 +11,30 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\InformationSlugController;
-use App\Http\Controllers\FooterController; 
+use App\Http\Controllers\FooterController;
 
 //Routes for admin
 
     //admin sign up
     Route::post('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('set', [AdminController::class, 'setAdmin']);
-    
-Route::middleware('auth:admin')->group(function () {  
-        
-    //admin update profile    
+
+Route::middleware('auth:admin')->group(function () {
+
+    //admin update profile
     Route::put('updateProfile', [AdminController::class, 'update']);
     //category
     Route::apiResource('category', CategoryController::class);
-    
+
     //subcategory
     Route::apiResource('subcategory', SubCategoryController::class);
-    
-    //banner 
+
+    //banner
     Route::apiResource('banners', BannerController::class);
 
-    //products 
+    //products
     Route::apiResource('products', ProductController::class);
-    
+
     //contactus route
     Route::apiResource('contactList', ContactController::class);
 
@@ -58,4 +58,3 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('changePassword', [AdminController::class, 'change']);
 
 });
-    });

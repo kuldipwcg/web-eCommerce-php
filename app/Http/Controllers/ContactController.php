@@ -3,79 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\Models\contact;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-
-use App\Http\Requests\ContactValidation;
-use DB;
 use Illuminate\Support\Str;
-use DB;
+use Illuminate\Http\Request;
+
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ContactValidation;
+
 class ContactController extends Controller
 {
-    
-    public function show(Request $request){
+
+    public function show(Request $request)
+    {
         $contact = contact::get();
-        if($contact){
+        if ($contact) {
             return response()->json([
                 'data' => $contact,
                 'status' => 'Success',
                 'code' => 200
-            ],200);
-        }
-        else{
+            ], 200);
+        } else {
             return response()->json([
                 'Message' => 'No Data Found',
                 'status' => 'failed',
                 'code' => 404
-            ],404);
+            ], 404);
         }
     }
     public function store(ContactValidation $request)
     {
-            // dd($request->all());
+        // dd($request->all());
 
-            $data = [   
-                'name' => $request->name,
-                'subject' => $request->subject,
-                'email' => $request->email,
-                'message' => $request->message,
-            ];
-            
-           $contact = DB::table('contacts')->insert($data);
-                return response()->json([
-                    'data' => $data,
-                    'Message' => 'Contact data added successfully',
-                    'status' => 'success',
-                    'code' => 200
-                ],200);
-            }
-            else{
-                return response()->json([ 
-                    'Message' => 'Data not added',
-                    'Status' => 'Failed',
-                    'code' => 401                    
-                ], 401);
-            }
-            
-    } 
+        $data = [
+            'name' => $request->name,
+            'subject' => $request->subject,
+            'email' => $request->email,
+            'message' => $request->message,
+        ];
+
+        $contact = DB::table('contacts')->insert($data);
+        return response()->json([
+            'data' => $data,
+            'Message' => 'Contact data added successfully',
+            'status' => 'success',
+            'code' => 200
+        ], 200);
+    }
+
+
 
 
     public function update(ContactValidation $request, $id)
     {
-          $data = contact::find($id);
+        $data = contact::find($id);
 
-          $data->name = $request->name;
-          $data->subject = $request->subject;
-          $data->email = $request->email;
-          $data->message = $request->message;
-          $data->save();
+        $data->name = $request->name;
+        $data->subject = $request->subject;
+        $data->email = $request->email;
+        $data->message = $request->message;
+        $data->save();
         //   dd($data);
 
-          return response()->json([
+        return response()->json([
             'Message' => 'contact updated successfully',
             'status' => 'success',
             'data' => $data,
-          ],200);
+        ], 200);
     }
 
     public function destroy($id)
@@ -83,11 +76,10 @@ class ContactController extends Controller
         $data = contact::find($id);
         $data->delete();
         return response()->json([
-            'data' => $contact,
+            'data' => $data,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
-            'message' => 'Deleted Successfully',
-        ],200);
+        ], 200);
     }
 
 }

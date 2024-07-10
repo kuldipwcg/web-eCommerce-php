@@ -12,6 +12,9 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = ['user_id', 'cart_id', 'order_date', 'status', 'total'];
+
+    protected $hidden = ['created_at','updated_at'];
+
     protected $primaryKey = 'id';
     public function billings()
     {
@@ -26,5 +29,10 @@ class Order extends Model
     public function Payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(order_item::class, 'order_id', 'id');
     }
 }

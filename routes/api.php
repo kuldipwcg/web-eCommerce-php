@@ -41,7 +41,7 @@ use App\Http\Controllers\FooterController;
 
 //User side Routes
 Route::middleware('guest:api')->group(function () {
-    
+
     Route::post('signup', [UserController::class, 'signup'])->name('signup');
     Route::post('login', [UserController::class, 'login'])->name('login');
 });
@@ -50,13 +50,13 @@ Route::middleware('guest:api')->group(function () {
 Route::apiResource('contactUs',ContactController::class);
 Route::apiResource('newsLetter', NewsLetterController::class);
 
-//when come at login without authorization 
+//when come at login without authorization
 Route::get('login', function () {
     return response()->json([
         "status" => true,
         "msg" => 'Please Login In First'
     ]);
-})->name('error'); 
+})->name('error');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
@@ -87,6 +87,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('billingAddress', BillingController::class);
     Route::apiResource('shippingAddress', ShippingController::class);
     Route::apiResource('reviews', ReviewController::class);
+
+    Route::get('orderShow',[OrderController::class,'orderShow']);
 });
 //banner
 Route::get('banners', [BannerController::class, 'index']);
