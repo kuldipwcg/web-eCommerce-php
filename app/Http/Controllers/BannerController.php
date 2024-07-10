@@ -10,20 +10,31 @@ class BannerController extends Controller
 {
     public function index()
     {
-
+        $banners = Banner::latest()->paginate(10);
         return response()->json([
-            'data' => Banner::latest()->paginate(10),
+            'data' => $banners,
             'message' => "success",
             'status' => 200
         ]);
     }
 
+    public function addImage($bannerImage)
+    {
+        $imageName = $bannerImage->getClientOriginalName();
+        $bannerImage->move(public_path('/upload/banners/'), $imageName);
+        $bannerUrl = '/upload/banners/' . $imageName;
+
+        return $bannerUrl;
+    }
+
     public function store(BannerRequest $request)
     {
         $bannerImage = $request->file('banner_image');
-        $imageName = time() . $bannerImage->getClientOriginalName();
-        $bannerImage->move(public_path('/upload/banners/'), $imageName);
-        $bannerUrl = '/upload/banners/' . $imageName;
+        // $imageName = time() . $bannerImage->getClientOriginalName();
+        // $bannerImage->move(public_path('/upload/banners/'), $imageName);
+        // $bannerUrl = '/upload/banners/' . $imageName;
+
+        $bannerUrl = $this->addImage($bannerImage);
 
         $record = Banner::create([
             'banner_image' => $bannerUrl,
@@ -57,14 +68,14 @@ class BannerController extends Controller
             } else {
 
                 if ($banner->banner_image) {
-                    unlink(public_path().$banner->banner_image);
+                    unlink(public_path() . $banner->banner_image);
                 }
 
-                $imageName = $bannerImage->getClientOriginalName();
-                $bannerImage->move(public_path('/upload/banners/'), $imageName);
-                $bannerUrl = '/upload/banners/' . $imageName;
+                // $imageName = $bannerImage->getClientOriginalName();
+                // $bannerImage->move(public_path('/upload/banners/'), $imageName);
+                // $bannerUrl = '/upload/banners/' . $imageName;
+                $bannerUrl = $this->addImage($bannerImage);
             }
-
             $banner->update([
                 'banner_image' => $bannerUrl,
                 'banner_title' => $request->banner_title,

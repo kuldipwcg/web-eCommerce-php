@@ -2,107 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
-use App\Models\Billing;
+
 use App\Models\Cart;
-use App\Models\Order;
-use App\Models\order_item;
-use App\Models\Product;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Else_;
 
-class OrderController extends Controller
+class CartController extends Controller
 {
-    //
+    //list all cart with their  paginate by  10 items per page to items :-
     public function index()
-    {
-        return response()->json(Order::latest()->paginate(10));
-    }
+{
+    $carts = Cart::where('order_placed', 0)->paginate(10);
+    return response()->json($carts);
+}
 
+    // Store a newly created cart 
     public function store(Request $request)
     {
-        $order = Order::create([
-            'user_id'=>$request->user_id,   
-            'status'=>$request->status,
-            'total'=>$request->total,
-            'order_date'=>$request->order_date
-        ]);
+        $id = auth()->user()->id;
+        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
+        $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
 
-        // dd($order);
-        $carts = Cart::where('user_id', $request->user_id)->get();
+        if ($item) {
+            $newQuantity = $item->quantity + $request->quantity;
 
-        foreach($carts as $cart){
-            // dd($cart);
-            $product = Product::where('id', $cart->product_id)->get();
-            order_item::create([
-                'order_id'=>$order->id,
-                'product_id'=>$cart->product_id,
-                'quantity'=>$cart->quantity,
-                'color'=>$cart->color,
-                'size'=>$cart->size,
-                'unit_price'=>$product->price
-            ]);
+            if ($newQuantity <= 0) {
+                $item->delete();
+                return response()->json(['message' => 'Item removed from cart']);
+            } else {
+                $item->quantity = $newQuantity;
+                $item->save();
+                return response()->json($item);
+            }
+        } else {
+            if ($request->quantity > 0) {
+                $cart = new Cart();
+                $cart->quantity = $request->quantity;
+                $cart->user_id = $id;
+                $cart->product_id = $productId;
+                $cart->color = $request->color;
+                $cart->size = $request->size;
+                $cart->variants_id = $request->variants_id;
+                $cart->order_placed = $request->order_placed;
+                $cart->save();
+                return response()->json($cart);
+            } else {
+                return response()->json(['error' => 'Invalid quantity'], 200);
+            }
         }
-
-        $billingaddress = Billing::create([
-            'order_id' => $order->id,
-            'firstName' => $request->firstName,
-            'lastName' => $request->lastName,
-            'email' => $request->email,
-            'mobileNumber' => $request->mobileNumber,
-            'address1' => $request->address1,
-            'address2' => $request->address2,
-            'zipCode' => $request->zipCode,
-            'state' => $request->state,
-            'city' => $request->city
-        ]);
-
-        $orderItem = order_item::where('order_id', $order->id)->get();
-        return response()->json($orderItem);
-        // return response()->json(['data' => $ORDER, 'status' => 200]);
     }
 
-    public function show($id)
+    //method to update Cart
+    public function update(Request $request, $id)
     {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
+        $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-
-        return response()->json(
-            [
-                'code' => 200,
-                'data' => $ORDER,
-            ],
-            200,
-        );
+        $cart->quantity = $request->quantity;
+        $cart->color = $request->color;
+        $cart->size = $request->size;
+        $cart->variant_id = $request->variant_id;
+        $cart->order_placed = $request->order_placed;
+        $cart->save();
+        return response()->json($cart);
     }
 
-    public function update(OrderRequest $request, $id)
-    {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
-        }
-
-        $ORDER->update([
-            'user_id' => $request->user_id,
-            'cart_id' => $request->cart_id,
-            'order_date' => $request->order_date,
-            'status' => $request->status,
-            'total' => $request->total,
-        ]);
-
-        return response()->json($ORDER);
-    }
-
+    // Remove the specified Category
     public function destroy($id)
     {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
+        $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-        $ORDER->delete();
-        return response()->json(['message' => 'Order deleted successfully']);
+        $cart->delete();
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
 }
