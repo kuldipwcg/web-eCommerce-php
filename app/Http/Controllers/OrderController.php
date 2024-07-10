@@ -23,7 +23,6 @@ class OrderController extends Controller
             'status' => 200,
         ], 200);
     }
-
     public function store(Request $request)
     {
         $userId = auth()->user()->id;
@@ -79,10 +78,10 @@ class OrderController extends Controller
 
             $data[] = [
                 'Name' => Product::where('id', $item->product_id)->first()->product_name,
-                'Price' => "".$item->unit_price * $item->quantity,
+                'Price' => $item->unit_price * $item->quantity,
                 'Color' => $item->color,
                 'Size' => $item->size,
-                'Quantity' => "".$item->quantity,
+                'Quantity' => $item->quantity,
             ];
 
         }
@@ -111,5 +110,15 @@ class OrderController extends Controller
             'data' => $orders,
             'status' => 200,
         ], 200);
+    }
+
+    public function destroy($id)
+    {
+        $ORDER = Order::find($id);
+        if (!$ORDER) {
+            return response()->json(['error' => 'Order not found'], 422);
+        }
+        $ORDER->delete();
+        return response()->json(['message' => 'Order deleted successfully']);
     }
 }
