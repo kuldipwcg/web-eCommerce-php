@@ -47,7 +47,7 @@ class ShippingController extends Controller
         return response()->json($shipping, 201);
     }
 
-     // Retrieve the category by ID
+    // Retrieve the category by ID
     public function show($id)
     {
         $shipping = Shipping::find($id);
@@ -56,7 +56,8 @@ class ShippingController extends Controller
         }
         return response()->json($shipping);
     }
-       //method to update shippingAddress
+
+    //method to update shippingAddress
     public function update(ShippingRequest $request, $id)
     {
         $shipping = Shipping::find($id);
