@@ -2,26 +2,18 @@
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductColorController;
-use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
-
 use App\Http\Controllers\InformationSlugController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
@@ -41,20 +33,19 @@ use App\Http\Controllers\FooterController;
 
 //User side Routes
 Route::middleware('guest:api')->group(function () {
-
     Route::post('signup', [UserController::class, 'signup'])->name('signup');
     Route::post('login', [UserController::class, 'login'])->name('login');
 });
 
 //resource routes
-Route::apiResource('contactUs',ContactController::class);
+Route::apiResource('contactUs', ContactController::class);
 Route::apiResource('newsLetter', NewsLetterController::class);
 
 //when come at login without authorization
 Route::get('login', function () {
     return response()->json([
-        "status" => true,
-        "msg" => 'Please Login In First'
+        'status' => true,
+        'msg' => 'Please Login In First',
     ]);
 })->name('error');
 
@@ -88,7 +79,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('shippingAddress', ShippingController::class);
     Route::apiResource('reviews', ReviewController::class);
 
-    Route::get('orderShow',[OrderController::class,'orderShow']);
+    Route::get('orderShow', [OrderController::class, 'orderShow']);
 });
 //banner
 Route::get('banners', [BannerController::class, 'index']);
@@ -106,10 +97,10 @@ Route::get('products', [ProductController::class, 'index']);
 Route::post('filterProduct', [ProductController::class, 'display']);
 
 //footer route(to get footer data)
-Route::get('footer',[FooterController::class,'index']);
+Route::get('footer', [FooterController::class, 'index']);
 
 //category
-Route::get('category', [CategoryController::class,'index']);
+Route::get('category', [CategoryController::class, 'index']);
 
 //subcategory user side
-Route::get('subcategory', [SubCategoryController::class,'show']);
+Route::get('subcategory', [SubCategoryController::class, 'show']);

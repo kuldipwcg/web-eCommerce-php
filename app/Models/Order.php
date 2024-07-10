@@ -13,7 +13,7 @@ class Order extends Model
 
     protected $fillable = ['user_id', 'cart_id', 'order_date', 'status', 'total'];
 
-    protected $hidden = ['created_at','updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $primaryKey = 'id';
     public function billings()
@@ -26,16 +26,12 @@ class Order extends Model
         return $this->hasOne(Shipping::class);
     }
 
-    public function orderItems(){
-        return $this->hasMany(order_item::class);
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
     public function Payment()
     {
-        return $this->hasOne(Payment::class, 'order_id', 'id');
-    }
-
-    public function orderItems()
-    {
-        return $this->hasMany(order_item::class, 'order_id', 'id');
+        return $this->hasOne(Payment::class);
     }
 }
