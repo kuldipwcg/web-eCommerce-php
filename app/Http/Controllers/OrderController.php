@@ -6,9 +6,8 @@ use App\Mail\OrderMail;
 use App\Models\Billing;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\order_item;
+use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\ProductVariants;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -61,7 +60,7 @@ class OrderController extends Controller
             foreach ($carts as $cart) {
                 $product = Product::find($cart->product_id);
 
-                order_item::create([
+                OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cart->product_id,
                     'quantity' => $cart->quantity,
@@ -72,7 +71,7 @@ class OrderController extends Controller
             }
         }
 
-        $orderItems = order_item::where('order_id', $order->id)->get();
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
 
         $data = [];
         foreach($orderItems as $item)
@@ -112,15 +111,5 @@ class OrderController extends Controller
             'data' => $orders,
             'status' => 200,
         ], 200);
-    }
-
-    public function destroy($id)
-    {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
-        }
-        $ORDER->delete();
-        return response()->json(['message' => 'Order deleted successfully']);
     }
 }

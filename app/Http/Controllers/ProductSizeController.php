@@ -31,8 +31,8 @@ class ProductSizeController extends Controller
         if(!$size || $size->status !== 'active'){
             return response()->json([
                 'Message' => "Size is not available or not active",
-                'status' => 404
-            ],404);
+                'status' => 200
+            ],200);
         }
 
         $size->update($request->all());
@@ -50,8 +50,8 @@ class ProductSizeController extends Controller
         if(!$size){
             return response()->json([
                 'Message' => "Size is not available",
-                'status' => 404
-            ],404);
+                'status' => 200
+            ],200);
         }
 
         $size->delete();
@@ -67,8 +67,8 @@ class ProductSizeController extends Controller
         if(!$size){
             return response()->json([
                 'Message' => "Size is not available",
-                'status' => 404
-            ],404);
+                'status' => 200
+            ],200);
         }
 
         $size->status = $request->status;
