@@ -175,7 +175,6 @@ class ProductController extends Controller
         return response()->json(['products' => $formattedProducts], 200);
     }
 
-
     public function store(ProductRequest $request)
     {
         $category = Category::where('category_name', $request->category_name)->first();

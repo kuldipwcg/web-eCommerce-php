@@ -16,11 +16,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('cart_id');
-            $table->datetime('order_date');
-            $table->enum('order_status',array('pending','processing','shipped','delivered'));
-            $table->double('total',6,2);
-            $table->string('image');
+            $table->datetime('order_date')->default(Carbon::now());
+            $table->enum('status', ['pending','delivered'])->default('pending');
+            $table->double('total', 6, 2);
             $table->timestamps();
             
             
