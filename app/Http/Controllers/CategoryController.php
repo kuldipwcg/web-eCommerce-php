@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Models\Cart;
 use App\Models\Category;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
-use App\Http\Requests\categoryValidation;
 
-class CategoryController extends Controller
+class CartController extends Controller
 {
-    //list all category with their Subcagory paginate by  10 items per pageto items :-
+    //list all cart with their  paginate by  10 items per page to items :-
     public function index()
     {
 
@@ -24,8 +25,8 @@ class CategoryController extends Controller
         ],200);
     }
 
-    // Store a newly created Category
-    public function store(CategoryRequest $request)
+    // Store a newly created cart 
+    public function store(Request $request)
     {
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
