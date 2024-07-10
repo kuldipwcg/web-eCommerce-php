@@ -50,9 +50,11 @@
 
         <div class="message">
 
-            <p>Your Order
-
+            <p>Dear Customer,<br>
+                Your Order :
                 <br><br>
+===================                
+<br>
             @foreach ($mailData['item'] as $items)
 
             @foreach ( $items as $key=>$value)
@@ -65,10 +67,12 @@
 
             <br><br>
             @endforeach
-
+<br>
+===================
+<br>
             Total Price : {{ $mailData['total'] }}
-
-            <p>Thank you for providing your details Your Company Name.
+            <br><br>
+            <p>Thank you for providing your Email with Multishop.
         </div>
 
     </div>
