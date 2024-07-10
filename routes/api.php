@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,9 @@ use App\Http\Controllers\FooterController;
 
 
 //User side Routes
+//User side Routes
 Route::middleware('guest:api')->group(function () {
+    
     
     Route::post('signup', [UserController::class, 'signup'])->name('signup');
     Route::post('login', [UserController::class, 'login'])->name('login');
@@ -52,11 +55,23 @@ Route::get('login', function () {
     ]);
 })->name('error'); 
 
+//resource routes
+Route::apiResource('contactUs',ContactController::class);
+Route::apiResource('newsLetter', NewsLetterController::class);
+
+//when come at login without authorization 
+Route::get('login', function () {
+    return response()->json([
+        "status" => true,
+        "msg" => 'Please Login In First'
+    ]);
+})->name('error'); 
+
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::post('changePassword', [UserController::class, 'change']);
     Route::put('updateProfile', [UserController::class, 'update']);
-    Route::get('profile', function (Request $r) {
+    Route::get('profile', function () {
         
         return response()->json([
             'data'=>auth()->user(),
@@ -70,6 +85,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('addWishList/{id}',[WishlistController::class,'store']);
 
     // Resource routes
+    Route::apiResource('user', UserController::class);
     Route::apiResource('order', OrderController::class);
     Route::apiResource('carts', CartController::class);
     Route::apiResource('billingAddress', BillingController::class);
@@ -93,9 +109,14 @@ Route::post('filterProduct', [ProductController::class,'display']);
 
 //footer route(to get footer data)
 Route::get('footer',[FooterController::class,'index']);
+Route::get('footer',[FooterController::class,'index']);
 
 //category
 Route::get('category', [SubCategoryController::class,'index']);
+//category
+Route::get('category', [SubCategoryController::class,'index']);
 
+//subcategory user side
+Route::get('subcategory', [SubCategoryController::class,'show']);
 //subcategory user side
 Route::get('subcategory', [SubCategoryController::class,'show']);
