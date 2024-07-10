@@ -11,6 +11,7 @@ class newsletter extends Model
     use HasFactory; 
 
 
+    protected $table = "newsletters";
 
     protected $fillable = [
         'address',

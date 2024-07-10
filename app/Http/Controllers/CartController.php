@@ -2,103 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\cartRequest;
+
 use App\Models\Cart;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     //list all cart with their  paginate by  10 items per page to items :-
-    public function index(Request $request)
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        return response()->json(
-            Cart::where('status', 'active')
-                ->where('user_id', $user->id)
-                ->get(),
-        );
-    }
+    public function index()
+{
+    $carts = Cart::where('order_placed', 0)->paginate(10);
+    return response()->json($carts);
+}
 
-    // Store a newly created cart
-    public function store(CartRequest $request)
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        $cart = Cart::create([
-            'user_id' => $user->id,
-            'product_id' => $request->input('product_id'),
-            'quantity' => $request->input('quantity'),
-            'status' => 'active', // default status is active
-            'order_placed' => $request->input('order_placed', false),
-        ]);
+    // Store a newly created cart 
+    public function store(Request $request){
+    $id = auth()->user()->id;
+    $variant = ProductVariants::where('id', $request->variants_id)->first();
+    $productId = $variant->product_id;
+    $availableQuantity = $variant->quantity; 
 
-        if ($cart) {
-            return response()->json([
-                'type' => 'uccess',
-                'message' => 'Cart data added successfully',
-                'code' => 201,
-                'data' => $cart,
-            ]);
+    $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
+
+    if ($item) {
+        $newQuantity = $item->quantity + $request->quantity;
+
+        if ($newQuantity > $availableQuantity) {
+            return response()->json(['error' => 'Sorry, Requested quantity out stock'], 200);
+        }
+
+        if ($newQuantity <= 0) {
+            $item->delete();
+            return response()->json(['message' => 'Item removed from cart']);
         } else {
-            return response()->json(
-                [
-                    'type' => 'failure',
-                    'message' => 'Cart data not added successfully',
-                    'code' => 422,
-                ],
-                422,
-            );
+            $item->quantity = $newQuantity;
+            $item->save();
+            return response()->json($item);
+        }
+    } else {
+        if ($request->quantity > 0) {
+            if ($request->quantity > $availableQuantity) {
+                return response()->json(['error' => 'Sorry, Requested quantity out stock'], 200);
+            }
+
+            $cart = new Cart();
+            $cart->quantity = $request->quantity;
+            $cart->user_id = $id;
+            $cart->product_id = $productId;
+            $cart->color = $request->color;
+            $cart->size = $request->size;
+            $cart->variants_id = $request->variants_id;
+            $cart->order_placed = $request->order_placed;
+            $cart->save();
+            return response()->json($cart);
+        } else {
+            return response()->json(['error' => 'Invalid quantity'], 200);
         }
     }
-    //Display the specified cart.
-    public function show(Request $request, $id)
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        $cart = Cart::find($id);
-        if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart item not found'], 422);
-        }
-        return response()->json($cart);
-    }
+}
+
 
     //method to update Cart
-    public function update(CartRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
         $cart = Cart::find($id);
-        if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart not found'], 422);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-        $cart->update($request->all());
+        $cart->quantity = $request->quantity;
+        $cart->color = $request->color;
+        $cart->size = $request->size;
+        $cart->variant_id = $request->variant_id;
+        $cart->order_placed = $request->order_placed;
+        $cart->save();
         return response()->json($cart);
     }
 
     // Remove the specified Category
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
         $cart = Cart::find($id);
-        if (!$cart || $cart->user_id !== $user->id) {
-            return response()->json(['error' => 'Cart item not found'], 422);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-        $cart->update(['status' => 'inactive']); // soft delete
-        return response()->json(['message' => 'Cart item deleted successfully']);
+        $cart->delete();
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
-
-
 }

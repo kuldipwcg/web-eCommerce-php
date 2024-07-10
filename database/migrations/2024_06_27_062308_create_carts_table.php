@@ -14,18 +14,15 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('color_id');
-            $table->unsignedBigInteger('size_id');
-            $table->unsignedBigInteger('variants_id');
             $table->integer('quantity')->unsigned();
+            $table->string('color');
+            $table->string('size');
+            $table->unsignedBigInteger('variants_id');
             $table->boolean('order_placed')->default(false);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('carts');

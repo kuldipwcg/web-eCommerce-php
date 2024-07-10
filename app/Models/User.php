@@ -20,6 +20,8 @@ use HasApiTokens, HasFactory, Notifiable;
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'email',
         'firstName',
@@ -35,7 +37,7 @@ use HasApiTokens, HasFactory, Notifiable;
      * @var array<int, string>
      */
     protected $hidden = [
-        
+
         'address',
         'role',
         'created_at',
@@ -43,14 +45,14 @@ use HasApiTokens, HasFactory, Notifiable;
         'email_verified_at',
         'remember_token',
     ];
-    
+
     /**
     * The attributes that should be cast.
     *
     * @var array<string, string>
     */
 
-    // method from CanResetPassword is overrided  
+    // method from CanResetPassword is overrided
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPasswordNotification($token));

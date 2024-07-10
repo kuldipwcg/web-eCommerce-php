@@ -39,12 +39,13 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category added successfully', 'data' => $record, 'status' => 200]);
     }
 
+    // Retrieve the category by ID
     public function show($id)
 
     {
         $category = Category::find($id);
         if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+            return response()->json(['error' => 'Category not found'], 200);
         }
         return response()->json($category);
     }
@@ -72,27 +73,11 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+            return response()->json(['error' => 'Category not found'], 200);
         }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
     }
 
-    public function categorystatus(Request $request, $id)
-    {
-        $category = CategoryController::find($id);
-        if(!$category){
-            return response()->json([
-                'Message' => "Category is not available",
-                'status' => 404
-            ],404);
-        }
-
-        $category->status = $request->status;
-        $category->save();
-        return response()->json([
-            'message' => 'Category status updated successfully.',
-            'status' => 200
-        ]);
-    }
+    
 }

@@ -13,28 +13,28 @@ use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\InformationSlugController;
 use App\Http\Controllers\FooterController;
 
-// for admin
+//Routes for admin
 
 //admin sign up
 Route::post('login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('set', [AdminController::class, 'setAdmin']);
 
 Route::middleware('auth:admin')->group(function () {
+    //display all users
+    Route::get('displayUser', [AdminController::class, 'displayUser']);
 
-
-    // update the authorized user
+    //admin update profile
     Route::put('updateProfile', [AdminController::class, 'update']);
-    
     //category
     Route::apiResource('category', CategoryController::class);
-    
+
     //subcategory
     Route::apiResource('subcategory', SubCategoryController::class);
 
-    //banner 
+    //banner
     Route::apiResource('banners', BannerController::class);
 
-    //products 
+    //products
     Route::apiResource('products', ProductController::class);
 
     //contactus route

@@ -8,7 +8,6 @@ use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserCheck;
 
@@ -44,6 +43,17 @@ class UserController extends Controller
         $person = User::where('email', $request->email)->first();
 
         if (Hash::check($request->password, $person->password)) {
+
+            if ($person->status !== 'active') {
+                return response()->json(
+                    [
+                        'message' => 'User is not active',
+                        'status' => 200,
+                    ],
+                    200,
+                );
+            }
+
             $token = $person->createToken('user-auth')->accessToken;
             $data = ['person' => $person, 'token' => $token];
             return response()->json([
@@ -147,3 +157,4 @@ class UserController extends Controller
         
     }
 }
+

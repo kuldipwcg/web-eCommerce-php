@@ -28,9 +28,9 @@ class ProductSizeController extends Controller
     public function update(ProductSizeRequest $request, $id)
     {
         $size = ProductSize::find($id);
-        if(!$size){
+        if(!$size || $size->status !== 'active'){
             return response()->json([
-                'Message' => "Size is not available",
+                'Message' => "Size is not available or not active",
                 'status' => 404
             ],404);
         }
