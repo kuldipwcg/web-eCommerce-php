@@ -13,9 +13,10 @@ class ProductVariants extends Model
     use HasFactory;
 
     protected $table = "productvariation";
+    protected $primaryKey = "id";
 
     protected $fillable = ['product_id', 'color_id', 'size_id', 'quantity'];
-    protected $hidden = ['created_at','updated_at'];
+
     public function product(){
         $this->belongsTo(Product::class);
     }

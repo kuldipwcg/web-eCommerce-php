@@ -121,32 +121,34 @@ Route::get('login', function () {
     ]);
 })->name('error');
 
-// Resource routes
-Route::apiResource('user', UserController::class);
-Route::apiResource('banners', BannerController::class);
-Route::apiResource('sizes', ProductSizeController::class);
-Route::apiResource('colors', ProductColorController::class);
-Route::apiResource('category', CategoryController::class);
-Route::apiResource('products', ProductController::class);
-Route::apiResource('subcategory', SubCategoryController::class);
-Route::apiResource('order', OrderController::class);
-Route::apiResource('carts', CartController::class);
-Route::apiResource('billingAddress', BillingController::class);
-Route::apiResource('payment', PaymentController::class);
-Route::apiResource('shippingAddress', ShippingController::class);
-Route::apiResource('language', LanguageController::class);
-Route::apiResource('informationslug', InformationSlugController::class);
-Route::apiResource('sizes', ProductSizeController::class);
+    // Resource routes
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('order', OrderController::class);
+    Route::apiResource('carts', CartController::class);
+    Route::apiResource('billingAddress', BillingController::class);
+    Route::apiResource('shippingAddress', ShippingController::class);
+    Route::apiResource('reviews', ReviewController::class);
+});
+//banner
+Route::get('banners', [BannerController::class,'index']);
+
+//informationslug
+Route::get('informationSlug/{informationslug}', [InformationSlugController::class,'index']);
+
+//reset password with mail
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('resetPassword', [ForgotPasswordController::class, 'updatePassword'])->name('password.reset');
+
+//products
+Route::get('products/{id}', [ProductController::class,'show'])->name('products');
+Route::get('products', [ProductController::class,'index']);
+Route::post('filterProduct', [ProductController::class,'display']);
 
 //footer route(to get footer data)
 Route::get('footer',[FooterController::class,'index']);
 
-// Newsletter routes
-Route::post('addnewsletter', [NewsLetterController::class, 'store'])->name('addnewsletter');
-Route::put('updatenewsletter/{id}', [NewsLetterController::class, 'update'])->name('updatenewsletter');
-Route::delete('deletenewsletter/{id}', [NewsLetterController::class, 'destroy'])->name('destroynewsletter');
+//category
+Route::get('category', [SubCategoryController::class,'index']);
 
-//routes for contact details .
-Route::post('addcontact', [ContactController::class, 'store'])->name('addcontact');
-Route::put('updatecontact/{id}', [ContactController::class, 'update'])->name('updatecontact');
-Route::delete('deletecontact/{id}', [ContactController::class, 'destroy'])->name('destroycontact');
+//subcategory user side
+Route::get('subcategory', [SubCategoryController::class,'show']);

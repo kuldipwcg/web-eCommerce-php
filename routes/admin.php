@@ -58,3 +58,4 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('changePassword', [AdminController::class, 'change']);
 
 });
+    });
