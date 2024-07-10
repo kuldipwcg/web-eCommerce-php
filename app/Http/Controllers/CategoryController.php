@@ -79,5 +79,23 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Category deleted successfully']);
     }
 
+    public function categorystatus(Request $request, $id)
+    {
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json([
+                'Message' => "Category is not available",
+                'status' => 200
+            ], 200);
+        }
+
+        $category->status = $request->status;
+        $category->save();
+        return response()->json([
+            'message' => 'Category status updated successfully.',
+            'status' => 200
+        ]);
+    }
+
     
 }
