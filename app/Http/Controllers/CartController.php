@@ -17,40 +17,51 @@ class CartController extends Controller
 }
 
     // Store a newly created cart 
-    public function store(Request $request)
-    {
-        $id = auth()->user()->id;
-        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
-        $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
+    public function store(Request $request){
+    $id = auth()->user()->id;
+    $variant = ProductVariants::where('id', $request->variants_id)->first();
+    $productId = $variant->product_id;
+    $availableQuantity = $variant->quantity; 
 
-        if ($item) {
-            $newQuantity = $item->quantity + $request->quantity;
+    $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
 
-            if ($newQuantity <= 0) {
-                $item->delete();
-                return response()->json(['message' => 'Item removed from cart']);
-            } else {
-                $item->quantity = $newQuantity;
-                $item->save();
-                return response()->json($item);
-            }
+    if ($item) {
+        $newQuantity = $item->quantity + $request->quantity;
+
+        if ($newQuantity > $availableQuantity) {
+            return response()->json(['error' => 'Sorry, Requested quantity out stock'], 200);
+        }
+
+        if ($newQuantity <= 0) {
+            $item->delete();
+            return response()->json(['message' => 'Item removed from cart']);
         } else {
-            if ($request->quantity > 0) {
-                $cart = new Cart();
-                $cart->quantity = $request->quantity;
-                $cart->user_id = $id;
-                $cart->product_id = $productId;
-                $cart->color = $request->color;
-                $cart->size = $request->size;
-                $cart->variants_id = $request->variants_id;
-                $cart->order_placed = $request->order_placed;
-                $cart->save();
-                return response()->json($cart);
-            } else {
-                return response()->json(['error' => 'Invalid quantity'], 200);
+            $item->quantity = $newQuantity;
+            $item->save();
+            return response()->json($item);
+        }
+    } else {
+        if ($request->quantity > 0) {
+            if ($request->quantity > $availableQuantity) {
+                return response()->json(['error' => 'Sorry, Requested quantity out stock'], 200);
             }
+
+            $cart = new Cart();
+            $cart->quantity = $request->quantity;
+            $cart->user_id = $id;
+            $cart->product_id = $productId;
+            $cart->color = $request->color;
+            $cart->size = $request->size;
+            $cart->variants_id = $request->variants_id;
+            $cart->order_placed = $request->order_placed;
+            $cart->save();
+            return response()->json($cart);
+        } else {
+            return response()->json(['error' => 'Invalid quantity'], 200);
         }
     }
+}
+
 
     //method to update Cart
     public function update(Request $request, $id)
