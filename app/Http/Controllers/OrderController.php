@@ -16,8 +16,8 @@ class OrderController extends Controller
     //
     public function index()
     {
-        return response()->json(Order::latest()->paginate(10));
-    }
+    return response()->json(Order::latest()->paginate(10));
+}
 
     public function store(Request $request)
     {
@@ -85,16 +85,23 @@ class OrderController extends Controller
             return response()->json(['error' => 'Order not found'], 422);
         }
 
-        $ORDER->update([
-            'user_id' => $request->user_id,
-            'cart_id' => $request->cart_id,
-            'order_date' => $request->order_date,
-            'status' => $request->status,
-            'total' => $request->total,
-        ]);
-
-        return response()->json($ORDER);
+    $ORDER->update([
+        'user_id' => $request->user_id,
+        'cart_id' => $request->cart_id,
+        'order_date'=>$request->order_date,
+        'order_status'=>$request->order_status,
+        'total'=>$request->total,
+        'image' => $orderUrl,
+        
+    ]);
+    if (!$ORDER) {
+        return response()->json(['error' => 'ORDER_items not found'], 404);
     }
+
+    else{
+    return response()->json($ORDER);
+    }
+}
 
     public function destroy($id)
     {
