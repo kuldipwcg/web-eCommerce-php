@@ -6,7 +6,6 @@ use App\Http\Requests\ReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
