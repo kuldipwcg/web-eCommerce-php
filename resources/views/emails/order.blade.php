@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98c86bc (store order with order item)
 <!DOCTYPE html>
 <html>
 
@@ -68,8 +71,7 @@
 
             <br><br>
             @endforeach
-<br>
-===================
+
 <br>
             Total Price : {{ $mailData['total'] }}
             <br><br>
