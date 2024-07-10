@@ -51,8 +51,8 @@ Route::get('login', function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
-    Route::post('change-password', [UserController::class, 'change']);
-    Route::put('update-profile', [UserController::class, 'update']);
+    Route::post('changePassword', [UserController::class, 'change']);
+    Route::put('updateProfile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
         
         return response()->json([
@@ -73,7 +73,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('addWishList/{id}', [WishlistController::class, 'store']);
 
     // Resource routes
-    Route::apiResource('user', UserController::class);
     Route::apiResource('order', OrderController::class);
     Route::apiResource('carts', CartController::class);
     Route::apiResource('billingAddress', BillingController::class);
