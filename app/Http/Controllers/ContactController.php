@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\contact;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 use Illuminate\Routing\Controller;
-use App\Http\Requests\ContactValidation;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ContactValidation;
 
 class ContactController extends Controller
 {
-    
-    public function index(){
+
+    public function show(Request $request)
+    {
         $contact = contact::get();
+        if ($contact) {
             return response()->json([
                 'data' => $contact,
                 'Message' => 'Contact added successfully',
                 'status' => 'Success',
                 'code' => 200
-            ],200);
+            ], 200);
+        }
     }
     public function store(ContactValidation $request)
     {
@@ -38,7 +44,7 @@ class ContactController extends Controller
     }
     public function update(ContactValidation $request, $id)
     {
-          $data = contact::find($id);
+        $data = contact::find($id);
 
           $data->name = $request->name;
           $data->subject = $request->subject;
@@ -58,7 +64,7 @@ class ContactController extends Controller
         $contact = contact::find($id);
         $contact->delete();
         return response()->json([
-            'data' => $contact,
+            'data' => $data,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
         ],200);

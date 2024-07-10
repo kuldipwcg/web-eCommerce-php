@@ -17,14 +17,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->datetime('order_date')->default(Carbon::now());
-            $table->enum('status', ['pending','delivered'])->default('pending');
+            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered'])->default('pending');
             $table->double('total', 6, 2);
             $table->timestamps();
             
             
         });
     }
-
 
     public function down(): void
     {
