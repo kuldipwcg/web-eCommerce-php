@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CategoryController;
@@ -108,7 +109,7 @@ Route::post('filterProduct', [ProductController::class, 'display']);
 Route::get('footer',[FooterController::class,'index']);
 
 //category
-Route::get('category', [SubCategoryController::class,'index']);
+Route::get('category', [CategoryController::class,'index']);
 
 //subcategory user side
 Route::get('subcategory', [SubCategoryController::class,'show']);

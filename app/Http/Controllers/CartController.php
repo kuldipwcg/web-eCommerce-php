@@ -16,44 +16,29 @@ class CartController extends Controller
     return response()->json($carts);
 }
 
-    // Store a newly created cart 
-    public function store(Request $request)
+    // public function store(cartRequest $request)
+    // {
+    //     // dd(request()->all());
+    //     $cart = Cart::create($request->all());
+
+    //     return response()->json($cart, 201);
+    // }
+
+    public function store(cartRequest $request)
     {
-        $id = auth()->user()->id;
-        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
-        $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
-
-        if ($item) {
-            $newQuantity = $item->quantity + $request->quantity;
-
-            if ($newQuantity <= 0) {
-                $item->delete();
-                return response()->json(['message' => 'Item removed from cart']);
-            } else {
-                $item->quantity = $newQuantity;
-                $item->save();
-                return response()->json($item);
-            }
-        } else {
-            if ($request->quantity > 0) {
-                $cart = new Cart();
-                $cart->quantity = $request->quantity;
-                $cart->user_id = $id;
-                $cart->product_id = $productId;
-                $cart->color = $request->color;
-                $cart->size = $request->size;
-                $cart->variants_id = $request->variants_id;
-                $cart->order_placed = $request->order_placed;
-                $cart->save();
-                return response()->json($cart);
-            } else {
-                return response()->json(['error' => 'Invalid quantity'], 200);
-            }
-        }
+        $cart = Cart::create($request->except('id'));
+        return response()->json($cart, 201);
     }
-
-    //method to update Cart
-    public function update(Request $request, $id)
+        
+    public function show($id)
+    {
+        $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart item not found'], 404);
+        }
+        return response()->json($cart);
+    }
+    public function update(cartRequest $request, $id)
     {
         $cart = Cart::find($id);
         if (!$cart) {

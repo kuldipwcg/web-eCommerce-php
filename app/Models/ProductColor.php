@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 
 class ProductColor extends Model
 {
+    
+
     use HasFactory,Notifiable;
     protected $primaryKey = "id";
 
@@ -17,7 +19,7 @@ class ProductColor extends Model
     
     public function product_variants()
     {
-        return $this->hasMany(ProductVariants::class);
+        return $this->hasMany(ProductVariants::class,'color_id','id');
     }
 
 }

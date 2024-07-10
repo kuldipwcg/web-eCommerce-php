@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\contact;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+
 use App\Http\Requests\ContactValidation;
 use Illuminate\Support\Str;
-
+use DB;
 class ContactController extends Controller
 {
     
     public function show(Request $request){
+    public function show(Request $request){
         $contact = contact::get();
+        if($contact){
         if($contact){
             return response()->json([
                 'data' => $contact,
@@ -27,9 +30,19 @@ class ContactController extends Controller
                 'code' => 404
             ],404);
         }
+        }
+        else{
+            return response()->json([
+                'Message' => 'No Data Found',
+                'status' => 'failed',
+                'code' => 404
+            ],404);
+        }
     }
     public function store(ContactValidation $request)
     {
+            // dd($request->all());
+
             // dd($request->all());
 
             $data = [   
@@ -41,17 +54,29 @@ class ContactController extends Controller
             
            $contact = DB::table('contacts')->insert($data);
             if($contact){
+            if($contact){
                 return response()->json([
+                    'data' => $data,
                     'data' => $data,
                     'Message' => 'Contact data added successfully',
                     'status' => 'success',
                     'code' => 200
                 ],200);
+            }
+            else{
+                return response()->json([ 
+                    'Message' => 'Data not added',
+                    'Status' => 'Failed',
+                    'code' => 401                    
+                ], 401);
+            }
+            
     } 
 
 
     public function update(ContactValidation $request, $id)
     {
+          $data = contact::find($id);
           $data = contact::find($id);
 
           $data->name = $request->name;
@@ -61,8 +86,11 @@ class ContactController extends Controller
           $data->save();
         //   dd($data);
 
+        //   dd($data);
+
           return response()->json([
             'Message' => 'contact updated successfully',
+            'data' => $data,
             'data' => $data,
           ],200);
     }
@@ -71,10 +99,10 @@ class ContactController extends Controller
     {
         $data = contact::find($id);
         $data->delete();
+        $data = contact::find($id);
+        $data->delete();
         return response()->json([
-            'data' => $data,
-            'message' => 'Contact deleted Successfully',
-            'status' => 'success',
+            'message' => 'Deleted Successfully',
         ],200);
     }
 
