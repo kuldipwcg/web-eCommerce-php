@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
+use App\Http\Requests\UserRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 

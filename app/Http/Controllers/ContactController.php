@@ -35,7 +35,7 @@ class ContactController extends Controller
                     'status' => 'success',
                     'code' => 200
                 ],200);
-    } 
+    }
 
 
     public function update(ContactValidation $request, $id)
