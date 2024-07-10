@@ -1,3 +1,4 @@
+``` php
 <?php
 
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\OrderController;
@@ -19,7 +21,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\FooterController;
-use App\Http\Controllers\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,7 +32,6 @@ use App\Http\Controllers\CategoryController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 
 //User side Routes
 Route::middleware('guest:api')->group(function () {
@@ -100,7 +101,7 @@ Route::post('filterProduct', [ProductController::class, 'display']);
 Route::get('footer',[FooterController::class,'index']);
 
 //category
-Route::get('category', [SubCategoryController::class,'index']);
+Route::get('category', [CategoryController::class,'index']);
 
 //subcategory user side
 Route::get('subcategory', [SubCategoryController::class,'show']);
