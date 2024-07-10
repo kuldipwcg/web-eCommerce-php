@@ -26,16 +26,16 @@ class ReviewController extends Controller
         if(!$userId){
             return response()->json([
                 'Message' => 'The User is not available.',
-                'status' => 404
-            ], 404);
+                'status' => 200
+            ], 200);
         }
 
         $existReview = Review::where('user_id', $userId)->where('product_id', $productId)->first();
         if($existReview){
             return response()->json([
                 'Message'=>'Review is already available from user',
-                'status'=> 403
-            ],403);
+                'status'=> 200
+            ],200);
         }
 
         $review = Review::create([
@@ -52,8 +52,8 @@ class ReviewController extends Controller
         if(!$review){
             return response()->json([
                 'Message' => "Review data is not available.",
-                'Status' => 404,
-            ], 404);
+                'Status' => 200,
+            ], 200);
         }
         $review->update($request->all());
         return response()->json([
@@ -66,8 +66,8 @@ class ReviewController extends Controller
         if(!$review){
             return response()->json([
                 'Message' => "Review data is not available.",
-                'Status' => 404,
-            ], 404);
+                'Status' => 200,
+            ], 200);
         }
         $review->delete();
         return response()->json([
