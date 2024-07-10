@@ -11,24 +11,24 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     public function index()
+    public function index()
     {
+        return response()->json(Cart::all());
         return response()->json(Cart::all());
     }
 
+    // public function store(cartRequest $request)
+    // {
+    //     // dd(request()->all());
+    //     $cart = Cart::create($request->all());
 
-    public function store(Request $request)
-    {   
-        $productId = $request->input('product_id'); 
-        $product = 
-        $category=Category::where('id')->with('category')->get();
-        dd($products);
+    //     return response()->json($cart, 201);
+    // }
 
-        $product = Cart::where('product_id')->with('product')->get();
-        $quantity = 1;
-        dd($product);
-        $product_data = Cart::where('product_id', $user)->get();
-    
-
+    public function store(cartRequest $request)
+    {
+        $cart = Cart::create($request->except('id'));
+        return response()->json($cart, 201);
     }
         
     public function show($id)
@@ -36,12 +36,17 @@ class CartController extends Controller
         $cart = Cart::find($id);
         if (!$cart) {
             return response()->json(['error' => 'Cart item not found'], 404);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart item not found'], 404);
         }
         return response()->json($cart);
     }
     public function update(cartRequest $request, $id)
+    public function update(cartRequest $request, $id)
     {
         $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 404);
         if (!$cart) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
@@ -50,11 +55,15 @@ class CartController extends Controller
     }
 
     public function destroy($id)
+    public function destroy($id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
             return response()->json(['error' => 'Cart item not found'], 404);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart item not found'], 404);
         }
+        $cart->delete();
         $cart->delete();
         return response()->json(['message' => 'Cart item deleted successfully']);
     }
