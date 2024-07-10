@@ -8,108 +8,80 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\order_item;
 use App\Models\Product;
+use App\Models\ProductVariants;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use PhpParser\Node\Stmt\Else_;
 
 class OrderController extends Controller
 {
-    //
     public function index()
     {
-    return response()->json(Order::latest()->paginate(10));
-}
+        $order = Order::with(['orderItems','billings','shippings'])->get();
+        return response()->json(["order"=>$order,"status"=>200],200);
+    }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
+        $userId = auth()->user()->id;
+        $carts = Cart::where('user_id', $userId)->where('order_placed', false)->get();
+
+        if ($carts->isEmpty()) {
+            return response()->json(['Message' => 'Cart is Empty'], 200);
+        }
+
         $order = Order::create([
-            'user_id'=>$request->user_id,   
-            'status'=>$request->status,
-            'total'=>$request->total,
-            'order_date'=>$request->order_date
+            'user_id' => $userId,
+            'total' => $request->total,
+            'order_date' => Carbon::now()
         ]);
 
-        // dd($order);
-        $carts = Cart::where('user_id', $request->user_id)->get();
+        $billingAddress = $request->input('billingAddress');
+        if ($billingAddress) {
+            Billing::updateOrCreate(['order_id' => $order->id], $billingAddress);
+        } else {
+            return response()->json(["Message" => "Billing address is not available"], 200);
+        }
 
-        foreach($carts as $cart){
-            // dd($cart);
-            $product = Product::where('id', $cart->product_id)->get();
+        $shippingAddress = $request->input('shippingAddress');
+        if ($shippingAddress) {
+            
+            Shipping::updateOrCreate(['order_id' => $order->id], $shippingAddress);
+        } else {
+            Shipping::updateOrCreate(['order_id' => $order->id], $billingAddress);
+        }
+
+        foreach ($carts as $cart) {
+            $product = Product::where('id', $cart->product_id)->first();
             order_item::create([
-                'order_id'=>$order->id,
-                'product_id'=>$cart->product_id,
-                'quantity'=>$cart->quantity,
-                'color'=>$cart->color,
-                'size'=>$cart->size,
-                'unit_price'=>$product->price
+                'order_id' => $order->id,
+                'product_id' => $cart->product_id,
+                'quantity' => $cart->quantity,
+                'color' => $cart->color,
+                'size' => $cart->size,
+                'unit_price' => $product->price
             ]);
+            $productVariant = ProductVariants::find($cart->variants_id);
+            if($productVariant){
+                $productVariant->decrement('quantity', $cart->quantity);
+            }
         }
 
-        $billingaddress = Billing::create([
-            'order_id' => $order->id,
-            'firstName' => $request->firstName,
-            'lastName' => $request->lastName,
-            'email' => $request->email,
-            'mobileNumber' => $request->mobileNumber,
-            'address1' => $request->address1,
-            'address2' => $request->address2,
-            'zipCode' => $request->zipCode,
-            'state' => $request->state,
-            'city' => $request->city
-        ]);
+        Cart::where('user_id', $userId)->update(['order_placed' => true]);
 
-        $orderItem = order_item::where('order_id', $order->id)->get();
-        return response()->json($orderItem);
-        // return response()->json(['data' => $ORDER, 'status' => 200]);
+        return response()->json(['Message' => "Order Place Successfully.", "status" => 200], 200);
     }
 
-    public function show($id)
+    public function orderShow()
     {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
+        $userId = auth()->user()->id;
+        $order = Order::with(['orderItems','billings','shippings'])->where('user_id',$userId)->get();
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 200);
         }
 
-        return response()->json(
-            [
-                'code' => 200,
-                'data' => $ORDER,
-            ],
-            200,
-        );
+        return response()->json(['status' => 200,'order' => $order],200);
     }
 
-    public function update(OrderRequest $request, $id)
-    {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
-        }
-
-    $ORDER->update([
-        'user_id' => $request->user_id,
-        'cart_id' => $request->cart_id,
-        'order_date'=>$request->order_date,
-        'order_status'=>$request->order_status,
-        'total'=>$request->total,
-        'image' => $orderUrl,
-        
-    ]);
-    if (!$ORDER) {
-        return response()->json(['error' => 'ORDER_items not found'], 404);
-    }
-
-    else{
-    return response()->json($ORDER);
-    }
-}
-
-    public function destroy($id)
-    {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
-        }
-        $ORDER->delete();
-        return response()->json(['message' => 'Order deleted successfully']);
-    }
 }

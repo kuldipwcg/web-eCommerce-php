@@ -15,14 +15,17 @@ class Order extends Model
     protected $primaryKey = 'id';
     public function billings()
     {
-        return $this->hasOne(Billing::class, 'order_id', 'id');
+        return $this->hasOne(Billing::class);
     }
 
     public function shippings()
     {
-        return $this->hasOne(Shipping::class, 'order_id', 'id');
+        return $this->hasOne(Shipping::class);
     }
 
+    public function orderItems(){
+        return $this->hasMany(order_item::class);
+    }
     public function Payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
