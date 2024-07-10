@@ -2,69 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\cartRequest;
+
 use App\Models\Cart;
-use App\Models\Product;
-use App\Models\Category;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index()
+    //list all cart with their  paginate by  10 items per page to items :-
     public function index()
     {
-        return response()->json(Cart::all());
-        return response()->json(Cart::all());
+        $carts = Cart::all();
+        return response()->json($carts);
     }
 
-    // public function store(cartRequest $request)
-    // {
-    //     // dd(request()->all());
-    //     $cart = Cart::create($request->all());
-
-    //     return response()->json($cart, 201);
-    // }
-
-    public function store(cartRequest $request)
+    // Store a newly created cart
+    public function store(Request $request)
     {
-        $cart = Cart::create($request->except('id'));
-        return response()->json($cart, 201);
-    }
         
-    public function show($id)
-    {
-        $cart = Cart::find($id);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+        $id = auth()->user()->id;
+        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
+        $item = array_merge(collect(...Cart::where('product_id',$productId)->where('user_id', $id)->get())->toArray());
+        
+        if ($item) {
+        
+            $cart = Cart::where('id', $item['id'])->first();
+                
+                $cart->quantity = $item['quantity'] + $request->quantity;    
+                $cart->save();
+        
+
+        } else {
+
+            $cart = new Cart();
+
+            $cart->quantity = $request->quantity;
+            $cart->user_id = $id;
+            $cart->product_id = ProductVariants::where('product_id',$request->product_id)->pluck('product_id')->first();
+            $cart->color = $request->color;
+            $cart->size = $request->size;
+            $cart->variants_id = $request->variants_id;
+            $cart->order_placed = $request->order_placed;
+            $cart->save();
         }
         return response()->json($cart);
-    }
-    public function update(cartRequest $request, $id)
-    public function update(cartRequest $request, $id)
+    } 
+   
+
+    //method to update Cart
+    public function update(Request $request, $id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
+            return response()->json(['error' => 'Cart not found'], 500);
         }
-        $cart->update($request->all());
+        $cart->quantity = $request->quantity;
+        $cart->color = $request->color;
+        $cart->size = $request->size;
+        $cart->variant_id = $request->variant_id;
+        $cart->order_placed = $request->order_placed;
+        $cart->save();
         return response()->json($cart);
     }
 
-    public function destroy($id)
+    // Remove the specified Category
     public function destroy($id)
     {
         $cart = Cart::find($id);
         if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
-        if (!$cart) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['error' => 'Cart not found'], 404);
         }
         $cart->delete();
-        $cart->delete();
-        return response()->json(['message' => 'Cart item deleted successfully']);
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
 }
