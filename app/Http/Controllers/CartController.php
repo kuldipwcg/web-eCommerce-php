@@ -45,7 +45,7 @@ class CartController extends Controller
                 $cart->variants_id = $request->variants_id;
                 $cart->order_placed = $request->order_placed;
                 $cart->save();
-                return response()->json($cart);
+                return response()->json(['Data'=>$cart]);
             } else {
                 return response()->json(['error' => 'Invalid quantity'], 200);
             }
