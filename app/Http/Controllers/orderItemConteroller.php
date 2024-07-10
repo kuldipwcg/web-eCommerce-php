@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderItemRequest;
-use App\Models\order_item;
-use Illuminate\Http\Request;
+use App\Models\OrderItem;
 
-class orderItemConteroller extends Controller
+class OrderItemController extends Controller
 {
     public function index()
     {
-        $orderItems = order_item::all();
+        $orderItems = OrderItem::all();
         return response()->json($orderItems);
     }
 }
