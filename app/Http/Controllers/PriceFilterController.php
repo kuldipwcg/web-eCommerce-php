@@ -7,6 +7,4 @@ use Illuminate\Http\Request;
 class PriceFilterController extends Controller
 {
     
-    
-
 }

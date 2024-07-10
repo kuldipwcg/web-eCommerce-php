@@ -3,16 +3,23 @@
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsLetterController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductSizeController;
 use App\Http\Controllers\ShippingController;
 
 use App\Http\Controllers\InformationSlugController;
@@ -53,8 +60,8 @@ Route::get('login', function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
-    Route::post('changePassword', [UserController::class, 'change']);
-    Route::put('updateProfile', [UserController::class, 'update']);
+    Route::post('change-password', [UserController::class, 'change']);
+    Route::put('update-profile', [UserController::class, 'update']);
     Route::get('profile', function (Request $r) {
         return response()->json([
             'data' => auth()->user(),
