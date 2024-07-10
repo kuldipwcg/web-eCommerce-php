@@ -2,92 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
+
+use App\Models\Cart;
+use App\Models\ProductVariants;
 use Illuminate\Http\Request;
-use App\Http\Requests\categoryValidation;
 
-class CategoryController extends Controller
+class CartController extends Controller
 {
-    //list all category with their Subcagory paginate by  10 items per pageto items :-
+    //list all cart with their  paginate by  10 items per page to items :-
     public function index()
+{
+    $carts = Cart::where('order_placed', 0)->paginate(10);
+    return response()->json($carts);
+}
+
+    // Store a newly created cart 
+    public function store(Request $request)
     {
+        $id = auth()->user()->id;
+        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
+        $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
 
-        $category = Category::with('subcategories')->latest()->paginate(10);
+        if ($item) {
+            $newQuantity = $item->quantity + $request->quantity;
 
-
-        return response()->json([
-            'data' => $category,
-            'type' => 'success',
-            'message' => 'Category showed successfully',
-            'status' => 200,
-        ]);
-    }
-
-    // Store a newly created Category
-    public function store(CategoryRequest $request)
-    {
-        $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-        $image->move(public_path('/upload/category/'), $imageName);
-        $categoryUrl = url('/upload/category/' . $imageName);
-        $record = Category::create([
-            'category_name' => $request->category_name,
-            'image' => $categoryUrl,
-            'status' => $request->status,
-        ]);
-        return response()->json(['message' => 'Category added successfully', 'data' => $record, 'status' => 200]);
-    }
-
-    // Retrieve the category by ID
-    public function show($id)
-
-    {
-        $category = Category::find($id);
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+            if ($newQuantity <= 0) {
+                $item->delete();
+                return response()->json(['message' => 'Item removed from cart']);
+            } else {
+                $item->quantity = $newQuantity;
+                $item->save();
+                return response()->json($item);
+            }
+        } else {
+            if ($request->quantity > 0) {
+                $cart = new Cart();
+                $cart->quantity = $request->quantity;
+                $cart->user_id = $id;
+                $cart->product_id = $productId;
+                $cart->color = $request->color;
+                $cart->size = $request->size;
+                $cart->variants_id = $request->variants_id;
+                $cart->order_placed = $request->order_placed;
+                $cart->save();
+                return response()->json($cart);
+            } else {
+                return response()->json(['error' => 'Invalid quantity'], 200);
+            }
         }
-        return response()->json($category);
     }
 
-    //method to update Category
-    public function update(CategoryRequest $request, $id)
+    //method to update Cart
+    public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-        if (!$category || $category->status !== 'active') {
-            return response()->json(
-                [
-                    'Message' => 'Category is not active or not available.',
-                    'status' => 422,
-                ],
-                422,
-            );
+        $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-        
-        $image = $request->file('image');
-        $imageName = time() . $image->getClientOriginalName();
-        $image->move(public_path('/upload/images/'), $imageName);
-        $categoryUrl = url('/upload/category/' . $imageName);
-
-        $category->update([
-            'category_name' => $request->category_name,
-            'sub_categories_id' => $request->sub_categories_id,
-            'image' => $categoryUrl,
-            'status' => $request->status,
-        ]);
-        return response()->json($category, 200);
+        $cart->quantity = $request->quantity;
+        $cart->color = $request->color;
+        $cart->size = $request->size;
+        $cart->variant_id = $request->variant_id;
+        $cart->order_placed = $request->order_placed;
+        $cart->save();
+        return response()->json($cart);
     }
 
     // Remove the specified Category
     public function destroy($id)
     {
-        $category = Category::find($id);
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
+        $cart = Cart::find($id);
+        if (!$cart) {
+            return response()->json(['error' => 'Cart not found'], 200);
         }
-        $category->delete();
-        return response()->json(['message' => 'Category deleted successfully']);
+        $cart->delete();
+        return response()->json(['message' => 'Cart deleted successfully']);
     }
-
-    
 }
