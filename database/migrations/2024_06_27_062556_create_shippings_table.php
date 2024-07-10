@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('country', 10);
             $table->string('state', 10);
             $table->string('city', 10);
-            $table->double('shippingCost', 6, 2);
+    
             $table->timestamps();
         });
     }

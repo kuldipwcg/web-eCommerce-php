@@ -6,12 +6,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
-use App\Http\Requests\UpdateUserCheck;
-use App\Http\Requests\UserRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UpdateUserCheck;
 
 
 class UserController extends Controller
@@ -41,19 +40,10 @@ class UserController extends Controller
 
     public function login(LoginCheck $request)
     {
+
         $person = User::where('email', $request->email)->first();
 
         if (Hash::check($request->password, $person->password)) {
-            if ($person->status !== 'active') {
-                return response()->json(
-                    [
-                        'Message' => 'User is not active',
-                        'status' => 422,
-                    ],
-                    422,
-                );
-            }
-
             $token = $person->createToken('user-auth')->accessToken;
             $data = ['person' => $person, 'token' => $token];
             return response()->json([
@@ -103,6 +93,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+
         $user = auth()->user()->token();
         $user->delete();
 
@@ -156,6 +147,4 @@ class UserController extends Controller
         
     }
 }
-
-
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 
+use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
@@ -30,15 +31,24 @@ class AdminController extends Controller
             ];
 
             DB::table('admins')->insert($data);
+            
+            return response()->json([
+            
+                'admin' => $admin,
+                'Message' => 'Admin created successfully',
+                'status'=> 200,
+        
+        
+        ], 200);
+        
         }
 
         return response()->json([
             
             'admin' => $admin,
-            'Message' => 'Admin created successfully',
+            'Message' => 'Admin already exists',
             'status'=> 200,
-    
-    
+
     ], 200);
     }
 
@@ -109,6 +119,27 @@ class AdminController extends Controller
         ], 200);
     } 
 
+    public function displayUser()
+    {
+
+        $user = User::latest()->paginate(10);
+        if ($user) {
+            return response()->json([
+                'type' => 'success',
+                'message' => 'Users fetched successfully',
+                'code' => 200,
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'type' => 'failure',
+                'message' => 'User not found',
+                'code' => 200,
+            ]);
+        }
+    }
+
+
     public function update(UpdateUserCheck $request)
     {
 
@@ -148,5 +179,7 @@ class AdminController extends Controller
             ]);
      
     }
+
+
 }
 
