@@ -2,7 +2,10 @@
 
 use Exception;
 
+<<<<<<< HEAD
 use App\Models\User;
+=======
+>>>>>>> 1543e4d (#123: [Product-Searching, Cart] >>> Searching in product and cart logics)
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
