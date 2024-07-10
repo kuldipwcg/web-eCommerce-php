@@ -590,7 +590,7 @@
   ),
   'passport' => 
   array (
-    'guard' => 'api',
+    'guard' => 'web',
     'private_key' => NULL,
     'public_key' => NULL,
     'connection' => NULL,

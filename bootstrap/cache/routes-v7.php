@@ -18,208 +18,6 @@ app('router')->setCompiledRoutes(
     0 => false,
     1 => 
     array (
-      '/oauth/token' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.token',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/authorize' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.authorizations.authorize',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.authorizations.approve',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        2 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.authorizations.deny',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/token/refresh' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.token.refresh',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/tokens' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.tokens.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/clients' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.clients.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.clients.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/scopes' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.scopes.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/oauth/personal-access-tokens' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.personal.tokens.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'passport.personal.tokens.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
       '/sanctum/csrf-cookie' => 
       array (
         0 => 
@@ -335,17 +133,152 @@ app('router')->setCompiledRoutes(
           5 => false,
           6 => NULL,
         ),
-        1 => 
+      ),
+      '/oauth/personal-access-tokens' => 
+      array (
+        0 => 
         array (
           0 => 
           array (
-            '_route' => 'error',
+            '_route' => 'passport.personal.tokens.index',
           ),
           1 => NULL,
           2 => 
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'passport.personal.tokens.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/change-password' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'sanctum.csrf-cookie',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/_ignition/health-check' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ignition.healthCheck',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/_ignition/execute-solution' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ignition.executeSolution',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/_ignition/update-config' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ignition.updateConfig',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/signup' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'signup',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/api/login' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'login',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -364,8 +297,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -389,35 +321,19 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/newsLetter' => 
+      '/api/admin/contactlist' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'newsLetter.index',
+            '_route' => 'contactlist',
           ),
           1 => NULL,
           2 => 
           array (
             'GET' => 0,
             'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'newsLetter.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -455,7 +371,8 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'POST' => 0,
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -474,7 +391,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'PUT' => 0,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -513,8 +430,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -779,13 +695,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/reviews' => 
+      '/api/colors' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'reviews.index',
+            '_route' => 'colors.index',
           ),
           1 => NULL,
           2 => 
@@ -802,7 +718,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'reviews.store',
+            '_route' => 'colors.store',
           ),
           1 => NULL,
           2 => 
@@ -815,7 +731,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/api/banners' => 
+      '/api/category' => 
       array (
         0 => 
         array (
@@ -923,8 +839,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -1002,7 +917,8 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'POST' => 0,
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -1030,7 +946,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/admin/updateProfile' => 
+      '/api/billingAddress' => 
       array (
         0 => 
         array (
@@ -1072,7 +988,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'category.store',
+            '_route' => 'billingAddress.store',
           ),
           1 => NULL,
           2 => 
@@ -1085,13 +1001,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/admin/subcategory' => 
+      '/api/payment' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'subcategory.index',
+            '_route' => 'payment.index',
           ),
           1 => NULL,
           2 => 
@@ -1108,7 +1024,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'subcategory.store',
+            '_route' => 'payment.store',
           ),
           1 => NULL,
           2 => 
@@ -1312,8 +1228,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -1381,7 +1296,6 @@ app('router')->setCompiledRoutes(
           array (
             '_route' => 'sizes.index',
           ),
-          1 => NULL,
           2 => 
           array (
             'GET' => 0,
@@ -1389,7 +1303,7 @@ app('router')->setCompiledRoutes(
           ),
           3 => NULL,
           4 => false,
-          5 => false,
+          5 => true,
           6 => NULL,
         ),
         1 => 
@@ -1420,7 +1334,8 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'POST' => 0,
+            'PUT' => 0,
+            'PATCH' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -1505,7 +1420,7 @@ app('router')->setCompiledRoutes(
           ),
           1 => 
           array (
-            0 => 'client_id',
+            0 => 'id',
           ),
           2 => 
           array (
@@ -1611,11 +1526,12 @@ app('router')->setCompiledRoutes(
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'banner',
           ),
           2 => 
           array (
             'PUT' => 0,
+            'PATCH' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -1938,11 +1854,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'billingAddress.update',
+            '_route' => 'subcategory.update',
           ),
           1 => 
           array (
-            0 => 'billingAddress',
+            0 => 'subcategory',
           ),
           2 => 
           array (
@@ -1958,11 +1874,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'billingAddress.destroy',
+            '_route' => 'subcategory.destroy',
           ),
           1 => 
           array (
-            0 => 'billingAddress',
+            0 => 'subcategory',
           ),
           2 => 
           array (
@@ -2042,11 +1958,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'reviews.show',
+            '_route' => 'colors.show',
           ),
           1 => 
           array (
-            0 => 'review',
+            0 => 'color',
           ),
           2 => 
           array (
@@ -2062,11 +1978,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'reviews.update',
+            '_route' => 'colors.update',
           ),
           1 => 
           array (
-            0 => 'review',
+            0 => 'color',
           ),
           2 => 
           array (
@@ -2082,11 +1998,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'reviews.destroy',
+            '_route' => 'colors.destroy',
           ),
           1 => 
           array (
-            0 => 'review',
+            0 => 'color',
           ),
           2 => 
           array (
@@ -2274,11 +2190,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'colors.show',
+            '_route' => 'products.show',
           ),
           1 => 
           array (
-            0 => 'color',
+            0 => 'product',
           ),
           2 => 
           array (
@@ -2294,11 +2210,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'colors.update',
+            '_route' => 'products.update',
           ),
           1 => 
           array (
-            0 => 'color',
+            0 => 'product',
           ),
           2 => 
           array (
@@ -2314,11 +2230,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'colors.destroy',
+            '_route' => 'products.destroy',
           ),
           1 => 
           array (
-            0 => 'color',
+            0 => 'product',
           ),
           2 => 
           array (
@@ -2460,11 +2376,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'sizes.show',
+            '_route' => 'language.show',
           ),
           1 => 
           array (
-            0 => 'size',
+            0 => 'language',
           ),
           2 => 
           array (
@@ -2480,11 +2396,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'sizes.update',
+            '_route' => 'language.update',
           ),
           1 => 
           array (
-            0 => 'size',
+            0 => 'language',
           ),
           2 => 
           array (
@@ -2500,11 +2416,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'sizes.destroy',
+            '_route' => 'language.destroy',
           ),
           1 => 
           array (
-            0 => 'size',
+            0 => 'language',
           ),
           2 => 
           array (
@@ -2522,11 +2438,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'banners.show',
+            '_route' => 'informationslug.show',
           ),
           1 => 
           array (
-            0 => 'banner',
+            0 => 'informationslug',
           ),
           2 => 
           array (
@@ -2542,11 +2458,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'banners.update',
+            '_route' => 'informationslug.update',
           ),
           1 => 
           array (
-            0 => 'banner',
+            0 => 'informationslug',
           ),
           2 => 
           array (
@@ -2562,11 +2478,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'banners.destroy',
+            '_route' => 'informationslug.destroy',
           ),
           1 => 
           array (
-            0 => 'banner',
+            0 => 'informationslug',
           ),
           2 => 
           array (
@@ -2592,8 +2508,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'DELETE' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -2779,558 +2694,6 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'passport.token' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'oauth/token',
-      'action' => 
-      array (
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\AccessTokenController@issueToken',
-        'as' => 'passport.token',
-        'middleware' => 'throttle',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\AccessTokenController@issueToken',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.authorizations.authorize' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'oauth/authorize',
-      'action' => 
-      array (
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizationController@authorize',
-        'as' => 'passport.authorizations.authorize',
-        'middleware' => 'web',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizationController@authorize',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.token.refresh' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'oauth/token/refresh',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\TransientTokenController@refresh',
-        'as' => 'passport.token.refresh',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\TransientTokenController@refresh',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.authorizations.approve' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'oauth/authorize',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ApproveAuthorizationController@approve',
-        'as' => 'passport.authorizations.approve',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ApproveAuthorizationController@approve',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.authorizations.deny' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'oauth/authorize',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\DenyAuthorizationController@deny',
-        'as' => 'passport.authorizations.deny',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\DenyAuthorizationController@deny',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.tokens.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'oauth/tokens',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@forUser',
-        'as' => 'passport.tokens.index',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@forUser',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.tokens.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'oauth/tokens/{token_id}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@destroy',
-        'as' => 'passport.tokens.destroy',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\AuthorizedAccessTokenController@destroy',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.clients.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'oauth/clients',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@forUser',
-        'as' => 'passport.clients.index',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@forUser',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.clients.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'oauth/clients',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@store',
-        'as' => 'passport.clients.store',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@store',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.clients.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-      ),
-      'uri' => 'oauth/clients/{client_id}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@update',
-        'as' => 'passport.clients.update',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@update',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.clients.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'oauth/clients/{client_id}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@destroy',
-        'as' => 'passport.clients.destroy',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@destroy',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.scopes.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'oauth/scopes',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ScopeController@all',
-        'as' => 'passport.scopes.index',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ScopeController@all',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.personal.tokens.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'oauth/personal-access-tokens',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@forUser',
-        'as' => 'passport.personal.tokens.index',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@forUser',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.personal.tokens.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'oauth/personal-access-tokens',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@store',
-        'as' => 'passport.personal.tokens.store',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@store',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'passport.personal.tokens.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'oauth/personal-access-tokens/{token_id}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'auth:api',
-        ),
-        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@destroy',
-        'as' => 'passport.personal.tokens.destroy',
-        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@destroy',
-        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
-        'prefix' => 'oauth',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
     'sanctum.csrf-cookie' => 
     array (
       'methods' => 
@@ -3514,7 +2877,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'login' => 
+    'passport.clients.update' => 
     array (
       'methods' => 
       array (
@@ -3527,6 +2890,410 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'api',
           1 => 'guest:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@update',
+        'as' => 'passport.clients.update',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@update',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'passport.clients.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'oauth/clients/{client_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@destroy',
+        'as' => 'passport.clients.destroy',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ClientController@destroy',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'passport.scopes.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'oauth/scopes',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\ScopeController@all',
+        'as' => 'passport.scopes.index',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\ScopeController@all',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'passport.personal.tokens.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'oauth/personal-access-tokens',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@forUser',
+        'as' => 'passport.personal.tokens.index',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@forUser',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'passport.personal.tokens.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'oauth/personal-access-tokens',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@store',
+        'as' => 'passport.personal.tokens.store',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@store',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'passport.personal.tokens.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'oauth/personal-access-tokens/{token_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth:api',
+        ),
+        'uses' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@destroy',
+        'as' => 'passport.personal.tokens.destroy',
+        'controller' => 'Laravel\\Passport\\Http\\Controllers\\PersonalAccessTokenController@destroy',
+        'namespace' => 'Laravel\\Passport\\Http\\Controllers',
+        'prefix' => 'oauth',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'sanctum.csrf-cookie' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'sanctum/csrf-cookie',
+      'action' => 
+      array (
+        'uses' => 'Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController@show',
+        'controller' => 'Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController@show',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'as' => 'sanctum.csrf-cookie',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ignition.healthCheck' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => '_ignition/health-check',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'Spatie\\LaravelIgnition\\Http\\Middleware\\RunnableSolutionsEnabled',
+        ),
+        'uses' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\HealthCheckController@__invoke',
+        'controller' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\HealthCheckController',
+        'as' => 'ignition.healthCheck',
+        'namespace' => NULL,
+        'prefix' => '_ignition',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ignition.executeSolution' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => '_ignition/execute-solution',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'uses' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\ExecuteSolutionController@__invoke',
+        'controller' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\ExecuteSolutionController',
+        'as' => 'ignition.executeSolution',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ignition.updateConfig' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => '_ignition/update-config',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'uses' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\UpdateConfigController@__invoke',
+        'controller' => 'Spatie\\LaravelIgnition\\Http\\Controllers\\UpdateConfigController',
+        'as' => 'ignition.updateConfig',
+        'namespace' => NULL,
+        'prefix' => '_ignition',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::iADkwKKKIb8Idagp' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/admin/set',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
+        ),
+        'uses' => 'App\\Http\\Controllers\\UserController@signup',
+        'controller' => 'App\\Http\\Controllers\\UserController@signup',
+        'namespace' => NULL,
+        'prefix' => 'api',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::iADkwKKKIb8Idagp',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'login' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'api/login',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'api',
         ),
         'uses' => 'App\\Http\\Controllers\\UserController@login',
         'controller' => 'App\\Http\\Controllers\\UserController@login',
@@ -3588,13 +3355,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'contactUs.store' => 
+    'subscriber' => 
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
-      'uri' => 'api/contactUs',
+      'uri' => 'api/admin/subscriber',
       'action' => 
       array (
         'middleware' => 
@@ -3609,6 +3377,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+        'as' => 'subscriber',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3624,14 +3393,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'contactUs.show' => 
+    'categorylist' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'api/contactUs/{contactU}',
+      'uri' => 'api/admin/categorylist',
       'action' => 
       array (
         'middleware' => 
@@ -3646,6 +3415,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+        'as' => 'categorylist',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3741,7 +3511,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'api/newsLetter',
+      'uri' => 'api/admin/subcategorylist',
       'action' => 
       array (
         'middleware' => 
@@ -3756,6 +3526,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+        'as' => 'subcategorylist',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4073,8 +3844,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'api/profile',
       'action' => 
@@ -4198,7 +3968,7 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
+          1 => 'auth:admin',
         ),
         'uses' => 'App\\Http\\Controllers\\CartController@addtocart',
         'controller' => 'App\\Http\\Controllers\\CartController@addtocart',
@@ -4545,6 +4315,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+        'as' => 'error',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4610,7 +4381,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'order.index',
         'uses' => 'App\\Http\\Controllers\\OrderController@index',
@@ -4647,7 +4417,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'order.store',
         'uses' => 'App\\Http\\Controllers\\OrderController@store',
@@ -4685,7 +4454,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'order.show',
         'uses' => 'App\\Http\\Controllers\\OrderController@show',
@@ -4723,7 +4491,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'order.update',
         'uses' => 'App\\Http\\Controllers\\OrderController@update',
@@ -4760,7 +4527,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'order.destroy',
         'uses' => 'App\\Http\\Controllers\\OrderController@destroy',
@@ -4798,7 +4564,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'carts.index',
         'uses' => 'App\\Http\\Controllers\\CartController@index',
@@ -4835,7 +4600,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'carts.store',
         'uses' => 'App\\Http\\Controllers\\CartController@store',
@@ -4873,7 +4637,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'carts.show',
         'uses' => 'App\\Http\\Controllers\\CartController@show',
@@ -4911,7 +4674,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'carts.update',
         'uses' => 'App\\Http\\Controllers\\CartController@update',
@@ -4948,7 +4710,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'carts.destroy',
         'uses' => 'App\\Http\\Controllers\\CartController@destroy',
@@ -4986,7 +4747,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'billingAddress.index',
         'uses' => 'App\\Http\\Controllers\\BillingController@index',
@@ -5023,7 +4783,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'billingAddress.store',
         'uses' => 'App\\Http\\Controllers\\BillingController@store',
@@ -5061,7 +4820,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'billingAddress.show',
         'uses' => 'App\\Http\\Controllers\\BillingController@show',
@@ -5099,7 +4857,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'billingAddress.update',
         'uses' => 'App\\Http\\Controllers\\BillingController@update',
@@ -5136,7 +4893,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'billingAddress.destroy',
         'uses' => 'App\\Http\\Controllers\\BillingController@destroy',
@@ -5174,7 +4930,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'shippingAddress.index',
         'uses' => 'App\\Http\\Controllers\\ShippingController@index',
@@ -5211,7 +4966,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'shippingAddress.store',
         'uses' => 'App\\Http\\Controllers\\ShippingController@store',
@@ -5249,7 +5003,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'shippingAddress.show',
         'uses' => 'App\\Http\\Controllers\\ShippingController@show',
@@ -5287,7 +5040,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'shippingAddress.update',
         'uses' => 'App\\Http\\Controllers\\ShippingController@update',
@@ -5324,7 +5076,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:api',
         ),
         'as' => 'shippingAddress.destroy',
         'uses' => 'App\\Http\\Controllers\\ShippingController@destroy',
@@ -5687,8 +5438,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'DELETE',
       ),
       'uri' => 'api/products/{id}',
       'action' => 
@@ -6058,19 +5808,18 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'admin/category',
+      'uri' => 'api/order',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'category.index',
-        'uses' => 'App\\Http\\Controllers\\CategoryController@index',
-        'controller' => 'App\\Http\\Controllers\\CategoryController@index',
+        'as' => 'order.index',
+        'uses' => 'App\\Http\\Controllers\\OrderController@index',
+        'controller' => 'App\\Http\\Controllers\\OrderController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6089,25 +5838,24 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'category.store' => 
+    'order.store' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'admin/category',
+      'uri' => 'api/order',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'category.store',
-        'uses' => 'App\\Http\\Controllers\\CategoryController@store',
-        'controller' => 'App\\Http\\Controllers\\CategoryController@store',
+        'as' => 'order.store',
+        'uses' => 'App\\Http\\Controllers\\OrderController@store',
+        'controller' => 'App\\Http\\Controllers\\OrderController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6126,26 +5874,25 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'category.show' => 
+    'order.show' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'admin/category/{category}',
+      'uri' => 'api/order/{order}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'category.show',
-        'uses' => 'App\\Http\\Controllers\\CategoryController@show',
-        'controller' => 'App\\Http\\Controllers\\CategoryController@show',
+        'as' => 'order.show',
+        'uses' => 'App\\Http\\Controllers\\OrderController@show',
+        'controller' => 'App\\Http\\Controllers\\OrderController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6164,26 +5911,25 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'category.update' => 
+    'order.update' => 
     array (
       'methods' => 
       array (
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'admin/category/{category}',
+      'uri' => 'api/order/{order}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'category.update',
-        'uses' => 'App\\Http\\Controllers\\CategoryController@update',
-        'controller' => 'App\\Http\\Controllers\\CategoryController@update',
+        'as' => 'order.update',
+        'uses' => 'App\\Http\\Controllers\\OrderController@update',
+        'controller' => 'App\\Http\\Controllers\\OrderController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6202,25 +5948,24 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'category.destroy' => 
+    'order.destroy' => 
     array (
       'methods' => 
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'admin/category/{category}',
+      'uri' => 'api/order/{order}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'category.destroy',
-        'uses' => 'App\\Http\\Controllers\\CategoryController@destroy',
-        'controller' => 'App\\Http\\Controllers\\CategoryController@destroy',
+        'as' => 'order.destroy',
+        'uses' => 'App\\Http\\Controllers\\OrderController@destroy',
+        'controller' => 'App\\Http\\Controllers\\OrderController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6239,26 +5984,25 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'subcategory.index' => 
+    'carts.index' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'admin/subcategory',
+      'uri' => 'api/carts',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'subcategory.index',
-        'uses' => 'App\\Http\\Controllers\\SubCategoryController@index',
-        'controller' => 'App\\Http\\Controllers\\SubCategoryController@index',
+        'as' => 'carts.index',
+        'uses' => 'App\\Http\\Controllers\\CartController@index',
+        'controller' => 'App\\Http\\Controllers\\CartController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6277,25 +6021,24 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'subcategory.store' => 
+    'carts.store' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'admin/subcategory',
+      'uri' => 'api/carts',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'subcategory.store',
-        'uses' => 'App\\Http\\Controllers\\SubCategoryController@store',
-        'controller' => 'App\\Http\\Controllers\\SubCategoryController@store',
+        'as' => 'carts.store',
+        'uses' => 'App\\Http\\Controllers\\CartController@store',
+        'controller' => 'App\\Http\\Controllers\\CartController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6314,26 +6057,25 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'subcategory.show' => 
+    'carts.show' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'admin/subcategory/{subcategory}',
+      'uri' => 'api/carts/{cart}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'subcategory.show',
-        'uses' => 'App\\Http\\Controllers\\SubCategoryController@show',
-        'controller' => 'App\\Http\\Controllers\\SubCategoryController@show',
+        'as' => 'carts.show',
+        'uses' => 'App\\Http\\Controllers\\CartController@show',
+        'controller' => 'App\\Http\\Controllers\\CartController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6352,26 +6094,25 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'subcategory.update' => 
+    'carts.update' => 
     array (
       'methods' => 
       array (
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'admin/subcategory/{subcategory}',
+      'uri' => 'api/carts/{cart}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'subcategory.update',
-        'uses' => 'App\\Http\\Controllers\\SubCategoryController@update',
-        'controller' => 'App\\Http\\Controllers\\SubCategoryController@update',
+        'as' => 'carts.update',
+        'uses' => 'App\\Http\\Controllers\\CartController@update',
+        'controller' => 'App\\Http\\Controllers\\CartController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6390,25 +6131,24 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'subcategory.destroy' => 
+    'carts.destroy' => 
     array (
       'methods' => 
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'admin/subcategory/{subcategory}',
+      'uri' => 'api/carts/{cart}',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
-        'as' => 'subcategory.destroy',
-        'uses' => 'App\\Http\\Controllers\\SubCategoryController@destroy',
-        'controller' => 'App\\Http\\Controllers\\SubCategoryController@destroy',
+        'as' => 'carts.destroy',
+        'uses' => 'App\\Http\\Controllers\\CartController@destroy',
+        'controller' => 'App\\Http\\Controllers\\CartController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6440,13 +6180,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'banners.index',
         'uses' => 'App\\Http\\Controllers\\BannerController@index',
         'controller' => 'App\\Http\\Controllers\\BannerController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6477,13 +6216,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'banners.store',
         'uses' => 'App\\Http\\Controllers\\BannerController@store',
         'controller' => 'App\\Http\\Controllers\\BannerController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6515,13 +6253,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'banners.show',
         'uses' => 'App\\Http\\Controllers\\BannerController@show',
         'controller' => 'App\\Http\\Controllers\\BannerController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6553,13 +6290,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'banners.update',
         'uses' => 'App\\Http\\Controllers\\BannerController@update',
         'controller' => 'App\\Http\\Controllers\\BannerController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6590,13 +6326,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'banners.destroy',
         'uses' => 'App\\Http\\Controllers\\BannerController@destroy',
         'controller' => 'App\\Http\\Controllers\\BannerController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6628,13 +6363,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'products.index',
         'uses' => 'App\\Http\\Controllers\\ProductController@index',
         'controller' => 'App\\Http\\Controllers\\ProductController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6665,13 +6399,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'products.store',
         'uses' => 'App\\Http\\Controllers\\ProductController@store',
         'controller' => 'App\\Http\\Controllers\\ProductController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6703,13 +6436,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'products.show',
         'uses' => 'App\\Http\\Controllers\\ProductController@show',
         'controller' => 'App\\Http\\Controllers\\ProductController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6741,13 +6473,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'products.update',
         'uses' => 'App\\Http\\Controllers\\ProductController@update',
         'controller' => 'App\\Http\\Controllers\\ProductController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6778,13 +6509,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'products.destroy',
         'uses' => 'App\\Http\\Controllers\\ProductController@destroy',
         'controller' => 'App\\Http\\Controllers\\ProductController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6845,7 +6575,8 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
       'uri' => 'admin/contactList',
       'action' => 
@@ -6882,8 +6613,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'admin/contactList/{contactList}',
       'action' => 
@@ -6891,13 +6621,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'contactList.show',
         'uses' => 'App\\Http\\Controllers\\ContactController@show',
         'controller' => 'App\\Http\\Controllers\\ContactController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6958,7 +6687,8 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'DELETE',
+        0 => 'PUT',
+        1 => 'PATCH',
       ),
       'uri' => 'admin/contactList/{contactList}',
       'action' => 
@@ -6966,13 +6696,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'contactList.destroy',
         'uses' => 'App\\Http\\Controllers\\ContactController@destroy',
         'controller' => 'App\\Http\\Controllers\\ContactController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -6995,8 +6724,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'DELETE',
       ),
       'uri' => 'admin/subscriber',
       'action' => 
@@ -7004,7 +6732,6 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'subscriber.index',
         'uses' => 'App\\Http\\Controllers\\NewsLetterController@index',
@@ -7221,7 +6948,8 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
       'uri' => 'admin/informationSlug',
       'action' => 
@@ -7305,13 +7033,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'informationSlug.update',
         'uses' => 'App\\Http\\Controllers\\InformationSlugController@update',
         'controller' => 'App\\Http\\Controllers\\InformationSlugController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7342,13 +7069,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'informationSlug.destroy',
         'uses' => 'App\\Http\\Controllers\\InformationSlugController@destroy',
         'controller' => 'App\\Http\\Controllers\\InformationSlugController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7380,13 +7106,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'footer.index',
         'uses' => 'App\\Http\\Controllers\\FooterController@index',
         'controller' => 'App\\Http\\Controllers\\FooterController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7417,13 +7142,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'footer.store',
         'uses' => 'App\\Http\\Controllers\\FooterController@store',
         'controller' => 'App\\Http\\Controllers\\FooterController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7455,13 +7179,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'footer.show',
         'uses' => 'App\\Http\\Controllers\\FooterController@show',
         'controller' => 'App\\Http\\Controllers\\FooterController@show',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7493,13 +7216,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'footer.update',
         'uses' => 'App\\Http\\Controllers\\FooterController@update',
         'controller' => 'App\\Http\\Controllers\\FooterController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7530,13 +7252,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'footer.destroy',
         'uses' => 'App\\Http\\Controllers\\FooterController@destroy',
         'controller' => 'App\\Http\\Controllers\\FooterController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7568,13 +7289,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'colors.index',
         'uses' => 'App\\Http\\Controllers\\ProductColorController@index',
         'controller' => 'App\\Http\\Controllers\\ProductColorController@index',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7605,13 +7325,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'colors.store',
         'uses' => 'App\\Http\\Controllers\\ProductColorController@store',
         'controller' => 'App\\Http\\Controllers\\ProductColorController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7681,13 +7400,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'colors.update',
         'uses' => 'App\\Http\\Controllers\\ProductColorController@update',
         'controller' => 'App\\Http\\Controllers\\ProductColorController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7718,13 +7436,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'colors.destroy',
         'uses' => 'App\\Http\\Controllers\\ProductColorController@destroy',
         'controller' => 'App\\Http\\Controllers\\ProductColorController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7793,13 +7510,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'sizes.store',
         'uses' => 'App\\Http\\Controllers\\ProductSizeController@store',
         'controller' => 'App\\Http\\Controllers\\ProductSizeController@store',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7869,13 +7585,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'sizes.update',
         'uses' => 'App\\Http\\Controllers\\ProductSizeController@update',
         'controller' => 'App\\Http\\Controllers\\ProductSizeController@update',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),
@@ -7906,13 +7621,12 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'api',
-          1 => 'auth:admin',
         ),
         'as' => 'sizes.destroy',
         'uses' => 'App\\Http\\Controllers\\ProductSizeController@destroy',
         'controller' => 'App\\Http\\Controllers\\ProductSizeController@destroy',
         'namespace' => NULL,
-        'prefix' => 'admin',
+        'prefix' => 'api',
         'where' => 
         array (
         ),

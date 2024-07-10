@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\contact;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-
 use App\Http\Requests\ContactValidation;
 use DB;
 use Illuminate\Support\Str;
-use DB;
+
 class ContactController extends Controller
 {
     
@@ -48,15 +47,6 @@ class ContactController extends Controller
                     'status' => 'success',
                     'code' => 200
                 ],200);
-            }
-            else{
-                return response()->json([ 
-                    'Message' => 'Data not added',
-                    'Status' => 'Failed',
-                    'code' => 401                    
-                ], 401);
-            }
-            
     } 
 
 
@@ -83,10 +73,9 @@ class ContactController extends Controller
         $data = contact::find($id);
         $data->delete();
         return response()->json([
-            'data' => $contact,
+            'data' => $data,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
-            'message' => 'Deleted Successfully',
         ],200);
     }
 

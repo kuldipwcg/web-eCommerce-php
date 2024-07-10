@@ -63,41 +63,30 @@ class ProductController extends Controller
 
         //getting the data according to search
         if ($request->has('search')) {
-                
-
             foreach(explode(" ",$request->search) as $str)
             {
-
                 $colorId = ProductColor::where('color','like',"%".$str."%")->pluck('id')->first();
                 
                 $pIdForColor = ProductVariants::where('color_id',$colorId)->pluck('product_id')->toArray();
                 $productSearch[] = Product::where('id',$pIdForColor)->get()->toArray();
-                
                 
                 $sizeId = ProductSize::where('size','like',"%".$str."%")->pluck('id')->first();
                 $pIdForSize = ProductVariants::where('size_id',$sizeId)->pluck('product_id')->toArray();
                 $productSearch[] = Product::where('id',$pIdForSize)->get()->toArray();
                 
                 $productSearch[] = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
-                
-                
             }
             
             $productSearch = array_merge(...$productSearch);
             $finalSearch = collect($productSearch)->pluck('id')->toArray();
             $finalProduct[] = $finalSearch;
-            
         }
 
         //getting the filtered data
         if ($request->has('filter')) {
-
             $filter = $request->all()['filter'];
-
             //products from price filter
             if (array_key_exists('price', $filter)) {
-
-                
                 $len = count($filter['price']);
                 $min = $filter['price'][0][0];
                 $max = $filter['price'][$len - 1][1];
@@ -113,16 +102,10 @@ class ProductController extends Controller
             }
 
             //products from size filter
-
             if (array_key_exists('size', $filter)) {
-
-
                 foreach ($filter['size'] as $key => $size) {
-
                     $variantIds = ProductVariants::where('size_id', $size)->pluck('product_id');
-
                     foreach ($variantIds as $key => $id) {
-
                         $productSize[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
                             ->get()->toArray();
@@ -130,7 +113,6 @@ class ProductController extends Controller
                 }
 
                 if ($productSize != []) {
-
                     $finalSize = collect(array_merge(...$productSize))->pluck('id')->toArray();
                     $finalProduct[] = $finalSize;
                 }
@@ -138,15 +120,10 @@ class ProductController extends Controller
 
 
             //products from color filter
-
             if (array_key_exists('color', $filter)) {
-
                 foreach ($filter['color'] as $key => $color) {
-
                     $variantIds = ProductVariants::where('color_id', $color)->pluck('product_id');
-
                     foreach ($variantIds as $key => $id) {
-
                         $productColor[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
                             ->get()->toArray();
@@ -164,13 +141,9 @@ class ProductController extends Controller
 
         //intersection of all the filters
         $final  = call_user_func_array('array_intersect', $final);
-        
-
         $products = Product::whereIn('id', $final)
             ->with(['reviews', 'product_image', 'product_variants'])
             ->get();
-
-
 
         $formattedProducts = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
@@ -203,7 +176,6 @@ class ProductController extends Controller
 
         return response()->json(['products' => $formattedProducts], 200);
     }
-
 
     public function store(ProductRequest $request)
     {
@@ -287,9 +259,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $products = Product::with(['reviews', 'product_image', 'product_variants'])
-            ->where('id', $id)
-            ->get();
+        $products = Product::with(['reviews', 'product_image', 'product_variants'])->where('id', $id)->get();
         if (!$products) {
             return response()->json(
                 [
@@ -404,10 +374,7 @@ class ProductController extends Controller
             $color = ProductColor::where('color', $value['color'])->first();
             $size = ProductSize::where('size', $value['size'])->first();
 
-            $variation = ProductVariants::where('color_id', $color->id)
-                ->where('size_id', $size->id)
-                ->where('product_id', $product->id)
-                ->first();
+            $variation = ProductVariants::where('color_id', $color->id)->where('size_id', $size->id)->where('product_id', $product->id)->first();
 
             if ($variation) {
                 $v = ProductVariants::find($variation->id);
@@ -468,21 +435,10 @@ class ProductController extends Controller
     public function isFeatured()
     {
         $featured = Product::where('is_featured', 'true')->get();
-
         if ($featured) {
-            return response()->json(
-                [
-                    'is_featured' => $featured,
-                ],
-                200,
-            );
+            return response()->json(['is_featured' => $featured,],200);
         } else {
-            return response()->json(
-                [
-                    'message' => 'Data not found',
-                ],
-                200,
-            );
-        }
+            return response()->json(['message' => 'Data not found',],200);
+        }   
     }
 }
