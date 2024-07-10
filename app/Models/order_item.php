@@ -12,6 +12,8 @@ class order_item extends Model
 
     protected $fillable = ['order_id', 'product_id', 'quantity', 'color','size','unit_price'];
 
+    protected $hidden = ['created_at','updated_at'];
+
     protected $primaryKey = 'id';
     public function order()
     {

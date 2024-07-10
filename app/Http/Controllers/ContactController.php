@@ -6,7 +6,6 @@ use App\Models\contact;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\ContactValidation;
-use DB;
 use Illuminate\Support\Str;
 
 class ContactController extends Controller
@@ -41,6 +40,7 @@ class ContactController extends Controller
             ];
             
            $contact = DB::table('contacts')->insert($data);
+            if($contact){
                 return response()->json([
                     'data' => $data,
                     'Message' => 'Contact data added successfully',
@@ -63,7 +63,6 @@ class ContactController extends Controller
 
           return response()->json([
             'Message' => 'contact updated successfully',
-            'status' => 'success',
             'data' => $data,
           ],200);
     }

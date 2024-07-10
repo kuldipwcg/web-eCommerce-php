@@ -17,13 +17,16 @@ class Wishlist extends Model
         "product_id",
     ];
 
+    protected $hidden = ['created_at','updated_at'];
+
+
     public function product()
     {
         return $this->belongsTo(Product::class,"product_id","id");
-    } 
+    }
 
     public function review()
     {
         return $this->belongsTo(Review::class,"product_id","id");
-    } 
+    }
 }

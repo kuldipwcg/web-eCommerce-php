@@ -13,6 +13,7 @@ use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use PhpParser\Node\Stmt\Else_;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
