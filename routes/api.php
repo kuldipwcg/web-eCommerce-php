@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
@@ -52,10 +51,9 @@ Route::get('login', function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
-    Route::post('changePassword', [UserController::class, 'change']);
-    Route::put('updateProfile', [UserController::class, 'update']);
-    Route::get('profile', function () {
-        
+    Route::post('change-password', [UserController::class, 'change']);
+    Route::put('update-profile', [UserController::class, 'update']);
+    Route::get('profile', function (Request $r) {
         return response()->json([
             'data' => auth()->user(),
             'dob' => auth()->user()->dob,
