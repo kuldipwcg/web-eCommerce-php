@@ -16,7 +16,8 @@ class ProductColor extends Model
     protected $primaryKey = "id";
 
     protected $fillable = ['color'];
-    
+    protected $hidden = ['created_at','updated_at'];
+
     public function product_variants()
     {
         return $this->hasMany(ProductVariants::class);
