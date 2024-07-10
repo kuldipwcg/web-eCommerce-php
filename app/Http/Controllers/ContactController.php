@@ -42,11 +42,11 @@ class ContactController extends Controller
     {
           $data = contact::find($id);
 
-          $data->name = $request->name;
-          $data->subject = $request->subject;
-          $data->email = $request->email;
-          $data->message = $request->message;
-          $data->save();
+          $contact->name = $request->name;
+          $contact->subject = $request->subject;
+          $contact->email = $request->email;
+          $contact->message = $request->message;
+          $contact->save();
         
           return response()->json([
             'data' => $data,
