@@ -18,8 +18,8 @@ class FooterController extends Controller
                     
         }else{
             return response()->json(
-                ['message'=> 'No Data Found'
-            ],404);
+                ['message'=> 'No record Found'
+            ],200);
         }
     } 
 
@@ -41,14 +41,14 @@ class FooterController extends Controller
             return response()->json([
                 "data" => $footer,
                 'massage' => "footer updated successfully",
-                "status" => 200
-            ]);
+                'status' => 'Success'
+            ],200);
         }
         else{
             return response()->json([
-                'massage' => "Data not found",
-                "status" => 404
-            ]);
+                'massage' => "No Data found",
+                'status' => 'success'
+            ],200);
         }
     }
 }

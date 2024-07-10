@@ -20,7 +20,7 @@ class shippingRequest extends FormRequest
                 'firstName' => 'required|string|max:20',
                 'lastName' => 'required|string|max:20',
                 'email' => 'required|email',
-                'mobileNumber' => 'required|integer|digits:10',
+                'mobileNumber' => 'required',
                 'address1' => 'required|string',
                 'address2' => 'nullable|string',
                 'zipCode' => 'required|integer|digits:6',

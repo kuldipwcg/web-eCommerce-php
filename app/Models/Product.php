@@ -10,8 +10,8 @@ class Product extends Model
 {
 
     use HasFactory;
-
     protected $with = ['product_image'];
+    protected $table = "products";
 
     protected $fillable = [
         'product_name',
@@ -26,17 +26,17 @@ class Product extends Model
     ];
     protected $hidden = ['created_at','updated_at'];
     public function product_image()
-    {
-        return $this->hasMany(ProductImage::class);
+    {   
+        
+        return $this->hasMany(ProductImage::class); 
+
     }
 
-    public function reviews()
-    {
+    public function reviews(){
         return $this->hasMany(Review::class);
     }
 
-    public function product_variants()
-    {
+    public function product_variants(){
         return $this->hasMany(ProductVariants::class);
     }
 }
