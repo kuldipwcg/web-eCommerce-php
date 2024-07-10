@@ -1,3 +1,4 @@
+``` php
 <?php
 
 use Illuminate\Http\Request;
@@ -79,11 +80,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('shippingAddress', ShippingController::class);
     Route::apiResource('reviews', ReviewController::class);
 
-<<<<<<< HEAD
     Route::get('orderShow', [OrderController::class, 'orderShow']);
-=======
-    Route::get('orderShow',[OrderController::class,'orderShow']);
->>>>>>> 98c86bc (store order with order item)
 });
 //banner
 Route::get('banners', [BannerController::class, 'index']);
