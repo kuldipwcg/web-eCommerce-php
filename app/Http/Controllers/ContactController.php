@@ -14,7 +14,7 @@ class ContactController extends Controller
         $contact = contact::get();
             return response()->json([
                 'data' => $contact,
-                'Message' => 'Data added successfully',
+                'Message' => 'Contact added successfully',
                 'status' => 'Success',
                 'code' => 200
             ],200);
