@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\User;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
@@ -13,14 +11,13 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Models\ProductVariants;
 use App\Http\Requests\ProductRequest;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['reviews', 'product_image', 'product_variants'])->paginate(10);
+        $products = Product::with(['reviews', 'product_image', 'product_variants'])->paginate();
 
         $formattedProduct = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
@@ -29,7 +26,7 @@ class ProductController extends Controller
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
 
-            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+            $avgRating = Review::where('product_id', $product->id)->avg('rating');  
 
             return [
                 'product_id' => $product->id,
@@ -49,12 +46,25 @@ class ProductController extends Controller
                 'product_images' => $product->product_image->pluck('product_image'),
             ];
         });
-        $paginateProduct = new LengthAwarePaginator($formattedProduct, $products->total(), $products->perPage(), $products->currentPage(), ['path' => request()->url(), 'query' => request()->query()]);
+
+        
+        $paginateProduct = (new LengthAwarePaginator(
+            $formattedProduct,
+            $products->total(),
+            $products->perPage(),
+            $products->currentPage(),
+
+            ['path' => request()->url(), 'query'=> request()->query()]
+
+        ));
+
         return response()->json($paginateProduct, 200);
+
     }
 
     public function display(Request $request)
     {
+
         $productColor = [];
         $productSize = [];
         $productPrice = [];
@@ -63,24 +73,17 @@ class ProductController extends Controller
 
         //getting the data according to search
         if ($request->has('search')) {
-            foreach (explode(' ', $request->search) as $str) {
-                $colorId = ProductColor::where('color', 'like', '%' . $str . '%')
-                    ->pluck('id')
-                    ->first();
+            foreach (explode(" ", $request->search) as $str) {
+                $colorId = ProductColor::where('color', 'like', "%" . $str . "%")->pluck('id')->first();
 
                 $pIdForColor = ProductVariants::where('color_id', $colorId)->pluck('product_id')->toArray();
                 $productSearch[] = Product::where('id', $pIdForColor)->get()->toArray();
 
-                $sizeId = ProductSize::where('size', 'like', '%' . $str . '%')
-                    ->pluck('id')
-                    ->first();
+                $sizeId = ProductSize::where('size', 'like', "%" . $str . "%")->pluck('id')->first();
                 $pIdForSize = ProductVariants::where('size_id', $sizeId)->pluck('product_id')->toArray();
                 $productSearch[] = Product::where('id', $pIdForSize)->get()->toArray();
 
-                $productSearch[] = Product::with(['reviews', 'product_image', 'product_variants'])
-                    ->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', '%' . $request->search . '%')
-                    ->get()
-                    ->toArray();
+                $productSearch[] = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
             }
 
             $productSearch = array_merge(...$productSearch);
@@ -100,8 +103,7 @@ class ProductController extends Controller
 
                 $productPrice = Product::whereBetween('price', [$min, $max])
                     ->with(['reviews', 'product_image', 'product_variants'])
-                    ->get()
-                    ->toArray();
+                    ->get()->toArray();
 
                 if ($productPrice != []) {
                     $finalPrice = collect($productPrice)->pluck('id')->toArray();
@@ -110,16 +112,14 @@ class ProductController extends Controller
             }
 
             //products from size filter
-
             if (array_key_exists('size', $filter)) {
                 foreach ($filter['size'] as $key => $size) {
                     $variantIds = ProductVariants::where('size_id', $size)->pluck('product_id');
-
                     foreach ($variantIds as $key => $id) {
+
                         $productSize[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
-                            ->get()
-                            ->toArray();
+                            ->get()->toArray();
                     }
                 }
 
@@ -129,17 +129,15 @@ class ProductController extends Controller
                 }
             }
 
-            //products from color filter
 
+            //products from color filter
             if (array_key_exists('color', $filter)) {
                 foreach ($filter['color'] as $key => $color) {
                     $variantIds = ProductVariants::where('color_id', $color)->pluck('product_id');
-
                     foreach ($variantIds as $key => $id) {
                         $productColor[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
-                            ->get()
-                            ->toArray();
+                            ->get()->toArray();
                     }
                 }
                 if ($productColor) {
@@ -148,6 +146,7 @@ class ProductController extends Controller
                 }
             }
         }
+
 
         $final = $finalProduct;
 
@@ -181,14 +180,27 @@ class ProductController extends Controller
                 'is_featured' => $product->is_featured,
                 'colors' => $colors,
                 'sizes' => $sizes,
-                'reviews' => $product->reviews,
-                'totalReviews' => count($product->reviews),
-                'rating_Count' => $avgRating ? $avgRating : 0,
+                "reviews" => $product->reviews,
+                "totalReviews" => count($product->reviews),
+                "rating_Count" => $avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
+
             ];
         });
 
-        return response()->json(['products' => $formattedProducts], 200);
+        $paginateProduct = (
+            new LengthAwarePaginator(
+                $formattedProducts,
+                $products->total(),
+                $products->perPage(),
+                $products->currentPage(),
+
+            ['path' => request()->url(), 'query' => request()->query()]
+
+        )
+    );
+
+    return response()->json($paginateProduct, 200);
     }
 
     public function store(ProductRequest $request)
@@ -273,9 +285,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $products = Product::with(['reviews', 'product_image', 'product_variants'])
-            ->where('id', $id)
-            ->get();
+        $products = Product::with(['reviews', 'product_image', 'product_variants'])->where('id', $id)->get();
         if (!$products) {
             return response()->json(
                 [
@@ -363,10 +373,10 @@ class ProductController extends Controller
         }
 
         $category = Category::where('category_name', $request->category_name)->first();
-        if (!$category) {
+        if (!$category || $category->status !== 'active') {
             return response()->json(
                 [
-                    'Message' => 'Category is not available.',
+                    'Message' => 'Category is not active or not available.',
                     'status' => 200,
                 ],
                 200,
@@ -390,10 +400,26 @@ class ProductController extends Controller
             $color = ProductColor::where('color', $value['color'])->first();
             $size = ProductSize::where('size', $value['size'])->first();
 
-            $variation = ProductVariants::where('color_id', $color->id)
-                ->where('size_id', $size->id)
-                ->where('product_id', $product->id)
-                ->first();
+            if (!$color || $color->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Color is not active or not available.',
+                        'status' => 200,
+                    ],
+                    200,
+                );
+            }
+            if (!$size || $size->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Size is not active or not available.',
+                        'Status' => 200,
+                    ],
+                    200,
+                );
+            }
+
+            $variation = ProductVariants::where('color_id', $color->id)->where('size_id', $size->id)->where('product_id', $product->id)->first();
 
             if ($variation) {
                 $v = ProductVariants::find($variation->id);
@@ -416,20 +442,14 @@ class ProductController extends Controller
         ProductVariants::where('product_id', $product->id)
             ->whereNotIn('id', $updatedVariants)
             ->delete();
-
-        if ($request->has('image')) {
-            foreach ($request->file('image') as $image) {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('/upload/productimg/'), $imageName);
-                $productImgUrl = url('/upload/productimg/' . $imageName);
-                $existingImage = ProductImage::where('product_id', $product->id)->first();
-                if ($existingImage) {
-                    $existingImage->update(['product_image' => $productImgUrl]);
-                } else {
+            if ($request->has('image')) {
+                foreach ($request->file('image') as $image) {
+                    $imageName = $image->getClientOriginalName();
+                    $image->move(public_path('/upload/productimg/'), $imageName);
+                    $productImgUrl = url('/upload/productimg/' . $imageName);
                     ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
                 }
             }
-        }
         return response()->json(['Message' => 'Product updated successfully', 'status' => 200, 'product' => $product], 200);
     }
 
@@ -455,9 +475,9 @@ class ProductController extends Controller
     {
         $featured = Product::where('is_featured', 'true')->get();
         if ($featured) {
-            return response()->json(['is_featured' => $featured], 200);
+            return response()->json(['is_featured' => $featured,],200);
         } else {
-            return response()->json(['message' => 'Data not found'], 200);
-        }
+            return response()->json(['message' => 'Data not found',],200);
+        }   
     }
 }
