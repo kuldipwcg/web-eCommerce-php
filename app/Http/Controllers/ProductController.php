@@ -457,24 +457,6 @@ class ProductController extends Controller
         return response()->json(['Message' => 'Product updated successfully', 'status' => 200, 'product' => $product], 200);
     }
 
-    public function productstatus(Request $request, $id)
-    {
-        $product = Product::find($id);
-        if (!$product) {
-            return response()->json(
-                [
-                    'Message' => 'Product is not available',
-                    'status' => 200,
-                ],
-                200,
-            );
-        }
-        $product->status = $request->status;
-        $product->save();
-
-        return response()->json(['Message' => 'Product status updated successfully']);
-    }
-
     public function isFeatured()
     {
         $featured = Product::where('is_featured', 'true')->get();

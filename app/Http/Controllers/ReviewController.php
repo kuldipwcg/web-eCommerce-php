@@ -13,8 +13,9 @@ class ReviewController extends Controller
     {
         $reviews = Review::with(['user','product'])->get();
         return response()->json([
-            "Review" => $reviews
-        ]);
+            "reviews" => $reviews,
+            'status'=> 200
+        ],200);
     }
 
     public function store(ReviewRequest $request)
@@ -36,7 +37,10 @@ class ReviewController extends Controller
             'rating' => $request->rating,
             'review' => $request->review
         ]);
-        return response()->json(["Review" => $review],200);
+        return response()->json([
+            "review" => $review,
+            'status'=> 200
+        ],200);
     }
 
     public function update(ReviewRequest $request,$id){
@@ -50,6 +54,7 @@ class ReviewController extends Controller
         $review->update($request->all());
         return response()->json([
             'Message' => "Review Updated Successfully.",
+            'status'=> 200
         ],200);
     }
 
@@ -58,13 +63,13 @@ class ReviewController extends Controller
         if(!$review){
             return response()->json([
                 'Message' => "Review data is not available.",
-                'Status' => 200,
+                'status' => 200,
             ], 200);
         }
         $review->delete();
         return response()->json([
             'Message' => "Review Deleted Successfully.",
+            'status' => 200,
         ],200);
     }
-
 }

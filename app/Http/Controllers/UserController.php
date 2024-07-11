@@ -150,24 +150,14 @@ class UserController extends Controller
         );
     }
 
-    public function userstatus(Request $request, $id)
+    public function userStatus(Request $request, $id)
     {
         $user = User::find($id);
-        if (!$user) {
-            return response()->json(
-                [
-                    'Message' => 'User is not available',
-                    'status' => 200,
-                ],
-                200,
-            );
-        }
-
         $user->status = $request->status;
         $user->save();
         return response()->json([
             'message' => 'User status updated successfully.',
             'status' => 200,
-        ]);
+        ],200);
     }
 }

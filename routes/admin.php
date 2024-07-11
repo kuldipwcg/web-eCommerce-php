@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
@@ -58,4 +59,10 @@ Route::middleware('auth:admin')->group(function () {
     //for admin logout and password change
     Route::post('logout', [AdminController::class, 'logout']);
     Route::post('changePassword', [AdminController::class, 'change']);
+
+    //change status
+    Route::post('colorStatus/{id}', [ProductColorController::class, 'colorStatus']);
+    Route::post('sizeStatus/{id}', [ProductSizeController::class, 'sizeStatus']);
+    Route::post('categoryStatus/{id}', [CategoryController::class, 'categoryStatus']);
+    Route::post('userStatus/{id}', [UserController::class, 'userStatus']);   
 });

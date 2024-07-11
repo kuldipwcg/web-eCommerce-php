@@ -61,22 +61,15 @@ class ProductSizeController extends Controller
         ]);
     }
 
-    public function sizestatus(Request $request, $id)
+    public function sizeStatus(Request $request, $id)
     {
         $size = ProductSize::find($id);
-        if(!$size){
-            return response()->json([
-                'Message' => "Size is not available",
-                'status' => 200
-            ],200);
-        }
-
         $size->status = $request->status;
         $size->save();
         return response()->json([
             'message' => 'Size status updated successfully.',
             'status' => 200
-        ]);
+        ],200);
     }
     
 }
