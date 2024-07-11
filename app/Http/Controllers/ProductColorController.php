@@ -41,15 +41,21 @@ class ProductColorController extends Controller
         $color = ProductColor::find($id);
         if(!$color  || $color->status !== 'active'){
             return response()->json([
-                'Message' => "Color is not available or not active",
-                'status' => 404
-            ],404);
+                'data' => $color,
+                'message' => "Data updated successfully",
+                'status' => 200
+            ],200);
+        } else {
+            return response()->json([
+                'message' => "Data not found",
+                'status' => 200
+            ],200);
         }
 
         $color->update($request->all());
         $color->save();
         return response()->json([
-            'Message' => "Size Updated successfully.",
+            'Message' => "Color Updated successfully.",
             'data' => $color,
             'status' => 200
         ]);

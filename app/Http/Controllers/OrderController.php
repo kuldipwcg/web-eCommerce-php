@@ -13,7 +13,7 @@ use App\Models\ProductVariants;
 use App\Models\Shipping;
 use Illuminate\Support\Facades\Mail;
 
-class OrderController extends Controller
+class CartController extends Controller
 {
     
     public function index()
@@ -25,6 +25,7 @@ class OrderController extends Controller
         ], 200);
     }
 
+    // Store a newly created cart 
     public function store(Request $request)
     {
         $userId = auth()->user()->id;
