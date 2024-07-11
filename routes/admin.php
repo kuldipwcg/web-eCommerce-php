@@ -26,7 +26,6 @@ Route::middleware('auth:admin')->group(function () {
 
     //admin update profile
     Route::put('updateProfile', [AdminController::class, 'update']);
-    
     //category
     Route::apiResource('category', CategoryController::class);
 

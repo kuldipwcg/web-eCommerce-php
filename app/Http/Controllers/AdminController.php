@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
@@ -154,4 +155,6 @@ class AdminController extends Controller
             'code' => 200,
         ]);
     }
+
+
 }
