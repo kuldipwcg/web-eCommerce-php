@@ -53,7 +53,7 @@ class ProductColorController extends Controller
         }
 
         $color->update($request->all());
-        $color->save();
+        
         return response()->json([
             'Message' => "Color Updated successfully.",
             'data' => $color,
