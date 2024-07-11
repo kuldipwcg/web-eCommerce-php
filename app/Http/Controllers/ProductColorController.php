@@ -65,18 +65,11 @@ class ProductColorController extends Controller
             ],200);
         }
     }
-    public function colorstatus(Request $request, $id)
+    public function colorStatus(Request $request, $id)
     {
         $color = ProductColor::find($id);
-        if(!$color){
-            return response()->json([
-                'Message' => "Color is not available",
-                'status' => 200
-            ],200);
-        }
         $color->status = $request->status;
         $color->save();
-
-        return response()->json(['message' => 'ProductColor status updated successfully']);
+        return response()->json(['message' => 'ProductColor status updated successfully'],200);
     }
 }
