@@ -7,7 +7,7 @@ use App\Models\ProductColor;
 use App\Http\Requests\ProductColorRequest;
 use Illuminate\Http\Request;
 
-use Illuminate\Http\Request;
+
 
 
 class ProductColorController extends Controller

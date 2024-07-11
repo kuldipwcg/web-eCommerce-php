@@ -36,8 +36,6 @@ class ContactController extends Controller
                     'code' => 200
                 ],200);
     }
-
-
     public function update(ContactValidation $request, $id)
     {
           $data = contact::find($id);

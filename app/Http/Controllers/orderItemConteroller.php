@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\OrderItemRequest;
 use App\Models\OrderItem;
 
 
@@ -13,7 +15,7 @@ class orderItemConteroller extends Controller
     }
     public function store(OrderItemRequest $request)
     {
-        $orderItem = new order_item();
+        $orderItem = new OrderItem();
         $orderItem->order_id = $request->input('order_id');
         $orderItem->product_id = $request->input('product_id');
         $orderItem->quantity = $request->input('quantity');
@@ -23,7 +25,7 @@ class orderItemConteroller extends Controller
     }
     public function show($id)
     {
-        $orderItem = order_item::find($id);
+        $orderItem = OrderItem::find($id);
         if (!$orderItem) {
             return response()->json(['message' => 'Order item not found'], 422);
         }
@@ -31,7 +33,7 @@ class orderItemConteroller extends Controller
     }
     public function update(OrderItemRequest $request, $id)
     {
-        $orderItem = order_item::find($id);
+        $orderItem = OrderItem::find($id);
         if (!$orderItem) {
             return response()->json(['message' => 'Order item not found'], 422);
         }
@@ -45,7 +47,7 @@ class orderItemConteroller extends Controller
     }
     public function destroy($id)
     {
-        $orderItem = order_item::find($id);
+        $orderItem = OrderItem::find($id);
         if (!$orderItem) {
             return response()->json(['message' => 'Order item not found'], 422);
         }

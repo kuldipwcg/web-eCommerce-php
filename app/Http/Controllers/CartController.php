@@ -78,6 +78,7 @@ class CartController extends Controller
         $cart->save();
         return response()->json($cart);
     }
+  
 
     // Remove the specified Category
     public function destroy($id)
