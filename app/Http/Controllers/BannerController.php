@@ -82,9 +82,9 @@ class BannerController extends Controller
             return response()->json(
                 [
                     'message' => 'data not found',
-                    'status' => 404,
+                    'status' => 200,
                 ],
-                404,
+                200,
             );
         }
     }

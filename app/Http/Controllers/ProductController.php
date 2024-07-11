@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
@@ -207,20 +208,8 @@ public function display(Request $request)
         ];
     });
 
-    $paginateProduct = (new LengthAwarePaginator(
-        $formattedProducts,
-        $products->total(),
-        $products->perPage(),
-        $products->currentPage(),
-
-        ['path' => request()->url(), 'query'=> request()->query()]
-
-    ));
-
-    return response()->json($paginateProduct, 200);
-}
-
-
+        return response()->json(['products' => $formattedProducts], 200);
+    }
 
     public function store(ProductRequest $request)
     {
