@@ -64,7 +64,7 @@ class ContactController extends Controller
         $contact = contact::find($id);
         $contact->delete();
         return response()->json([
-            'data' => $data,
+            'data' => $contact,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
         ],200);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginCheck;
 use App\Http\Requests\SignupCheck;
 use App\Http\Requests\UpdateUserCheck;
+use App\Http\Requests\UpdateUserCheck;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -153,14 +154,24 @@ class UserController extends Controller
         );
     }
 
-    public function userStatus(Request $request, $id)
+    public function userstatus(Request $request, $id)
     {
         $user = User::find($id);
+        if (!$user) {
+            return response()->json(
+                [
+                    'Message' => 'User is not available',
+                    'status' => 200,
+                ],
+                200,
+            );
+        }
+
         $user->status = $request->status;
         $user->save();
         return response()->json([
             'message' => 'User status updated successfully.',
             'status' => 200,
-        ],200);
+        ]);
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductVariants;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -48,6 +49,7 @@ class ProductController extends Controller
         });
 
         $paginateProduct = new LengthAwarePaginator(
+        $paginateProduct = new LengthAwarePaginator(
             $formattedProduct,
             $products->total(),
             $products->perPage(),
@@ -55,14 +57,19 @@ class ProductController extends Controller
 
             ['path' => request()->url(), 'query' => request()->query()],
         );
+            ['path' => request()->url(), 'query' => request()->query()],
+        );
 
 
+        $paginateProduct = new LengthAwarePaginator(
         $paginateProduct = new LengthAwarePaginator(
             $formattedProduct,
             $products->total(),
             $products->perPage(),
             $products->currentPage(),
 
+            ['path' => request()->url(), 'query' => request()->query()],
+        );
             ['path' => request()->url(), 'query' => request()->query()],
         );
 
@@ -145,7 +152,6 @@ class ProductController extends Controller
                 }
             }
 
-
             //products from color filter
             if (array_key_exists('color', $filter)) {
 
@@ -214,11 +220,6 @@ class ProductController extends Controller
             $products->total(),
             $products->perPage(),
             $products->currentPage(),
-
-            ['path' => request()->url(), 'query' => request()->query()],
-        );
-
-        return response()->json($paginateProduct, 200);
         $paginateProduct = new LengthAwarePaginator(
             $formattedProducts,
             $products->total(),
@@ -227,7 +228,10 @@ class ProductController extends Controller
 
             ['path' => request()->url(), 'query' => request()->query()],
         );
+            ['path' => request()->url(), 'query' => request()->query()],
+        );
 
+        return response()->json($paginateProduct, 200);
         return response()->json($paginateProduct, 200);
     }
 
@@ -403,8 +407,10 @@ class ProductController extends Controller
 
         $category = Category::where('category_name', $request->category_name)->first();
         if (!$category || $category->status !== 'active') {
+        if (!$category || $category->status !== 'active') {
             return response()->json(
                 [
+                    'Message' => 'Category is not active or not available.',
                     'Message' => 'Category is not active or not available.',
                     'status' => 200,
                 ],
@@ -448,25 +454,10 @@ class ProductController extends Controller
                 );
             }
 
-            if (!$color || $color->status !== 'active') {
-                return response()->json(
-                    [
-                        'Message' => 'Color is not active or not available.',
-                        'status' => 200,
-                    ],
-                    200,
-                );
-            }
-            if (!$size || $size->status !== 'active') {
-                return response()->json(
-                    [
-                        'Message' => 'Size is not active or not available.',
-                        'Status' => 200,
-                    ],
-                    200,
-                );
-            }
-
+            $variation = ProductVariants::where('color_id', $color->id)
+                ->where('size_id', $size->id)
+                ->where('product_id', $product->id)
+                ->first();
             $variation = ProductVariants::where('color_id', $color->id)
                 ->where('size_id', $size->id)
                 ->where('product_id', $product->id)
@@ -499,6 +490,22 @@ class ProductController extends Controller
                 $image->move(public_path('/upload/productimg/'), $imageName);
                 $productImgUrl = url('/upload/productimg/' . $imageName);
                 ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
+                ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
+            }
+        }
+        if ($request->has('image')) {
+            foreach ($request->file('image') as $image) {
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('/upload/productimg/'), $imageName);
+                $productImgUrl = url('/upload/productimg/' . $imageName);
+                ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
+            }
+        }
+        if ($request->has('image')) {
+            foreach ($request->file('image') as $image) {
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('/upload/productimg/'), $imageName);
+                $productImgUrl = url('/upload/productimg/' . $imageName);
                 ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
             }
         }
