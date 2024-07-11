@@ -20,7 +20,7 @@ class BannerController extends Controller
 
     public function addImage($bannerImage)
     {
-        $imageName = $bannerImage->getClientOriginalName();
+        $imageName = time().$bannerImage->getClientOriginalName();
         $bannerImage->move(public_path('/upload/banners/'), $imageName);
         $bannerUrl = '/upload/banners/' . $imageName;
 
@@ -41,7 +41,7 @@ class BannerController extends Controller
         ]);
         return response()->json([
             'data' => $record,
-            'message' => 'Banner updated successfully',
+            'message' => 'Banner added successfully',
             'status' => 200,
         ]);
     }

@@ -46,6 +46,6 @@ class UpdateUserCheck extends FormRequest
             'message' => 'Validation errors',
             'data' => $validator->errors(),
             'success' => false,
-        ]));
+        ],422));
     }
 }

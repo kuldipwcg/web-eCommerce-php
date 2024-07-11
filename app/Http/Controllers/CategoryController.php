@@ -21,7 +21,7 @@ class CategoryController extends Controller
             'type' => 'success',
             'message' => 'Category showed successfully',
             'status' => 200,
-        ]);
+        ],200);
     }
 
     // Store a newly created Category
@@ -65,7 +65,7 @@ class CategoryController extends Controller
             'image' => $categoryUrl,
             'status' => $request->status,
         ]);
-        return response()->json($category, 200);
+        return response()->json(['data'=>$category],200);
     }
 
     // Remove the specified Category
@@ -75,8 +75,9 @@ class CategoryController extends Controller
         if (!$category) {
             return response()->json(['error' => 'Category not found'], 200);
         }
+        
         $category->delete();
-        return response()->json(['message' => 'Category deleted successfully']);
+        return response()->json(['message' => 'Category deleted successfully'],200);
     }
 
     public function categorystatus(Request $request, $id)

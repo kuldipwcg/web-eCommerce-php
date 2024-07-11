@@ -34,7 +34,7 @@ class NewsletterValidation extends FormRequest
             'success'   => false,
             'message'   => 'Invalid value',
             'data'      => $validator->errors()
-        ]));
+        ],422));
     } 
 
     public function messages()

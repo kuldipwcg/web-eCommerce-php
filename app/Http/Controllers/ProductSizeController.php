@@ -10,7 +10,7 @@ class ProductSizeController extends Controller
 {
     public function index()
     {
-        $size = ProductSize::where('status', 'active')->orderBy('created_at')->get();
+        $size = ProductSize::orderBy('created_at')->get();
         return response()->json(["size"=>$size]);
     }
 
