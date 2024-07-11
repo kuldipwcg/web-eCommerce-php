@@ -33,7 +33,7 @@ class OrderController extends Controller
             'user_id' => $userId,
             'total' => $request->total,
         ]);
-        $billingAddress = $request->input('billingaddress');
+        $billingAddress = $request->input('billingAddress');
         if ($billingAddress) {
             Billing::updateOrCreate(['order_id' => $order->id,], $billingAddress);
         } else {
@@ -43,7 +43,7 @@ class OrderController extends Controller
             ], 200);
         }
 
-        $shippingAddress = $request->input('shippingaddress');
+        $shippingAddress = $request->input('shippingAddress');
         if ($shippingAddress) {
             Shipping::updateOrCreate(['order_id' => $order->id,], $shippingAddress);
         } else {
@@ -79,7 +79,7 @@ class OrderController extends Controller
 
         Cart::where('user_id', $userId)->update(['order_placed' => true]);
 
-        $orderItems = order_item::where('order_id', $order->id)->get();
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
 
         $data = [];
         foreach($orderItems as $item)
@@ -115,7 +115,7 @@ class OrderController extends Controller
     {
         $userId = auth()->user()->id;
 
-        $orders = Order::wher('user_id', $userId)->with(['orderItems', 'billings', 'shippings'])->latest()->paginate(10);
+        $orders = Order::where('user_id', $userId)->with(['orderItems', 'billings', 'shippings'])->latest()->paginate(10);
         return response()->json([
             'data' => $orders,
             'status' => 200,
