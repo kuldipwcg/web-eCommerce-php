@@ -7,10 +7,11 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\ProductVariants;
 use Illuminate\Http\Request;
+use App\Http\Requests\categoryValidation;
 
-class CartController extends Controller
+class CategoryController extends Controller
 {
-    //list all cart with their  paginate by  10 items per page to items :-
+    //list all category with their Subcagory paginate by  10 items per pageto items :-
     public function index()
     {
 
@@ -25,8 +26,8 @@ class CartController extends Controller
         ],200);
     }
 
-    // Store a newly created cart 
-    public function store(Request $request)
+    // Store a newly created Category
+    public function store(CategoryRequest $request)
     {
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
@@ -101,4 +102,6 @@ class CartController extends Controller
             'status' => 200
         ],200);
     }
+
+    
 }
