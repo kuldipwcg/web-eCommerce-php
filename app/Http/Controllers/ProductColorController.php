@@ -38,15 +38,23 @@ class ProductColorController extends Controller
 
     public function update(ProductColorRequest $request, $id)
     {
-        $color = ProductColor::findOrFail($id);
+        $color = ProductColor::find($id);
+        if(!$color  || $color->status !== 'active'){
+            return response()->json([
+                'Message' => "Color is not available or not active",
+                'status' => 404
+            ],404);
+        }
+
         $color->update($request->all());
+        $color->save();
         return response()->json([
-            'Message' => "Data updated successfully",
+            'Message' => "Size Updated successfully.",
             'data' => $color,
             'status' => 200
         ]);
-    }
 
+    }
 
     public function destroy($id)
     {

@@ -19,6 +19,7 @@ class Cart extends Model
     protected $fillable = [ 'product_id', 'quantity', 'color', 'size','variants_id','order_placed'];
     protected $hidden = ['created_at','updated_at'];
 
+    protected $primaryKey = 'id';
     public function user()
     {
         return $this->belongsTo(User::class);
