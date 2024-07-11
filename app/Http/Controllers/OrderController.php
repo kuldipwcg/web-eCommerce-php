@@ -7,7 +7,7 @@ use App\Mail\OrderMail;
 use App\Models\Billing;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\order_item;
 use App\Models\Product;
 use App\Models\Shipping;
 use Illuminate\Support\Facades\Mail;
@@ -60,7 +60,7 @@ class OrderController extends Controller
             foreach ($carts as $cart) {
                 $product = Product::find($cart->product_id);
 
-                OrderItem::create([
+                order_item::create([
                     'order_id' => $order->id,
                     'product_id' => $cart->product_id,
                     'quantity' => $cart->quantity,
