@@ -11,9 +11,10 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductVariants;
 use App\Models\Shipping;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class CartController extends Controller
+class OrderController extends Controller
 {
     
     public function index()
