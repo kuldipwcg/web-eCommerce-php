@@ -56,6 +56,16 @@ class ProductController extends Controller
             ['path' => request()->url(), 'query' => request()->query()],
         );
 
+
+        $paginateProduct = new LengthAwarePaginator(
+            $formattedProduct,
+            $products->total(),
+            $products->perPage(),
+            $products->currentPage(),
+
+            ['path' => request()->url(), 'query' => request()->query()],
+        );
+
         return response()->json($paginateProduct, 200);
 
     }
@@ -185,6 +195,16 @@ class ProductController extends Controller
             ];
         });
 
+        $paginateProduct = new LengthAwarePaginator(
+            $formattedProducts,
+            $products->total(),
+            $products->perPage(),
+            $products->currentPage(),
+
+            ['path' => request()->url(), 'query' => request()->query()],
+        );
+
+        return response()->json($paginateProduct, 200);
         $paginateProduct = new LengthAwarePaginator(
             $formattedProducts,
             $products->total(),
@@ -368,10 +388,8 @@ class ProductController extends Controller
 
         $category = Category::where('category_name', $request->category_name)->first();
         if (!$category || $category->status !== 'active') {
-        if (!$category || $category->status !== 'active') {
             return response()->json(
                 [
-                    'Message' => 'Category is not active or not available.',
                     'Message' => 'Category is not active or not available.',
                     'status' => 200,
                 ],
@@ -395,6 +413,25 @@ class ProductController extends Controller
         foreach ($request->variants as $key => $value) {
             $color = ProductColor::where('color', $value['color'])->first();
             $size = ProductSize::where('size', $value['size'])->first();
+
+            if (!$color || $color->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Color is not active or not available.',
+                        'status' => 200,
+                    ],
+                    200,
+                );
+            }
+            if (!$size || $size->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Size is not active or not available.',
+                        'Status' => 200,
+                    ],
+                    200,
+                );
+            }
 
             if (!$color || $color->status !== 'active') {
                 return response()->json(
@@ -446,6 +483,7 @@ class ProductController extends Controller
                 $imageName = $image->getClientOriginalName();
                 $image->move(public_path('/upload/productimg/'), $imageName);
                 $productImgUrl = url('/upload/productimg/' . $imageName);
+                ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
                 ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
             }
         }
