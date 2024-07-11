@@ -349,10 +349,10 @@ class ProductController extends Controller
         }
 
         $category = Category::where('category_name', $request->category_name)->first();
-        if (!$category) {
+        if (!$category || $category->status !== 'active') {
             return response()->json(
                 [
-                    'Message' => 'Category is not available.',
+                    'Message' => 'Category is not active or not available.',
                     'status' => 200,
                 ],
                 200,
