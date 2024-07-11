@@ -7,6 +7,7 @@ use App\Http\Requests\LoginCheck;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserCheck;
+use App\Models\User;
 
 class AdminController extends Controller
 {

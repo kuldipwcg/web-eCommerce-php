@@ -40,7 +40,7 @@ class ProductSizeRequest extends FormRequest
     {
         throw new HttpResponseException(
             response()->json([
-                'status' => 403,
+                'status' => 422,
                 'success' => false,
                 'message' => 'Validation errors',
                 'data' => $validator->errors(),
