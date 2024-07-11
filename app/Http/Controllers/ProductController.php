@@ -61,6 +61,7 @@ class ProductController extends Controller
 
     public function display(Request $request)
     {
+
         $productColor = [];
         $productSize = [];
         $productPrice = [];
@@ -96,18 +97,20 @@ class ProductController extends Controller
 
         //getting the filtered data
         if ($request->has('filter')) {
+
             $filter = $request->all()['filter'];
 
             //products from price filter
             if (array_key_exists('price', $filter)) {
+
+                
                 $len = count($filter['price']);
                 $min = $filter['price'][0][0];
                 $max = $filter['price'][$len - 1][1];
 
                 $productPrice = Product::whereBetween('price', [$min, $max])
                     ->with(['reviews', 'product_image', 'product_variants'])
-                    ->get()
-                    ->toArray();
+                    ->get()->toArray();
 
                 if ($productPrice != []) {
                     $finalPrice = collect($productPrice)->pluck('id')->toArray();
@@ -117,13 +120,14 @@ class ProductController extends Controller
 
             //products from size filter
             if (array_key_exists('size', $filter)) {
+
+
                 foreach ($filter['size'] as $key => $size) {
                     $variantIds = ProductVariants::where('size_id', $size)->pluck('product_id');
                     foreach ($variantIds as $key => $id) {
                         $productSize[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
-                            ->get()
-                            ->toArray();
+                            ->get()->toArray();
                     }
                 }
 
@@ -133,15 +137,16 @@ class ProductController extends Controller
                 }
             }
 
+
             //products from color filter
             if (array_key_exists('color', $filter)) {
+
                 foreach ($filter['color'] as $key => $color) {
                     $variantIds = ProductVariants::where('color_id', $color)->pluck('product_id');
                     foreach ($variantIds as $key => $id) {
                         $productColor[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
-                            ->get()
-                            ->toArray();
+                            ->get()->toArray();
                     }
                 }
                 if ($productColor) {
@@ -183,10 +188,11 @@ class ProductController extends Controller
                 'is_featured' => $product->is_featured,
                 'colors' => $colors,
                 'sizes' => $sizes,
-                'reviews' => $product->reviews,
-                'totalReviews' => count($product->reviews),
-                'rating_Count' => $avgRating ? $avgRating : 0,
+                "reviews" => $product->reviews,
+                "totalReviews" => count($product->reviews),
+                "rating_Count" => $avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
+              
             ];
         });
 
@@ -201,6 +207,7 @@ class ProductController extends Controller
 
         return response()->json($paginateProduct, 200);
     }
+
 
     public function store(ProductRequest $request)
     {

@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
@@ -53,7 +54,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
     Route::post('changePassword', [UserController::class, 'change']);
     Route::put('updateProfile', [UserController::class, 'update']);
-    Route::get('profile', function (Request $r) {
+    Route::get('profile', function () {
         
         return response()->json([
             'data' => auth()->user(),
@@ -73,6 +74,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('addWishList/{id}', [WishlistController::class, 'store']);
 
     // Resource routes
+    Route::apiResource('user', UserController::class);
     Route::apiResource('order', OrderController::class);
     Route::apiResource('carts', CartController::class);
     Route::apiResource('billingAddress', BillingController::class);
