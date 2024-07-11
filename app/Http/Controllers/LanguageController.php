@@ -37,7 +37,7 @@ class LanguageController extends Controller
         } else {
             return response()->json([
                 'message' => 'data not found',
-                'status'=> 500,
+                'status'=> 200,
             ], 200);
         }
     }
