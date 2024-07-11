@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Mail\OrderMail;
 use App\Models\Billing;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\order_item;
 use App\Models\Product;
 use App\Models\ProductVariants;
 use App\Models\Shipping;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -25,7 +25,7 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         $userId = auth()->user()->id;
 
@@ -34,9 +34,9 @@ class OrderController extends Controller
             'user_id' => $userId,
             'total' => $request->total,
         ]);
-        $billingaddress = $request->input('billingaddress');
-        if ($billingaddress) {
-            Billing::updateOrCreate(['order_id' => $order->id,], $billingaddress);
+        $billingAddress = $request->input('billingaddress');
+        if ($billingAddress) {
+            Billing::updateOrCreate(['order_id' => $order->id,], $billingAddress);
         } else {
             return response()->json([
                 'message' => 'Billing Address is not avaliable',
@@ -44,11 +44,11 @@ class OrderController extends Controller
             ], 200);
         }
 
-        $shippingaddress = $request->input('shippingaddress');
-        if ($shippingaddress) {
-            Shipping::updateOrCreate(['order_id' => $order->id,], $shippingaddress);
+        $shippingAddress = $request->input('shippingaddress');
+        if ($shippingAddress) {
+            Shipping::updateOrCreate(['order_id' => $order->id,], $shippingAddress);
         } else {
-            Shipping::updateOrCreate(['order_id' => $order->id,], $billingaddress);
+            Shipping::updateOrCreate(['order_id' => $order->id,], $billingAddress);
         }
 
         $carts = Cart::where('user_id', $userId)->where('order_placed', false)->get();
@@ -61,7 +61,7 @@ class OrderController extends Controller
             foreach ($carts as $cart) {
                 $product = Product::find($cart->product_id);
 
-                OrderItem::create([
+                order_item::create([
                     'order_id' => $order->id,
                     'product_id' => $cart->product_id,
                     'quantity' => $cart->quantity,
@@ -69,10 +69,18 @@ class OrderController extends Controller
                     'size' => $cart->size,
                     'unit_price' => $product->price
                 ]);
+
+                $productVariant = ProductVariants::where('id', $cart->variants_id);
+                if ($productVariant) {
+                    $productVariant->decrement('quantity', $cart->quantity);
+                }
             }
+
         }
 
-        $orderItems = OrderItem::where('order_id', $order->id)->get();
+        Cart::where('user_id', $userId)->update(['order_placed' => true]);
+
+        $orderItems = order_item::where('order_id', $order->id)->get();
 
         $data = [];
         foreach($orderItems as $item)
@@ -91,7 +99,8 @@ class OrderController extends Controller
          $total = Order::where('id', $order->id)->first()->total;
 
         $userEmail = auth()->user()->email;
-        
+
+
         Mail::to($userEmail)->send(new OrderMail([
             'item' => $data,
             'total'=> $total,
@@ -103,7 +112,7 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function show($id)
+    public function orderShow()
     {
         $userId = auth()->user()->id;
 
@@ -114,13 +123,4 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function destroy($id)
-    {
-        $ORDER = Order::find($id);
-        if (!$ORDER) {
-            return response()->json(['error' => 'Order not found'], 422);
-        }
-        $ORDER->delete();
-        return response()->json(['message' => 'Order deleted successfully']);
-    }
 }
