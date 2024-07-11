@@ -25,7 +25,7 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function store(OrderRequest $request)
+    public function store(Request $request)
     {
         $userId = auth()->user()->id;
 

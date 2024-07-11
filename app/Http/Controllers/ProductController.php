@@ -26,7 +26,7 @@ class ProductController extends Controller
             $colors = ProductColor::whereIn('id', $colorsId)->pluck('color');
             $sizes = ProductSize::whereIn('id', $sizesId)->pluck('size');
 
-            $avgRating = Review::where('product_id', $product->id)->avg('rating');
+            $avgRating = Review::where('product_id', $product->id)->avg('rating');  
 
             return [
                 'product_id' => $product->id,
