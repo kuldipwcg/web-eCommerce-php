@@ -22,7 +22,7 @@ class ForgotPasswordController extends Controller
         if ($response === Password::RESET_LINK_SENT) {
             return response()->json(['message' => 'Password reset link sent']);
         } else {
-            return response()->json(['message' => 'Unable to send reset link'], 500);
+            return response()->json(['message' => 'Unable to send reset link'], 200);
         }
     }
 
@@ -55,15 +55,15 @@ class ForgotPasswordController extends Controller
             if ($status === Password::PASSWORD_RESET) {
                 return response()->json(['message' => 'Password has been reset successfully.', 'code' => 200], 200);
             } elseif ($status === Password::INVALID_TOKEN) {
-                return response()->json(['error' => 'Reset Password link expired, Please request a new password reset link via forgot password.', 'code' => 400], 400);
+                return response()->json(['error' => 'Reset Password link expired, Please request a new password reset link via forgot password.', 'code' => 200], 200);
             } else {
-                return response()->json(['error' => 'Password reset failed.', 'code' => 400], 400);
+                return response()->json(['error' => 'Password reset failed.', 'code' => 200], 200);
             }
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th->getMessage(),
-                'code' => '500',
-            ], 500);
+                'code' => '200',
+            ], 200);
         }
     }
 }

@@ -10,8 +10,6 @@ class ProductColor extends Model
     use HasFactory, Notifiable;
     protected $primaryKey = 'id';
 
-    use HasFactory,Notifiable;
-    protected $primaryKey = "id";
     protected $fillable = ['color'];
     protected $hidden = ['created_at','updated_at'];
 
