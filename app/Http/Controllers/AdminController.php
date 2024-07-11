@@ -1,6 +1,5 @@
-<?php namespace App\Http\Controllers;
 
-use Exception;
+<?php namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
@@ -52,17 +51,14 @@ class AdminController extends Controller
         $admin = Admin::where('email', $request->email)->first();
 
         // password checking
-        try {
-            if ($admin && Hash::check($request->password, $admin->password)) {
+            if($admin && Hash::check($request->password, $admin->password)) {
                 $token = $admin->createToken('AdminToken')->accessToken;
 
                 return response()->json(['token' => $token, 'message' => 'login successfully'], 200);
             } else {
                 return response()->json(['error' => 'Unauthorized'], 200);
             }
-        } catch (Exception $e) {
-            return $e;
-        }
+        
     }
 
     //changing password
