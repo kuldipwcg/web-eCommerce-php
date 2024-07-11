@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Shipping;
+use App\Models\ProductVariants;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -86,6 +87,7 @@ class OrderController extends Controller
         {
 
             $data[] = [
+
                 'Name' => Product::where('id', $item->product_id)->first()->product_name,
                 'Price' => "".$item->unit_price * $item->quantity,
                 'Color' => $item->color,
@@ -101,6 +103,7 @@ class OrderController extends Controller
 
 
         Mail::to($userEmail)->send(new OrderMail([
+            'User' => auth()->user()->firstName,
             'item' => $data,
             'total'=> $total,
          ]));

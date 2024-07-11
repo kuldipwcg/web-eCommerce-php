@@ -28,7 +28,7 @@ class CartController extends Controller
 
             if ($newQuantity <= 0) {
                 $item->delete();
-                return response()->json(['message' => 'Item removed from cart']);
+                return response()->json(['message' => 'Item removed from cart'],200);
             } else {
                 $item->quantity = $newQuantity;
                 $item->save();

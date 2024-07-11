@@ -37,7 +37,6 @@ class cartRequest extends FormRequest
             'quantity.min' => 'Quantity must be at least 1.',
             'color.exists' => 'Invalid color.',
             'size.exists' => 'Invalid size .',
-            // 'variants_id.exists' => 'Invalid variant ID.',
             'order_placed.boolean' => 'Order placed must be a boolean value.',
         ];
            
@@ -51,7 +50,7 @@ class cartRequest extends FormRequest
                 'success' => false,
                 'message' => 'validation error',
                 'data' => $validate->errors(),
-            ]),
+            ],422),
         );
     }
 }

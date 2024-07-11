@@ -61,20 +61,19 @@ class ProductController extends Controller
 
         //getting the data according to search
         if ($request->has('search')) {
-            foreach(explode(" ",$request->search) as $str)
-            {
-                $colorId = ProductColor::where('color','like',"%".$str."%")->pluck('id')->first();
-                
-                $pIdForColor = ProductVariants::where('color_id',$colorId)->pluck('product_id')->toArray();
-                $productSearch[] = Product::where('id',$pIdForColor)->get()->toArray();
-                
-                $sizeId = ProductSize::where('size','like',"%".$str."%")->pluck('id')->first();
-                $pIdForSize = ProductVariants::where('size_id',$sizeId)->pluck('product_id')->toArray();
-                $productSearch[] = Product::where('id',$pIdForSize)->get()->toArray();
-                
+            foreach (explode(" ", $request->search) as $str) {
+                $colorId = ProductColor::where('color', 'like', "%" . $str . "%")->pluck('id')->first();
+
+                $pIdForColor = ProductVariants::where('color_id', $colorId)->pluck('product_id')->toArray();
+                $productSearch[] = Product::where('id', $pIdForColor)->get()->toArray();
+
+                $sizeId = ProductSize::where('size', 'like', "%" . $str . "%")->pluck('id')->first();
+                $pIdForSize = ProductVariants::where('size_id', $sizeId)->pluck('product_id')->toArray();
+                $productSearch[] = Product::where('id', $pIdForSize)->get()->toArray();
+
                 $productSearch[] = Product::with(['reviews', 'product_image', 'product_variants'])->whereAny(['product_name', 'short_desc', 'description', 'information'], 'like', "%" . $request->search . "%")->get()->toArray();
             }
-            
+
             $productSearch = array_merge(...$productSearch);
             $finalSearch = collect($productSearch)->pluck('id')->toArray();
             $finalProduct[] = $finalSearch;
@@ -83,6 +82,7 @@ class ProductController extends Controller
         //getting the filtered data
         if ($request->has('filter')) {
             $filter = $request->all()['filter'];
+
             //products from price filter
             if (array_key_exists('price', $filter)) {
                 $len = count($filter['price']);
@@ -104,6 +104,7 @@ class ProductController extends Controller
                 foreach ($filter['size'] as $key => $size) {
                     $variantIds = ProductVariants::where('size_id', $size)->pluck('product_id');
                     foreach ($variantIds as $key => $id) {
+
                         $productSize[] = Product::where('id', $id)
                             ->with(['reviews', 'product_image', 'product_variants'])
                             ->get()->toArray();
@@ -138,10 +139,13 @@ class ProductController extends Controller
         $final = $finalProduct;
 
         //intersection of all the filters
-        $final  = call_user_func_array('array_intersect', $final);
+        if ($final) {
+            $final = call_user_func_array('array_intersect', $final);
+        }
+
         $products = Product::whereIn('id', $final)
             ->with(['reviews', 'product_image', 'product_variants'])
-            ->get();
+            ->paginate(10);
 
         $formattedProducts = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
@@ -168,7 +172,7 @@ class ProductController extends Controller
                 "totalReviews" => count($product->reviews),
                 "rating_Count" => $avgRating ? $avgRating : 0,
                 'product_images' => $product->product_image->pluck('product_image'),
-              
+
             ];
         });
 
@@ -372,6 +376,25 @@ class ProductController extends Controller
             $color = ProductColor::where('color', $value['color'])->first();
             $size = ProductSize::where('size', $value['size'])->first();
 
+            if (!$color || $color->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Color is not active or not available.',
+                        'status' => 200,
+                    ],
+                    200,
+                );
+            }
+            if (!$size || $size->status !== 'active') {
+                return response()->json(
+                    [
+                        'Message' => 'Size is not active or not available.',
+                        'Status' => 200,
+                    ],
+                    200,
+                );
+            }
+
             $variation = ProductVariants::where('color_id', $color->id)->where('size_id', $size->id)->where('product_id', $product->id)->first();
 
             if ($variation) {
@@ -395,20 +418,14 @@ class ProductController extends Controller
         ProductVariants::where('product_id', $product->id)
             ->whereNotIn('id', $updatedVariants)
             ->delete();
-
-        if ($request->has('image')) {
-            foreach ($request->file('image') as $image) {
-                $imageName = $image->getClientOriginalName();
-                $image->move(public_path('/upload/productimg/'), $imageName);
-                $productImgUrl = url('/upload/productimg/' . $imageName);
-                $existingImage = ProductImage::where('product_id', $product->id)->first();
-                if ($existingImage) {
-                    $existingImage->update(['product_image' => $productImgUrl]);
-                } else {
+            if ($request->has('image')) {
+                foreach ($request->file('image') as $image) {
+                    $imageName = $image->getClientOriginalName();
+                    $image->move(public_path('/upload/productimg/'), $imageName);
+                    $productImgUrl = url('/upload/productimg/' . $imageName);
                     ProductImage::create(['product_id' => $product->id, 'product_image' => $productImgUrl]);
                 }
             }
-        }
         return response()->json(['Message' => 'Product updated successfully', 'status' => 200, 'product' => $product], 200);
     }
 

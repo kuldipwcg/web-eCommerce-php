@@ -45,6 +45,6 @@ class LanguageRequest extends FormRequest
             'data' => $validator->errors(),
             'message' => 'Validation errors',
             'success' => false,
-        ]));
+        ],422));
     }
 }

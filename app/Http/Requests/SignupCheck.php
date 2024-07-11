@@ -39,7 +39,7 @@ class SignupCheck extends FormRequest
             'success'   => false,
             'message'   => 'Validation errors',
             'data'      => $validator->errors()
-        ],402));
+        ],422));
     } 
 
     public function messages()
