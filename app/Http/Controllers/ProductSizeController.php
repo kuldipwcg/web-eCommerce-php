@@ -36,7 +36,6 @@ class ProductSizeController extends Controller
         }
 
         $size->update($request->all());
-        $size->save();
         return response()->json([
             'Message' => "Size Updated successfully.",
             'data' => $size,
