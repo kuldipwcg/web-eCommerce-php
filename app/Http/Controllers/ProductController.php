@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['reviews', 'product_image', 'product_variants'])->get();
+        $products = Product::with(['reviews', 'product_image', 'product_variants'])->paginate(10);
 
         $formattedProduct = $products->map(function ($product) {
             $colorsId = $product->product_variants->pluck('color_id')->unique()->values()->all();
@@ -47,7 +47,19 @@ class ProductController extends Controller
             ];
         });
 
-        return response()->json(['products' => $formattedProduct], 200);
+        
+        $paginateProduct = (new LengthAwarePaginator(
+            $formattedProduct,
+            $products->total(),
+            $products->perPage(),
+            $products->currentPage(),
+
+            ['path' => request()->url(), 'query'=> request()->query()]
+
+        ));
+
+        return response()->json($paginateProduct, 200);
+
     }
 
     public function display(Request $request)
@@ -176,7 +188,19 @@ class ProductController extends Controller
             ];
         });
 
-        return response()->json(['products' => $formattedProducts], 200);
+        $paginateProduct = (
+            new LengthAwarePaginator(
+                $formattedProducts,
+                $products->total(),
+                $products->perPage(),
+                $products->currentPage(),
+
+            ['path' => request()->url(), 'query' => request()->query()]
+
+        )
+    );
+
+    return response()->json($paginateProduct, 200);
     }
 
     public function store(ProductRequest $request)
