@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    //
+    
     public function index()
     {
         $orders = Order::with(['orderItems', 'billings'])->latest()->paginate(10);

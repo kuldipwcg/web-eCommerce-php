@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Cart;
 use App\Models\ProductVariants;
 use Illuminate\Http\Request;
@@ -11,34 +10,44 @@ class CartController extends Controller
 {
     //list all cart with their  paginate by  10 items per page to items :-
     public function index()
-{
-    $carts = Cart::where('order_placed', 0)->paginate(10);
-    return response()->json($carts);
-}
+    {
+        $carts = Cart::where('order_placed', 0)->paginate(10);
+        return response()->json($carts);
+    }
 
-    // Store a newly created cart 
+    // Store a newly created cart
     public function store(Request $request)
     {
-        $id = auth()->user()->id;
-        $productId = ProductVariants::where('id', $request->variants_id)->pluck('product_id')->first();
-        $item = Cart::where('product_id', $productId)->where('user_id', $id)->first();
+        $userId = auth()->user()->id;
+        $variant = ProductVariants::find($request->variants_id);
+
+        if (!$variant) {
+            return response()->json(['error' => 'Product variant not found'], 404);
+        }
+
+        $productId = $variant->product_id;
+        $availableQuantity = $variant->quantity;
+
+        $item = Cart::where('product_id', $productId)->where('user_id', $userId)->first();
 
         if ($item) {
             $newQuantity = $item->quantity + $request->quantity;
 
             if ($newQuantity <= 0) {
                 $item->delete();
-                return response()->json(['message' => 'Item removed from cart'],200);
+                return response()->json(['message' => 'Item removed from cart']);
+            } elseif ($newQuantity > $availableQuantity) {
+                return response()->json(['error' => 'Requested quantity not available  in stock'], 200);
             } else {
                 $item->quantity = $newQuantity;
                 $item->save();
                 return response()->json($item);
             }
         } else {
-            if ($request->quantity > 0) {
+            if ($request->quantity > 0 && $request->quantity <= $availableQuantity) {
                 $cart = new Cart();
                 $cart->quantity = $request->quantity;
-                $cart->user_id = $id;
+                $cart->user_id = $userId;
                 $cart->product_id = $productId;
                 $cart->color = $request->color;
                 $cart->size = $request->size;
@@ -67,7 +76,6 @@ class CartController extends Controller
         $cart->save();
         return response()->json($cart);
     }
-  
 
     // Remove the specified Category
     public function destroy($id)
