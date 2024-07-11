@@ -40,11 +40,11 @@ class ContactController extends Controller
     {
           $data = contact::find($id);
 
-          $contact->name = $request->name;
-          $contact->subject = $request->subject;
-          $contact->email = $request->email;
-          $contact->message = $request->message;
-          $contact->save();
+          $data->name = $request->name;
+          $data->subject = $request->subject;
+          $data->email = $request->email;
+          $data->message = $request->message;
+          $data->save();
         
           return response()->json([
             'data' => $data,
@@ -58,7 +58,7 @@ class ContactController extends Controller
         $contact = contact::find($id);
         $contact->delete();
         return response()->json([
-            'data' => $data,
+            'data' => $contact,
             'message' => 'Contact deleted Successfully',
             'status' => 'success',
         ],200);

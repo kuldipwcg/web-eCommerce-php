@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Product;
 use App\Models\Review;
-use App\Models\User;
+
 
 class ReviewController extends Controller
 {
@@ -21,13 +21,6 @@ class ReviewController extends Controller
     {
         $userId = auth()->user()->id;
         $productId = Product::where('id', $request->product_id)->first();
-
-        if(!$userId){
-            return response()->json([
-                'Message' => 'The User is not available.',
-                'status' => 404
-            ], 404);
-        }
 
         $existReview = Review::where('user_id', $userId)->where('product_id', $productId)->first();
         if($existReview){
