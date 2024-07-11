@@ -17,7 +17,7 @@ class SubCategoryController extends Controller
             'message' => 'Category showed successfully',
             'status' => 200,
             'data' => $subCategory,
-        ]);
+        ],200);
     }
 
     // Store a newly created subCategory
@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
     {
         $subCategory = Subcategory::create($request->all());
 
-        return response()->json($subCategory, 201);
+        return response()->json(['data' => $subCategory], 201);
     }
 
     // Retrieve the subcategory by ID
@@ -57,6 +57,6 @@ class SubCategoryController extends Controller
             return response()->json(['error' => 'SubCategory not found'], 200);
         }
         $subCategory->delete();
-        return response()->json(['message' => 'SubCategory deleted successfully']);
+        return response()->json(['message' => 'SubCategory deleted successfully'],200);
     }
 }

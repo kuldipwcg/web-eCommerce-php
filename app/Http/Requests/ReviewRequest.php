@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
 class ReviewRequest extends FormRequest
 {
     /**
@@ -22,18 +22,23 @@ class ReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=> 'required|exists:users,id',
             'product_id'=>'required|exists:products,id',
             'rating' => 'required|min:1|max:5',
             'review' =>'required|string|min:4|max:255'
         ];
     }
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ],422));
+    } 
 
     public function messages()
     {
         return [
-            'user_id.required' => 'The user id is Required.',
-            'user_id.exists' => 'The selected user id does not exist.',
             'product_id.required' => 'The product id is Required.',
             'product_id.exists' => 'The selected product id does not exist.',
             'rating.required'=> 'The rating is Required.',

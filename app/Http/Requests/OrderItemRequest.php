@@ -39,7 +39,7 @@ class OrderItemRequest extends FormRequest
                 'success' => false,
                 'message' => 'validation error',
                 'data' => $validate->errors(),
-            ]),
+            ],422),
         );
     }
 }

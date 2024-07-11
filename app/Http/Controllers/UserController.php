@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -9,7 +8,6 @@ use App\Http\Requests\SignupCheck;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UpdateUserCheck;
 
 class UserController extends Controller
 {

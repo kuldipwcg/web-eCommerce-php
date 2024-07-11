@@ -19,14 +19,14 @@ class ReviewController extends Controller
 
     public function store(ReviewRequest $request)
     {
-        $userId = User::where('id', $request->user_id)->first();
+        $userId = auth()->user()->id;
         $productId = Product::where('id', $request->product_id)->first();
 
         if(!$userId){
             return response()->json([
                 'Message' => 'The User is not available.',
-                'status' => 200
-            ], 200);
+                'status' => 404
+            ], 404);
         }
 
         $existReview = Review::where('user_id', $userId)->where('product_id', $productId)->first();
@@ -39,7 +39,7 @@ class ReviewController extends Controller
 
         $review = Review::create([
             'product_id' => $request->product_id,
-            'user_id' => $request->user_id,
+            'user_id' => $userId,
             'rating' => $request->rating,
             'review' => $request->review
         ]);

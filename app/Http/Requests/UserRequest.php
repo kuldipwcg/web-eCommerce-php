@@ -40,7 +40,7 @@ public function rules(): array
             'success'=>false,
             'message' => 'validation error',
             'data' => $validate->errors()
-        ]));
+        ],422));
     }
 
 public function messages()
@@ -51,7 +51,6 @@ public function messages()
         'email.required' => 'It is mandatory to fill email field.',
         'phoneNo.required' => 'It is mandatory to fill phoneNo field.',
         'dob.required'=>'It is mandatory to fill Dob field.',
-        // 'image.required'=>'please fill image field.'
     ];
 }
 }

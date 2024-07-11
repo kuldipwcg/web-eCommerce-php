@@ -27,7 +27,7 @@ class ContactValidation extends FormRequest
             'data'      => $validator->errors(),
             'Status'   => 'Invalid',
             'message'   => 'Invalid Input, Please enter valid input',
-        ]));
+        ],422));
     } 
 
     public function messages()
